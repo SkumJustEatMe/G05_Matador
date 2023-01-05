@@ -13,7 +13,7 @@ public class GameBoard {
             new Field("8"),
             new Field("9"),
             new Field("10"),
-            new Field("Jail"),
+            new EventField("Visiting jail", Event.VISITJAIL),
             new Field("12"),
             new Field("13"),
             new Field("14"),

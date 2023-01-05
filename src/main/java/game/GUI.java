@@ -59,7 +59,7 @@ public class GUI {
     {
         createStartField(0);
 
-        for (int i = 1; i <= 40; i++)
+        for (int i = 1; i < 40; i++)
         {
             if (this.gameBoard.getFieldList()[i] instanceof EventField)
             {
@@ -115,7 +115,7 @@ public class GUI {
         return this.gui.getUserButtonPressed("Select number of players:", "3 Players", "4 Players", "5 Players", "6 Players");
     }
 
-    public String getUserStringInput()
+    public String getUserStringInput(int playerIndex)
     {
         String name = "";
         try

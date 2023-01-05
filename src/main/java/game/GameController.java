@@ -24,15 +24,19 @@ public class GameController
         this.indexOfCurrentPlayer = 0;
     }
 
-    private void addPlayersAndSetPosition(int numberOfPlayers){
+    private void addPlayersAndSetPosition(int numberOfPlayers)
+    {
+        for (int i = 1; i <= numberOfPlayers; i++)
+        {
+            this.players.add(new Player(0));
+        }
+
+        for (Player i : this.players)
+        {
+            i.setPosition(0);
+        }
+
         setPlayerNames();
-            for (int i = 1; i <= numberOfPlayers; i++)
-            {
-                this.players.add(new Player(0));
-            }
-            for (Player i : this.players) {
-                i.setPosition(0);
-            }
         }
 
 
@@ -131,7 +135,7 @@ public class GameController
     {
         for (int i = 0; i < this.players.size(); i++)
         {
-            this.players.get(i).setName(this.gui.getUserStringInput());
+            this.players.get(i).setName(this.gui.getUserStringInput(i));
         }
     }
 }
