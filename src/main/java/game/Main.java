@@ -6,8 +6,7 @@ public class Main
 {
     public static void main(String[] args)
     {
-        GUI gui = new GUI();
-        GameController gameController = new GameController(gui);
+        GameController gameController = new GameController();
         gameController.run();
     }
 }
