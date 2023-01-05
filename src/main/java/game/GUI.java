@@ -16,8 +16,10 @@ public class GUI {
     private Color[] playerColors = {
             Color.yellow,
             Color.red,
-            Color.black,
-            Color.green
+            Color.blue,
+            Color.green,
+            Color.cyan,
+            Color.magenta
     };
     private ArrayList<GUI_Car> cars;
     public GUI(GameBoard gameBoard, GameController gameController){
@@ -27,7 +29,7 @@ public class GUI {
         this.cars = new ArrayList<GUI_Car>();
         this.fields = new GUI_Field[gameBoard.getFieldList().length];
         populateFields();
-        this.gui = new gui_main.GUI(fields, Color.white);
+        this.gui = new gui_main.GUI(fields, new Color(51, 153, 255));
     }
 
     public void createStartField(int fieldIndex){
@@ -76,8 +78,8 @@ public class GUI {
     {
         for (int i = 0; i < this.gui_players.size(); i++)
         {
-            this.cars.add(new GUI_Car());
-            this.cars.get(i).setPrimaryColor(this.playerColors[i]);
+            this.gui_players.get(i).getCar().setPrimaryColor(this.playerColors[i]);
+            this.gui_players.get(i).getCar().setPosition(fields[0]);
         }
     }
 
@@ -86,14 +88,13 @@ public class GUI {
         for (int i = 0; i < numberOfPlayers; i++)
         {
             this.gui_players.add(new GUI_Player( this.gameController.getPlayers().get(i).getName()));
-            gui.addPlayer(this.gui_players.get(i));
-            this.gui_players.get(i).getCar().setPosition(fields[0]);
+            this.gui.addPlayer(this.gui_players.get(i));
             this.gui_players.get(i).setBalance(this.gameController.getPlayers().get(i).getBalance());
         }
     }
 
-    public void displayDieRoll(int dieRoll) {
-        gui.setDie(dieRoll);
+    public void displayDieRoll(int dieRoll1, int dieRoll2) {
+        gui.setDice(dieRoll1, dieRoll2);
     }
 
     public void moveCarToField(int indexOfCurrentPlayer){
@@ -118,13 +119,14 @@ public class GUI {
     public String getUserStringInput(int playerIndex)
     {
         String name = "";
+        int playerNumber = playerIndex + 1;
         try
         {
-            name = this.gui.getUserString("Please input your name", 1, 12, false);
+            name = this.gui.getUserString("Player " + playerNumber + ", please input your name", 1, 12, false);
         }
         catch(Exception e)
         {
-            getUserStringInput();
+            getUserStringInput(playerIndex);
         }
 
         return name;

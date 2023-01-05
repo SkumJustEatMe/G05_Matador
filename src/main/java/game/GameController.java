@@ -7,7 +7,9 @@ public class GameController
 {
     private GUI gui;
     private Die die;
-    private int currentDieRoll = 0;
+    private int currentDieRoll1 = 0;
+    private int currentDieRoll2 = 0;
+    private int sumOfDiceRoll = 0;
     private GameBoard gameBoard;
     private ArrayList<Player> players;
 
@@ -59,7 +61,7 @@ public class GameController
         {
             getUserInputToBegin();
             rollDice();
-            this.gui.displayDieRoll(this.currentDieRoll);
+            this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
             movePlayer();
             this.gui.moveCarToField(indexOfCurrentPlayer);
             evaluateFieldAndExecute();
@@ -72,7 +74,9 @@ public class GameController
 
     private void rollDice()
     {
-        this.currentDieRoll = this.die.roll();
+        this.currentDieRoll1 = this.die.roll();
+        this.currentDieRoll2 = this.die.roll();
+        this.sumOfDiceRoll = this.currentDieRoll1 + this.currentDieRoll2;
     }
 
     private void setNextPlayer()
@@ -90,18 +94,18 @@ public class GameController
 
         if (hasReachedStartField())
         {
-            getCurrentPlayer().setPosition(currentPosition + this.currentDieRoll - this.gameBoard.getFieldList().length);
-            getCurrentPlayer().changeBalance(2);
+            getCurrentPlayer().setPosition(currentPosition + this.sumOfDiceRoll - this.gameBoard.getFieldList().length);
+            getCurrentPlayer().changeBalance(4000);
         }
         else
         {
-            getCurrentPlayer().setPosition(currentPosition + this.currentDieRoll);
+            getCurrentPlayer().setPosition(currentPosition + this.sumOfDiceRoll);
         }
     }
 
     private boolean hasReachedStartField()
     {
-        return getCurrentPlayer().getPosition() + this.currentDieRoll >= this.gameBoard.getFieldList().length;
+        return getCurrentPlayer().getPosition() + this.sumOfDiceRoll >= this.gameBoard.getFieldList().length;
     }
 
     private void evaluateFieldAndExecute()
@@ -116,7 +120,7 @@ public class GameController
     private void executeEvent(EventField eventField)
     {
        if (eventField.getEvent() == Event.GOTOJAIL) {
-            getCurrentPlayer().setPosition(this.gameBoard.getIndexOfGoToJail());
+            getCurrentPlayer().setPosition(this.gameBoard.getIndexOfJail());
        }
    }
 

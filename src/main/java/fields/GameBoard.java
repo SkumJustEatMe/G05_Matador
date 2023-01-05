@@ -45,11 +45,11 @@ public class GameBoard {
             new Field("40"),
     };
 
-    public int getIndexOfGoToJail() {
+    public int getIndexOfJail() {
         int index = 0;
         for (Field field : FieldList)
         {
-            if (field instanceof EventField eventField && eventField.getEvent() == Event.GOTOJAIL) {
+            if (field instanceof EventField eventField && eventField.getEvent() == Event.VISITJAIL) {
                 break;
             }
             index++;
