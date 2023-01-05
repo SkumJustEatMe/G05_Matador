@@ -1,0 +1,56 @@
+@startuml
+'https://plantuml.com/class-diagram
+skinparam classAttributeIconSize 0
+
+class Player{
+Balance
+Piece
+Values
+}
+class Game{
+Money
+}
+class Die{
+DieValue
+}
+class Board{
+Fields
+}
+class ChanceCard{
+RandomCardEffect
+}
+
+class DiceCup{
+DiceValue
+}
+
+class Field{
+Property
+Jail
+Chance
+Start
+Ferry
+Brewery
+Parking
+Tax
+}
+
+class Building{
+House
+Hotel
+}
+
+
+
+
+DiceCup "1"--"1" Game : contains
+Die "2" - "1" DiceCup : contains
+Game"1"--"1" Board : contains
+Player "3..6"-"1" Game : plays
+ChanceCard "1..*" -- Game : contains
+Field "40" -- "1" Board : contains
+Game "1" - "*" Building: contains
+
+
+
+@enduml
