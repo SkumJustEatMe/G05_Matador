@@ -9,7 +9,7 @@ public class GameController
     private Die die;
     private int currentDieRoll1 = 0;
     private int currentDieRoll2 = 0;
-    private int sumOfDiceRoll = 0;
+    private int sumOfDiceRolls = 0;
     private GameBoard gameBoard;
     private ArrayList<Player> players;
 
@@ -48,6 +48,9 @@ public class GameController
         this.startGameLoop();
     }
 
+    /**
+     * sets up gamestate and gui prior to running game loop
+     */
     private void initialize()
     {
         this.addPlayersAndSetPosition(this.getNumberOfPlayers());
@@ -71,14 +74,19 @@ public class GameController
         }
     }
 
-
+    /**
+     * rolls Die object twice and stores the rolls
+     */
     private void rollDice()
     {
         this.currentDieRoll1 = this.die.roll();
         this.currentDieRoll2 = this.die.roll();
-        this.sumOfDiceRoll = this.currentDieRoll1 + this.currentDieRoll2;
+        this.sumOfDiceRolls = this.currentDieRoll1 + this.currentDieRoll2;
     }
 
+    /**
+     * increments the index of the player list
+     */
     private void setNextPlayer()
     {
         if (this.indexOfCurrentPlayer + 1 < this.players.size()) {
@@ -88,24 +96,28 @@ public class GameController
             this.indexOfCurrentPlayer = 0;
         }
     }
+
+    /**
+     * moves the current player and checks if it passes start
+     */
     private void movePlayer()
     {
         int currentPosition = getCurrentPlayer().getPosition();
 
         if (hasReachedStartField())
         {
-            getCurrentPlayer().setPosition(currentPosition + this.sumOfDiceRoll - this.gameBoard.getFieldList().length);
+            getCurrentPlayer().setPosition(currentPosition + this.sumOfDiceRolls - this.gameBoard.getFieldList().length);
             getCurrentPlayer().changeBalance(4000);
         }
         else
         {
-            getCurrentPlayer().setPosition(currentPosition + this.sumOfDiceRoll);
+            getCurrentPlayer().setPosition(currentPosition + this.sumOfDiceRolls);
         }
     }
 
     private boolean hasReachedStartField()
     {
-        return getCurrentPlayer().getPosition() + this.sumOfDiceRoll >= this.gameBoard.getFieldList().length;
+        return getCurrentPlayer().getPosition() + this.sumOfDiceRolls >= this.gameBoard.getFieldList().length;
     }
 
     private void evaluateFieldAndExecute()
@@ -122,7 +134,7 @@ public class GameController
        if (eventField.getEvent() == Event.GOTOJAIL) {
             getCurrentPlayer().setPosition(this.gameBoard.getIndexOfJail());
        }
-   }
+    }
 
     private int getNumberOfPlayers() {
         String result = (this.gui.displayPlayerSelectionButtons());
@@ -130,11 +142,12 @@ public class GameController
     }
 
     private void getUserInputToBegin() {
-        if (this.gui.displayRollDiceButton(getCurrentPlayer().getName()).equals("Roll dice")) {
-            return;
-        }
+        this.gui.displayRollDiceButton(getCurrentPlayer().getName());
     }
 
+    /**
+     * gui shows field for name input and value is stored in Player
+     */
     private void setPlayerNames()
     {
         for (int i = 0; i < this.players.size(); i++)
