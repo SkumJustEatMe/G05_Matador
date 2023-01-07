@@ -1,12 +1,17 @@
 package fields;
 
-public class Field
+public abstract class Field
 {
     private final String name;
     public String getName() { return this.name; }
+    private final int position;
+    public int getPosition() { return this.position; }
+    private final FieldType type;
 
-    public Field(String name)
+    public Field(String name, int position)
     {
         this.name = name;
+        this.position = position;
+        this.type
     }
 }

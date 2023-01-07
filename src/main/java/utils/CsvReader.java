@@ -9,14 +9,18 @@ public final class CsvReader
 {
     private CsvReader(){}
 
+    /**
+     * converts a csv file to a 2D array
+     * @param path path of file for conversion
+     * @return 2D array representation of csv file
+     */
     public static String[][] convertTo2DArray(String path)
     {
-        ArrayList<String> lineList  = new ArrayList<String>();
+        ArrayList<String> lineList  = new ArrayList<>();
 
-        Scanner scanner;
         try
         {
-            scanner = new Scanner(new File(path));
+            Scanner scanner = new Scanner(new File(path));
             scanner.useDelimiter("\n");
 
             while (scanner.hasNextLine())
@@ -29,6 +33,7 @@ public final class CsvReader
         }
         catch (FileNotFoundException e)
         {
+            //should probably display an error message to the user with the path
             e.printStackTrace();
         }
 
@@ -40,10 +45,5 @@ public final class CsvReader
 
 
         return convertedArray;
-    }
-
-    public static File read(String path)
-    {
-        return new File(path);
     }
 }
