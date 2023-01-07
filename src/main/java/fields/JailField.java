@@ -1,15 +1,15 @@
 package fields;
 
-import fields.events.JailEvent;
+import fields.effects.JailEffect;
 
 public class JailField extends Field
 {
-    private final JailEvent event;
-    public JailEvent getEvent() { return this.event; }
+    private final JailEffect effect;
+    public JailEffect getEvent() { return this.effect; }
 
-    public JailField(String name, int position, FieldType type, JailEvent event){
+    public JailField(String name, int position, FieldType type, JailEffect effect){
         super(name, position, type);
-        this.event = event;
+        this.effect = effect;
     }
 }
 
