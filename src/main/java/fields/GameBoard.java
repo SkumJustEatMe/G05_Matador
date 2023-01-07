@@ -1,13 +1,11 @@
 package fields;
 
 import utils.CsvReader;
-
 import java.io.File;
-import java.util.Scanner;
 
 public class GameBoard {
 
-    private File gameBoardFile;
+    private final File gameBoardFile;
     private String[][] fieldsInfo;
     private Field[] FieldList;
 
