@@ -1,7 +1,14 @@
 package fields;
 
+import utils.CsvReader;
+
+import java.io.File;
+import java.util.Scanner;
+
 public class GameBoard {
 
+    private File gameBoardFile;
+    private String[][] fieldsInfo;
     private Field[] FieldList = {
             new Field("Start"),
             new Field("2"),
@@ -45,6 +52,28 @@ public class GameBoard {
             new Field("40"),
     };
 
+    public GameBoard()
+    {
+        this.gameBoardFile = CsvReader.read(System.getProperty("user.dir").concat(File.separator +
+                "src" + File.separator +
+                "main" + File.separator +
+                "resources" + File.separator +
+                "fields.csv"
+                ));
+        this.fieldsInfo = CsvReader.convertTo2DArray(this.gameBoardFile.getAbsolutePath());
+    }
+
+    private File readCsvFile()
+    {
+        String pathOfCsvFile = System.getProperty("user.dir").concat(File.separator +
+                "src" + File.separator +
+                "main" + File.separator +
+                "resources" + File.separator +
+                "fields.csv"
+                );
+        return new File(pathOfCsvFile);
+    }
+
     public int getIndexOfJail() {
         int index = 0;
         for (Field field : FieldList)
@@ -57,8 +86,4 @@ public class GameBoard {
         return index;
     }
     public Field[] getFieldList() { return this.FieldList; }
-
-    public GameBoard()
-    {
-    }
 }

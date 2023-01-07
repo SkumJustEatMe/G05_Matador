@@ -1,0 +1,41 @@
+Name,Position,Type,Price,HousePrice,Rent 0,Rent 1,Rent 2,Rent 3,Rent 4,Rent 5
+Start,0,start,,,,,,,,
+Rødovrevej,1,street,1200,1000,50,250,750,2250,4000,6000
+Prøv lykken,2,chance,,,,,,,,
+Hvidovrevej,3,street,1200,1000,50,250,400,750,2250,6000
+Indkomstskat,4,tax,4000,,,,,,,
+Helsingør - Helsingborg,5,ferry,4000,,500,1000,2000,4000,,
+Roskildevej,6,street,2000,1000,100,600,1800,5400,8000,11000
+Prøv lykken,7,chance,,,,,,,,
+Valby Langgade,8,street,2000,1000,100,600,1800,5400,8000,11000
+Allégade,9,street,2400,1000,150,800,2000,6000,9000,12000
+I fængsel/På besøg,10,jail,,,,,,,,
+Frederiksberg Allé,11,street,2800,2000,200,1000,3000,9000,12500,15000
+Tuborg Squash,12,brewery,3000,,100,200,,,,
+Bülowsvej,13,street,2800,2000,200,1000,3000,9000,12500,15000
+Gl. Kongevej,14,street,3200,2000,250,1250,3750,10000,14000,18000
+Mols-Linien,15,ferry,4000,,500,1000,2000,4000,,
+Bernstorffsvej,16,street,3600,2000,300,1400,4000,11000,15000,19000
+Prøv lykken,17,chance,,,,,,,,
+Hellerupvej,18,street,3600,2000,300,1400,4000,11000,15000,19000
+Strandvejen,19,street,4000,2000,350,1600,4400,12000,16000,20000
+Parkering,20,refugee,,,,,,,,
+Trianglen,21,street,4400,3000,350,1800,5000,14000,17500,21000
+Prøv lykken,22,chance,,,,,,,,
+Øserbrogade,23,street,4400,3000,350,1800,5000,14000,17500,21000
+Grønningen,24,street,4800,3000,400,2000,6000,15000,18500,22000
+Gedser - Rostock,25,ferry,4000,,500,1000,2000,4000,,
+Bredgade,26,street,5200,3000,450,2200,6600,16000,19500,23000
+Kgs. Nytorv,27,street,5200,3000,450,2200,6600,16000,19500,23000
+Coca Cola,28,brewery,3000,,100,200,,,,
+Østergade,29,street,5600,3000,500,2400,7200,17000,20500,24000
+Fængsel,30,jail,,,,,,,,
+Amagertorv,31,street,6000,4000,550,2600,7800,18000,22000,25000
+Vimmelskaftet,32,street,6000,4000,550,2600,7800,18000,22000,25000
+Prøv lykken,33,chance,,,,,,,,
+Nygade,34,street,6400,4000,600,3000,9000,20000,24000,28000
+Rødby - Puttgarden,35,ferry,4000,,500,1000,2000,4000,,
+Prøv lykken,36,chance,,,,,,,,
+Frederiksberggade,37,street,7000,4000,700,3500,10000,22000,26000,30000
+Ekstraordinær statsskat,38,tax,2000,,,,,,,
+Rådhuspladsen,39,street,8000,4000,1000,4000,12000,28000,34000,40000
