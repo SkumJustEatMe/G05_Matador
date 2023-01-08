@@ -1,6 +1,5 @@
 package fields;
 
-import fields.effects.JailEffect;
 import utils.CsvReader;
 import java.io.File;
 
@@ -32,7 +31,7 @@ public class GameBoard {
         int index = 0;
         for (Field field : FieldList)
         {
-            if (field.getType() == FieldType.JAIL  && ((JailField)field).getEvent() == JailEffect.VISITJAIL) {
+            if (field.getEffect() == FieldEffect.JAIL_VISIT) {
                 break;
             }
 

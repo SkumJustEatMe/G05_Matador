@@ -42,9 +42,9 @@ public class GUI {
     }
     public void createJailField(int fieldIndex){
         GUI_Jail gui_field = new GUI_Jail();
-        EventField field = (EventField) this.gameBoard.getFieldList()[fieldIndex];
-        gui_field.setTitle(field.getName());
-        gui_field.setDescription(field.getName());
+        JailField jailField = (JailField) this.gameBoard.getFieldList()[fieldIndex];
+        gui_field.setTitle(jailField.getName());
+        gui_field.setDescription(jailField.getName());
         gui_field.setSubText("");
         fields[fieldIndex] = gui_field;
     }
@@ -59,17 +59,14 @@ public class GUI {
     }
     public void populateFields()
     {
-        createStartField(0);
-
-        for (int i = 1; i < 40; i++)
+        Field[] fieldList = this.gameBoard.getFieldList();
+        for (int i = 1; i < fieldList.length; i++)
         {
-            if (this.gameBoard.getFieldList()[i] instanceof EventField)
+            switch (fieldList[i].getType())
             {
-                this.createJailField(i);
-            }
-            else
-            {
-                this.createEmptyField(i);
+                default:
+                case START:
+                    this.createStartField(i);
             }
         }
     }

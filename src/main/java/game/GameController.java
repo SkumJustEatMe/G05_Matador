@@ -123,15 +123,15 @@ public class GameController
     private void evaluateFieldAndExecute()
     {
         Field field = this.gameBoard.getFieldList()[getCurrentPlayer().getPosition()];
-        if (field instanceof EventField event)
+        switch (field.getType())
         {
-            executeEvent(event);
+            case CHANCE, JAIL, TAX -> executeEvent(field.getEffect());
         }
     }
 
-    private void executeEvent(EventField eventField)
+    private void executeEvent(FieldEffect effect)
     {
-       if (eventField.getEvent() == Event.GOTOJAIL) {
+       if (effect == FieldEffect.JAIL_GOTO) {
             getCurrentPlayer().setPosition(this.gameBoard.getIndexOfJail());
        }
     }

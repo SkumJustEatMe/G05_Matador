@@ -1,14 +1,10 @@
 package fields;
 
-import fields.effects.ChanceEffect;
 
 public class ChanceField extends Field
 {
-    private ChanceEffect effect;
-
-    public ChanceField(int position, FieldType type, ChanceEffect effect)
+    public ChanceField(String name, int position, FieldType type, FieldEffect effect)
     {
-        super("Prøv lykken!", position, type);
-        this.effect = effect;
+        super(name, position, type, effect);
     }
 }

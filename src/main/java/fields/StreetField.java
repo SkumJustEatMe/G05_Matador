@@ -9,7 +9,7 @@ public class StreetField extends Field
 
     public StreetField(String name, int position, FieldType type, int housePrice, int[] rent)
     {
-        super(name, position, type);
+        super(name, position, type, FieldEffect.NONE);
         this.housePrice = housePrice;
         this.rent = rent;
     }

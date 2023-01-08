@@ -8,11 +8,14 @@ public abstract class Field
     public int getPosition() { return this.position; }
     private final FieldType type;
     public FieldType getType() { return this.type; }
+    private final FieldEffect effect;
+    public FieldEffect getEffect() { return this.effect; }
 
-    public Field(String name, int position, FieldType type)
+    public Field(String name, int position, FieldType type, FieldEffect effect)
     {
         this.name = name;
         this.position = position;
         this.type = type;
+        this.effect = effect;
     }
 }
