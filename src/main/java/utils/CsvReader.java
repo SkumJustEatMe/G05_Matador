@@ -1,5 +1,7 @@
 package utils;
 
+import fields.Effect;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -45,5 +47,19 @@ public final class CsvReader
 
 
         return convertedArray;
+    }
+
+    public static Effect NameToEffect(String name)
+    {
+        return switch (name.toLowerCase()) {
+            case "start" -> Effect.START;
+            case "indkomstskat" -> Effect.TAX_4000;
+            case "prøv lykken" -> Effect.CHANCE;
+            case "i fængsel/på besøg" -> Effect.JAIL_VISIT;
+            case "fængsel" -> Effect.JAIL_GOTO;
+            case "ekstraordinær statsskat" -> Effect.TAX_PERCENTAGE;
+            case "parkering" -> Effect.REFUGEE;
+            default -> null;
+        };
     }
 }

@@ -130,9 +130,9 @@ public class GameController
         }
     }
 
-    private void executeEvent(FieldEffect effect)
+    private void executeEvent(Effect effect)
     {
-       if (effect == FieldEffect.JAIL_GOTO) {
+       if (effect == Effect.JAIL_GOTO) {
             getCurrentPlayer().setPosition(this.gameBoard.getIndexOfJail());
        }
     }

@@ -26,13 +26,30 @@ public class GameBoard {
         //csv header: Name,Position,Type,Price,HousePrice,Rent0,Rent1,Rent2,Rent3,Rent4,Rent5
         for (int i = 1; i < fieldsInfo.length; i++)
         {
-            String[] currentCsvField = this.fieldsInfo[i];
-            switch (currentCsvField[2])
+            String[] currentRow = this.fieldsInfo[i];
+
+            if (currentRow[i].length() <= 3)
             {
-                case "start":
-                    this.FieldList[i-1] = new StartField(currentCsvField[0], Integer.parseInt(currentCsvField[1]), FieldType.START);
-                case "street":
-                    this.FieldList[i-1] = new StreetField(currentCsvField[0], Integer.parseInt(currentCsvField[1]), FieldType.STREET, Integer.parseInt(currentCsvField[3]), );
+                String type = currentRow[2];
+                this.FieldList[i-1] = new EffectField(
+                        currentRow[0],
+                        Integer.parseInt(currentRow[1]),
+                        FieldType.valueOf(currentRow[2].toUpperCase()),
+                        CsvReader.NameToEffect(currentRow[0]));
+            }
+            else
+            {
+                this.FieldList[i-1] = new BuyableField(
+                        currentRow[0],
+                        Integer.parseInt(currentRow[1]),
+                        FieldType.valueOf(currentRow[2].toUpperCase()),
+                        Integer.parseInt(currentRow[3]),
+                        Integer.parseInt(currentRow[4]),
+                        new int[] {
+                                Integer.parseInt(currentRow[5]),
+                                Integer.parseInt(currentRow[6]),
+                                Integer.parseInt(currentRow[7]),
+                                Integer.parseInt(currentRow[8])});
             }
         }
     }
@@ -41,7 +58,7 @@ public class GameBoard {
         int index = 0;
         for (Field field : FieldList)
         {
-            if (field.getEffect() == FieldEffect.JAIL_VISIT) {
+            if (field.getClass() == Effect.JAIL_VISIT) {
                 break;
             }
 
