@@ -22,8 +22,8 @@ public class GUI {
             Color.magenta
     };
     private ArrayList<GUI_Car> cars;
-    public GUI(GameBoard gameBoard, GameController gameController){
-        this.gameBoard = gameBoard;
+    public GUI(GameController gameController){
+        this.gameBoard = this.gameController.getGameBoard();
         this.gameController = gameController;
         this.gui_players = new ArrayList<GUI_Player>();
         this.cars = new ArrayList<GUI_Car>();

@@ -10,6 +10,8 @@ public abstract class Field
     public FieldType getType() { return this.type; }
     private final FieldEffect effect;
     public FieldEffect getEffect() { return this.effect; }
+    private final int price;
+    public int getPrice() { return this.price; }
 
     public Field(String name, int position, FieldType type, FieldEffect effect)
     {
@@ -17,5 +19,6 @@ public abstract class Field
         this.position = position;
         this.type = type;
         this.effect = effect;
+        this.price = price;
     }
 }

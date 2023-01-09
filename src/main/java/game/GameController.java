@@ -11,6 +11,7 @@ public class GameController
     private int currentDieRoll2 = 0;
     private int sumOfDiceRolls = 0;
     private GameBoard gameBoard;
+    public GameBoard getGameBoard() {return this.gameBoard;}
     private ArrayList<Player> players;
 
     public ArrayList<Player> getPlayers() { return this.players; }
@@ -20,7 +21,7 @@ public class GameController
     public GameController()
     {
         this.gameBoard = new GameBoard();
-        this.gui = new GUI(this.gameBoard, this);
+        this.gui = new GUI(this);
         this.die = new Die();
         this.players = new ArrayList<Player>();
         this.indexOfCurrentPlayer = 0;
