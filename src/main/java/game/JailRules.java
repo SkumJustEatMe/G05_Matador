@@ -11,19 +11,23 @@ public static void PayOutOfJail(Player player){
 
 }
 
+public boolean EqualRolls(int )
 
-
-//Function to give an extra turn if you roll equals
+    //Function to give an extra turn if you roll equals
 public String ExtraTurn(){
 
 
 }
 
-public static void ForceOutOfJail{
 
 
-    
-    }
+//Function to force people to pay -1000 to get out of jail (round 3)
+public static void ForceOutOfJail(Player player){
+
+    player.changeBalance(-1000);
+
+
+}
 
 
 
