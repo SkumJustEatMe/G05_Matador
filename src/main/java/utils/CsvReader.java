@@ -23,7 +23,6 @@ public final class CsvReader
         try
         {
             Scanner scanner = new Scanner(new File(path));
-            scanner.useDelimiter("\n");
 
             while (scanner.hasNextLine())
             {
@@ -44,7 +43,6 @@ public final class CsvReader
         {
             convertedArray[i] = lineList.get(i).split(",");
         }
-
 
         return convertedArray;
     }

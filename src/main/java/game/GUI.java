@@ -23,8 +23,8 @@ public class GUI {
     };
     private ArrayList<GUI_Car> cars;
     public GUI(GameController gameController){
-        this.gameBoard = this.gameController.getGameBoard();
         this.gameController = gameController;
+        this.gameBoard = this.gameController.getGameBoard();
         this.gui_players = new ArrayList<GUI_Player>();
         this.cars = new ArrayList<GUI_Car>();
         this.fields = new GUI_Field[gameBoard.getFieldList().length];
@@ -32,7 +32,7 @@ public class GUI {
         this.gui = new gui_main.GUI(fields, new Color(51, 153, 255));
     }
 
-    public void createStartField(int fieldIndex){
+    public void createField(int fieldIndex){
         GUI_Start gui_field = new GUI_Start();
         Field field = this.gameBoard.getFieldList()[fieldIndex];
         gui_field.setTitle(field.getName());
@@ -42,7 +42,7 @@ public class GUI {
     }
     public void createJailField(int fieldIndex){
         GUI_Jail gui_field = new GUI_Jail();
-        JailField jailField = (JailField) this.gameBoard.getFieldList()[fieldIndex];
+        Field jailField = this.gameBoard.getFieldList()[fieldIndex];
         gui_field.setTitle(jailField.getName());
         gui_field.setDescription(jailField.getName());
         gui_field.setSubText("");
@@ -67,6 +67,7 @@ public class GUI {
                 default:
                 case START:
                     this.createStartField(i);
+
             }
         }
     }

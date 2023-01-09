@@ -126,7 +126,7 @@ public class GameController
         Field field = this.gameBoard.getFieldList()[getCurrentPlayer().getPosition()];
         switch (field.getType())
         {
-            case CHANCE, JAIL, TAX -> executeEvent(field.getEffect());
+            case CHANCE, JAIL, TAX -> executeEvent(((EffectField)field).getEffect());
         }
     }
 

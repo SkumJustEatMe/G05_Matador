@@ -8,6 +8,7 @@ public class GameBoard {
     private final File gameBoardFile;
     private String[][] fieldsInfo;
     private Field[] FieldList;
+    public Field[] getFieldList() { return this.FieldList; }
 
     public GameBoard()
     {
@@ -18,6 +19,7 @@ public class GameBoard {
                 "fields.csv"
                 ));
         this.fieldsInfo = CsvReader.convertTo2DArray(this.gameBoardFile.getAbsolutePath());
+        this.FieldList = new Field[this.fieldsInfo.length - 1];
         PopulateFieldList();
     }
 
@@ -27,29 +29,60 @@ public class GameBoard {
         for (int i = 1; i < fieldsInfo.length; i++)
         {
             String[] currentRow = this.fieldsInfo[i];
-
-            if (currentRow[i].length() <= 3)
-            {
-                String type = currentRow[2];
-                this.FieldList[i-1] = new EffectField(
+            if (currentRow.length <= 3) {
+                this.FieldList[i - 1] = new EffectField(
                         currentRow[0],
                         Integer.parseInt(currentRow[1]),
                         FieldType.valueOf(currentRow[2].toUpperCase()),
-                        CsvReader.NameToEffect(currentRow[0]));
+                        CsvReader.NameToEffect(currentRow[0]),
+                        null);
+            } else if (currentRow.length <= 4) {
+                this.FieldList[i - 1] = new EffectField(
+                        currentRow[0],
+                        Integer.parseInt(currentRow[1]),
+                        FieldType.valueOf(currentRow[2].toUpperCase()),
+                        CsvReader.NameToEffect(currentRow[0]),
+                        Integer.parseInt(currentRow[3]));
+            } else if (currentRow[4].equals("")) {
+                this.FieldList[i - 1] = new BuyableField(
+                        currentRow[0],
+                        Integer.parseInt(currentRow[1]),
+                        FieldType.valueOf(currentRow[2].toUpperCase()),
+                        Integer.parseInt(currentRow[3]),
+                        null,
+                        new int[]{
+                                Integer.parseInt(currentRow[5]),
+                                Integer.parseInt(currentRow[6])});
+            }
+            else if (currentRow.length <= 9)
+            {
+                this.FieldList[i - 1] = new BuyableField(
+                        currentRow[0],
+                        Integer.parseInt(currentRow[1]),
+                        FieldType.valueOf(currentRow[2].toUpperCase()),
+                        Integer.parseInt(currentRow[3]),
+                        null,
+                        new int[]{
+                                Integer.parseInt(currentRow[5]),
+                                Integer.parseInt(currentRow[6]),
+                                Integer.parseInt(currentRow[7]),
+                                Integer.parseInt(currentRow[8])});
             }
             else
             {
-                this.FieldList[i-1] = new BuyableField(
+                this.FieldList[i - 1] = new BuyableField(
                         currentRow[0],
                         Integer.parseInt(currentRow[1]),
                         FieldType.valueOf(currentRow[2].toUpperCase()),
                         Integer.parseInt(currentRow[3]),
                         Integer.parseInt(currentRow[4]),
-                        new int[] {
+                        new int[]{
                                 Integer.parseInt(currentRow[5]),
                                 Integer.parseInt(currentRow[6]),
                                 Integer.parseInt(currentRow[7]),
-                                Integer.parseInt(currentRow[8])});
+                                Integer.parseInt(currentRow[8]),
+                                Integer.parseInt(currentRow[9]),
+                                Integer.parseInt(currentRow[10])});
             }
         }
     }
@@ -58,7 +91,7 @@ public class GameBoard {
         int index = 0;
         for (Field field : FieldList)
         {
-            if (field.getClass() == Effect.JAIL_VISIT) {
+            if (field.getType() == FieldType.JAIL && ((EffectField)field).getEffect() == Effect.JAIL_GOTO){
                 break;
             }
 
@@ -66,5 +99,4 @@ public class GameBoard {
         }
         return index;
     }
-    public Field[] getFieldList() { return this.FieldList; }
 }

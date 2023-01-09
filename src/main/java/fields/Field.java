@@ -8,11 +8,14 @@ public abstract class Field
     public int getPosition() { return this.position; }
     private final FieldType type;
     public FieldType getType() { return this.type; }
+    private final Integer price;
+    public Integer getPrice() { return this.price; }
 
-    public Field(String name, int position, FieldType type)
+    public Field(String name, int position, FieldType type, Integer price)
     {
         this.name = name;
         this.position = position;
         this.type = type;
+        this.price = price;
     }
 }
