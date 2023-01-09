@@ -5,20 +5,20 @@ import java.io.File;
 
 public class GameBoard {
 
-    private final File gameBoardFile;
+    private final String gameBoardFilePath;
     private String[][] fieldsInfo;
     private Field[] FieldList;
     public Field[] getFieldList() { return this.FieldList; }
 
     public GameBoard()
     {
-        this.gameBoardFile = new File(System.getProperty("user.dir").concat(File.separator +
+        this.gameBoardFilePath = System.getProperty("user.dir").concat(File.separator +
                 "src" + File.separator +
                 "main" + File.separator +
                 "resources" + File.separator +
                 "fields.csv"
-                ));
-        this.fieldsInfo = CsvReader.convertTo2DArray(this.gameBoardFile.getAbsolutePath());
+                );
+        this.fieldsInfo = CsvReader.convertTo2DArray(this.gameBoardFilePath);
         this.FieldList = new Field[this.fieldsInfo.length - 1];
         PopulateFieldList();
     }
