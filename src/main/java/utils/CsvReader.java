@@ -18,30 +18,12 @@ public final class CsvReader
      */
     public static String[][] convertTo2DArray(String path)
     {
-        ArrayList<String> lineList  = new ArrayList<>();
+        String[] lineArray = TxtReader.convertLinesToArray(path);
 
-        try
+        String[][] convertedArray = new String[lineArray.length][];
+        for (int i = 0; i < lineArray.length; i++)
         {
-            Scanner scanner = new Scanner(new File(path));
-
-            while (scanner.hasNextLine())
-            {
-                String nextLine = scanner.nextLine();
-                lineList.add(nextLine);
-            }
-
-            scanner.close();
-        }
-        catch (FileNotFoundException e)
-        {
-            //should probably display an error message to the user with the path
-            e.printStackTrace();
-        }
-
-        String[][] convertedArray = new String[lineList.size()][];
-        for (int i = 0; i < lineList.size(); i++)
-        {
-            convertedArray[i] = lineList.get(i).split(",");
+            convertedArray[i] = lineArray[i].split(",");
         }
 
         return convertedArray;

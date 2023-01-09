@@ -62,13 +62,6 @@ public class GUI {
         Field[] fieldList = this.gameBoard.getFieldList();
         for (int i = 1; i < fieldList.length; i++)
         {
-            switch (fieldList[i].getType())
-            {
-                default:
-                case START:
-                    this.createStartField(i);
-
-            }
         }
     }
 
