@@ -1,7 +1,7 @@
 package game;
 
 import fields.*;
-import fields.GameBoard;
+import fields.FieldType;
 import gui_fields.*;
 
 import java.awt.*;
@@ -12,7 +12,6 @@ public class GUI {
     private GameController gameController;
     private GameBoard gameBoard;
     private GUI_Field[] fields;
-    private ArrayList<GUI_Player> gui_players;
     private Color[] playerColors = {
             Color.yellow,
             Color.red,
@@ -32,7 +31,7 @@ public class GUI {
         this.gui = new gui_main.GUI(fields, new Color(51, 153, 255));
     }
 
-    public void createField(int fieldIndex){
+    public void createStartField(int fieldIndex){
         GUI_Start gui_field = new GUI_Start();
         Field field = this.gameBoard.getFieldList()[fieldIndex];
         gui_field.setTitle(field.getName());
@@ -40,6 +39,9 @@ public class GUI {
         gui_field.setSubText("");
         this.fields[fieldIndex] = gui_field;
     }
+
+    public void 
+
     public void createJailField(int fieldIndex){
         GUI_Jail gui_field = new GUI_Jail();
         Field jailField = this.gameBoard.getFieldList()[fieldIndex];
@@ -59,9 +61,27 @@ public class GUI {
     }
     public void populateFields()
     {
-        Field[] fieldList = this.gameBoard.getFieldList();
-        for (int i = 1; i < fieldList.length; i++)
+        for (int i = 1; i < this.gameBoard.getFieldList().length; i++)
         {
+            switch (this.gameBoard.getFieldList()[i].getType())
+            {
+                case START:
+                    createStartField(i);
+                case JAIL:
+                    createJailField(i);
+                case FERRY:
+
+                case STREET:
+
+                case CHANCE:
+
+                case TAX:
+
+                case BREWERY:
+
+                case REFUGEE:
+
+            }
         }
     }
 
