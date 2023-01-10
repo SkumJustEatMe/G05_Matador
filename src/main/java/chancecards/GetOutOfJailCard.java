@@ -7,6 +7,6 @@ public class GetOutOfJailCard extends ChanceCard{
         super(text);
     }
     public void execute(Player p){
-        p.setGetOutOfJailFreeCards(+1);
+        p.setGetOutOfJailFreeCard(+1);
     }
 }
