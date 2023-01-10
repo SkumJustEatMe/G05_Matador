@@ -1,5 +1,6 @@
 package chancecards;
 
+import fields.FieldType;
 import utils.TxtReader;
 
 import java.awt.*;
@@ -9,6 +10,8 @@ public class DeckController {
 
     private final String chanceCardFile;
     private String[] cardInfo;
+
+    private FieldType FERRY = FieldType.FERRY;
 
     private ChanceCard[] cards = new ChanceCard[46];
 

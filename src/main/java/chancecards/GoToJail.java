@@ -12,8 +12,6 @@ public class GoToJail extends ChanceCard {
     }
 
     public void execute(Player p) {
-        int spot;
-        spot = p.getPosition();
         p.setPosition(value);
     }
 
