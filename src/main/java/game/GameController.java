@@ -92,6 +92,9 @@ public class GameController
         this.currentDieRoll1 = this.die.roll();
         this.currentDieRoll2 = this.die.roll();
         this.sumOfDiceRolls = this.currentDieRoll1 + this.currentDieRoll2;
+        if (this.die.EqualRolls(currentDieRoll1,currentDieRoll2)){
+            die.incrementNumberOfEqualRolls();
+        }
     }
 
     /**
@@ -99,11 +102,12 @@ public class GameController
      */
     private void setNextPlayer()
     {
-        if (this.indexOfCurrentPlayer + 1 < this.players.size()) {
-            this.indexOfCurrentPlayer++;
-        }
-        else {
-            this.indexOfCurrentPlayer = 0;
+        if (!die.EqualRolls(currentDieRoll1,currentDieRoll2) || JailRules.ForceJail(die.getNumberOfEqualRolls())) {
+            if (this.indexOfCurrentPlayer + 1 < this.players.size()) {
+                this.indexOfCurrentPlayer++;
+            } else {
+                this.indexOfCurrentPlayer = 0;
+            }
         }
     }
 

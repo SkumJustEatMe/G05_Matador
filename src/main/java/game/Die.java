@@ -4,13 +4,20 @@ public class Die
 {
     private final int MAX = 6;  // højeste antal øjne
 
-    private GameController gameController;
+    private int numberOfEqualRolls;
+    public int getNumberOfEqualRolls(){
+        return this.numberOfEqualRolls;
+    }
+    public void incrementNumberOfEqualRolls(){
+        this.numberOfEqualRolls++;
+    }
 
     private int faceValue;  // antal øjne der vises pt
 
     public Die() // vores constructor
     {
         faceValue = 1;
+        numberOfEqualRolls = 0;
     }
 
     public  int roll() // ruller terningen og returnerer antal øjne
@@ -32,17 +39,14 @@ public class Die
         return result;
     }
 
-    public boolean EqualRolls(){
-
-    int roll1 = gameController.getCurrentDieRoll1();
-    int roll2 = gameController.getCurrentDieRoll2();
-    if (roll2 == roll1){
-        return true;
-    }
-
-
+    public boolean EqualRolls(int roll1,int roll2){
+        return roll1==roll2;
 
     }
+
+
+
+
 
 
 }
