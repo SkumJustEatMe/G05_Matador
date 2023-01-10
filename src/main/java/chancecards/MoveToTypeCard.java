@@ -14,14 +14,14 @@ public class MoveToTypeCard extends ChanceCard {
         this.timesRent = timesRent;
     }
 
-    public void execute(Player p) {
+    public void execute(Player p, GameBoard gameBoard) {
         int spot = p.getPosition();
         for (int i = p.getPosition(); i != 40; i++) {
-            if (GameBoard.getFieldList()[i] instanceof type) {
+            if (gameBoard.getFieldList()[i].getType() == FieldType.FERRY) {
                 p.setPosition(i);
             }
-            if (field.hasOwner()) {
-                p.changeBalance(-field.getvalue * timesRent);
+            if (gameBoard.getFieldList()[i].hasOwner()) {
+                p.changeBalance(-gameBoard.getFieldList()[i].getPrice() * timesRent);
             }
         }
     }
