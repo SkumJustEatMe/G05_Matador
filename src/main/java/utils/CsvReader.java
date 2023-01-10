@@ -2,11 +2,6 @@ package utils;
 
 import fields.Effect;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Scanner;
-
 public final class CsvReader
 {
     private CsvReader(){}
@@ -38,7 +33,7 @@ public final class CsvReader
             case "i fængsel/på besøg" -> Effect.JAIL_VISIT;
             case "fængsel" -> Effect.JAIL_GOTO;
             case "ekstraordinær statsskat" -> Effect.TAX_PERCENTAGE;
-            case "parkering" -> Effect.REFUGEE;
+            case "parkering" -> Effect.REFUGE;
             default -> null;
         };
     }
