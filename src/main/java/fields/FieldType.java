@@ -9,5 +9,5 @@ public enum FieldType
     FERRY,
     BREWERY,
     JAIL,
-    REFUGEE
+    REFUGE
 }

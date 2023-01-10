@@ -38,7 +38,7 @@ public class GameBoard {
                 case CHANCE:
                 case JAIL:
                 case TAX:
-                case REFUGEE:
+                case REFUGE:
                     this.FieldList[i - 1] = new EffectField(
                         currentRow[0],
                         Integer.parseInt(currentRow[1]),

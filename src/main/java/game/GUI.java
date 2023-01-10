@@ -129,7 +129,7 @@ public class GUI {
                 case BREWERY:
                     createBreweryField(i);
                     break;
-                case REFUGEE:
+                case REFUGE:
                     createRefugeField(i);
                     break;
             }
