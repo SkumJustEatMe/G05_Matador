@@ -1,6 +1,8 @@
 package game;
 
 
+import fields.GameBoard;
+
 public class JailRules {
 
 
@@ -25,7 +27,12 @@ public static boolean ForceJail(int numberofequalrolls){
 }
 
 
+public static void GetinJail(GameBoard setjail, Player player){
+    setjail.getIndexOfJail();
+    player.setPosition(setjail.getIndexOfJail());
 
+
+}
 
 
 

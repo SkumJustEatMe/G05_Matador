@@ -5,6 +5,8 @@ public class Player {
 
     private String name;
 
+    private boolean jailed;
+
     public String getName() { return this.name; }
     public void setName(String name) { this.name = name; }
     public int getBalance() { return this.balance; }
@@ -25,5 +27,17 @@ public class Player {
     public Player(int startingBalance){
         this.balance = startingBalance;
     }
+
+    // @param to check if a player is jailed.
+    public void setjailed(boolean jailed){
+        this.jailed = jailed;
+    }
+    public boolean getjailed(){
+        return jailed;
+    }
+
+
+
+
 
 }
