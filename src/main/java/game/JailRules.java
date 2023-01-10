@@ -11,7 +11,10 @@ public static void PayOutOfJail(Player player){
 
 }
 
-public boolean EqualRolls(int )
+public boolean EqualRolls( )
+
+    
+
 
     //Function to give an extra turn if you roll equals
 public String ExtraTurn(){
