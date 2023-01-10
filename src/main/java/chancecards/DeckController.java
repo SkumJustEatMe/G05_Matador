@@ -63,12 +63,12 @@ public class DeckController {
         this.cards.add(new MoveCard(cardInfo[31], -3));
         this.cards.add(new MoveCard(cardInfo[32], -3));
         this.cards.add(new MoveToCard(cardInfo[33], 11));
-        this.cards.add(new MoveToTypeCard(cardInfo[34], FERRY, 2));
-        this.cards.add(new MoveToTypeCard(cardInfo[35], FERRY, 2));
+        this.cards.add(new MoveToTypeCard(cardInfo[34], FERRY, 1));
+        this.cards.add(new MoveToTypeCard(cardInfo[35], FERRY, 1));
         this.cards.add(new MoveToCard(cardInfo[36],15));
         this.cards.add(new MoveToCard(cardInfo[37], 24));
         this.cards.add(new MoveToCard(cardInfo[38], 32));
-        this.cards.add(new MoveToTypeCard(cardInfo[39], FERRY, 1));
+        this.cards.add(new MoveToTypeCard(cardInfo[39], FERRY, 0));
         this.cards.add(new MoveToCard(cardInfo[40], 19));
         this.cards.add(new MoveToCard(cardInfo[41], 39));
         this.cards.add(new GetOutOfJailCard(cardInfo[42]));
