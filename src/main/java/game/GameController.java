@@ -7,6 +7,15 @@ public class GameController
 {
     private GUI gui;
     private Die die;
+
+    public int getCurrentDieRoll1() {
+        return currentDieRoll1;
+    }
+
+    public int getCurrentDieRoll2() {
+        return currentDieRoll2;
+    }
+
     private int currentDieRoll1 = 0;
     private int currentDieRoll2 = 0;
     private int sumOfDiceRolls = 0;

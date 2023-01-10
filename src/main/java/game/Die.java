@@ -4,6 +4,8 @@ public class Die
 {
     private final int MAX = 6;  // højeste antal øjne
 
+    private GameController gameController;
+
     private int faceValue;  // antal øjne der vises pt
 
     public Die() // vores constructor
@@ -29,4 +31,16 @@ public class Die
 
         return result;
     }
+
+    public boolean EqualRolls(){
+
+    String roll1 = gameController.getCurrentDieRoll1();
+    String roll2 = gameController.getCurrentDieRoll2();
+        return equals(roll2 roll1);
+    
+
+
+    }
+
+
 }
