@@ -7,6 +7,12 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class TxtReader {
+
+    /**
+     * converts lines of text in a file into an array of lines
+     * @param path path to the file
+     * @return array containing the lines of text
+     */
     public static String[] convertLinesToArray(String path)
     {
         ArrayList<String> lineList  = new ArrayList<>();
