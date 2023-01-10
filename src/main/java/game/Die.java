@@ -34,10 +34,12 @@ public class Die
 
     public boolean EqualRolls(){
 
-    String roll1 = gameController.getCurrentDieRoll1();
-    String roll2 = gameController.getCurrentDieRoll2();
-        return equals(roll2 roll1);
-    
+    int roll1 = gameController.getCurrentDieRoll1();
+    int roll2 = gameController.getCurrentDieRoll2();
+    if (roll2 == roll1){
+        return true;
+    }
+
 
 
     }
