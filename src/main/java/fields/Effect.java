@@ -7,5 +7,5 @@ public enum Effect {
     TAX_4000,
     TAX_PERCENTAGE,
     CHANCE,
-    REFUGEE
+    REFUGE
 }

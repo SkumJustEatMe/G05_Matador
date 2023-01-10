@@ -29,22 +29,25 @@ public class GameBoard {
         for (int i = 1; i < fieldsInfo.length; i++)
         {
             String[] currentRow = this.fieldsInfo[i];
-            if (currentRow.length <= 3) {
-                this.FieldList[i - 1] = new EffectField(
+            FieldType currentType = FieldType.valueOf(currentRow[2].toUpperCase());
+
+            switch (currentType)
+            {
+                default:
+                case START:
+                case CHANCE:
+                case JAIL:
+                case TAX:
+                case REFUGEE:
+                    this.FieldList[i - 1] = new EffectField(
                         currentRow[0],
                         Integer.parseInt(currentRow[1]),
                         FieldType.valueOf(currentRow[2].toUpperCase()),
                         CsvReader.NameToEffect(currentRow[0]),
-                        null);
-            } else if (currentRow.length <= 4) {
-                this.FieldList[i - 1] = new EffectField(
-                        currentRow[0],
-                        Integer.parseInt(currentRow[1]),
-                        FieldType.valueOf(currentRow[2].toUpperCase()),
-                        CsvReader.NameToEffect(currentRow[0]),
-                        Integer.parseInt(currentRow[3]));
-            } else if (currentRow[4].equals("")) {
-                this.FieldList[i - 1] = new BuyableField(
+                        currentType == FieldType.TAX ? Integer.parseInt(currentRow[3]) : null);
+                        break;
+                case BREWERY:
+                    this.FieldList[i - 1] = new BuyableField(
                         currentRow[0],
                         Integer.parseInt(currentRow[1]),
                         FieldType.valueOf(currentRow[2].toUpperCase()),
@@ -53,10 +56,9 @@ public class GameBoard {
                         new int[]{
                                 Integer.parseInt(currentRow[5]),
                                 Integer.parseInt(currentRow[6])});
-            }
-            else if (currentRow.length <= 9)
-            {
-                this.FieldList[i - 1] = new BuyableField(
+                        break;
+                case FERRY:
+                    this.FieldList[i - 1] = new BuyableField(
                         currentRow[0],
                         Integer.parseInt(currentRow[1]),
                         FieldType.valueOf(currentRow[2].toUpperCase()),
@@ -67,10 +69,9 @@ public class GameBoard {
                                 Integer.parseInt(currentRow[6]),
                                 Integer.parseInt(currentRow[7]),
                                 Integer.parseInt(currentRow[8])});
-            }
-            else
-            {
-                this.FieldList[i - 1] = new BuyableField(
+                        break;
+                case STREET:
+                    this.FieldList[i - 1] = new BuyableField(
                         currentRow[0],
                         Integer.parseInt(currentRow[1]),
                         FieldType.valueOf(currentRow[2].toUpperCase()),
@@ -83,6 +84,7 @@ public class GameBoard {
                                 Integer.parseInt(currentRow[8]),
                                 Integer.parseInt(currentRow[9]),
                                 Integer.parseInt(currentRow[10])});
+                        break;
             }
         }
     }
