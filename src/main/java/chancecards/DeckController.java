@@ -1,14 +1,16 @@
 package chancecards;
 
+import fields.FieldType;
 import utils.TxtReader;
 
-import java.awt.*;
 import java.io.File;
 
 public class DeckController {
 
     private final String chanceCardFile;
     private String[] cardInfo;
+
+    private FieldType FERRY = FieldType.FERRY;
 
     private ChanceCard[] cards = new ChanceCard[46];
 
@@ -68,8 +70,8 @@ public class DeckController {
         this.cards[41] = new MoveToCard(cardInfo[41], 39);
         this.cards[42] = new GetOutOfJailCard(cardInfo[42]);
         this.cards[43] = new GetOutOfJailCard(cardInfo[43]);
-        this.cards[44] = new GoToJail(cardInfo[44], 10);
-        this.cards[45] = new GoToJail(cardInfo[45], 10);
+        this.cards[44] = new GoToJailCard(cardInfo[44], 10);
+        this.cards[45] = new GoToJailCard(cardInfo[45], 10);
 
 
 
