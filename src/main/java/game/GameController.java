@@ -20,7 +20,6 @@ public class GameController
 
     public GameController()
     {
-        this.gameBoard = new GameBoard();
         this.gui = new GUI(this);
         this.die = new Die();
         this.players = new ArrayList<Player>();
@@ -107,7 +106,7 @@ public class GameController
 
         if (hasReachedStartField())
         {
-            getCurrentPlayer().setPosition(currentPosition + this.sumOfDiceRolls - this.gameBoard.getFieldList().length);
+            getCurrentPlayer().setPosition(currentPosition + this.sumOfDiceRolls - GameBoard.fieldsList.length);
             getCurrentPlayer().changeBalance(4000);
         }
         else
@@ -118,12 +117,12 @@ public class GameController
 
     private boolean hasReachedStartField()
     {
-        return getCurrentPlayer().getPosition() + this.sumOfDiceRolls >= this.gameBoard.getFieldList().length;
+        return getCurrentPlayer().getPosition() + this.sumOfDiceRolls >= GameBoard.fieldsList.length;
     }
 
     private void evaluateFieldAndExecute()
     {
-        Field field = this.gameBoard.getFieldList()[getCurrentPlayer().getPosition()];
+        Field field = GameBoard.fieldsList[getCurrentPlayer().getPosition()];
         switch (field.getType())
         {
             case CHANCE, JAIL, TAX -> executeEvent(((EffectField)field).getEffect());
@@ -133,7 +132,7 @@ public class GameController
     private void executeEvent(Effect effect)
     {
        if (effect == Effect.JAIL_GOTO) {
-            getCurrentPlayer().setPosition(this.gameBoard.getIndexOfJail());
+            getCurrentPlayer().setPosition(GameBoard.getIndexOfJail());
        }
     }
 
