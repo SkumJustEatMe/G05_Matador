@@ -76,6 +76,7 @@ public class GameController
 
                 if (choicenjailoption.equals("Betal")) {
                     JailRules.PayOutOfJail(getCurrentPlayer());
+                    this.gui.displayPlayerBalance();
                     getUserInputToBegin();
                     rollDice();
                     this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
