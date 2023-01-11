@@ -1,5 +1,7 @@
 package fields;
 
+import java.awt.*;
+
 public abstract class Field
 {
     private final String name;
@@ -11,11 +13,15 @@ public abstract class Field
     private final Integer price;
     public Integer getPrice() { return this.price; }
 
-    public Field(String name, int position, FieldType type, Integer price)
+    private final Color color;
+    public Color getColor() { return this.color; }
+
+    public Field(String name, int position, FieldType type, Color color, Integer price)
     {
         this.name = name;
         this.position = position;
         this.type = type;
+        this.color = color;
         this.price = price;
     }
 }
