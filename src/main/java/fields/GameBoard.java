@@ -13,13 +13,13 @@ public final class GameBoard {
             "fields.csv"
     );;
     private static final String[][] fieldsInfo = CsvReader.convertTo2DArray(gameBoardFilePath);;
-    public static final Field[] fieldsList = populateFieldList();
+    public static final Field[] fieldsArray = populateFieldsArray();
 
     private GameBoard()
     {
     }
 
-    private static Field[] populateFieldList()
+    private static Field[] populateFieldsArray()
     {
         //csv header: Name,Position,Type,Color,Price,HousePrice,Rent0,Rent1,Rent2,Rent3,Rent4,Rent5
         Field[] fields = new Field[fieldsInfo.length - 1];
@@ -93,7 +93,7 @@ public final class GameBoard {
 
     public static int getIndexOfJail() {
         int index = 0;
-        for (Field field : fieldsList)
+        for (Field field : fieldsArray)
         {
             if (field.getType() == FieldType.JAIL && ((EffectField)field).getEffect() == Effect.JAIL_GOTO){
                 break;

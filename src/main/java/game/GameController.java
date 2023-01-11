@@ -5,13 +5,12 @@ import java.util.ArrayList;
 
 public class GameController
 {
+    private GameBoardState gameBoardState;
     private GUI gui;
     private Die die;
     private int currentDieRoll1 = 0;
     private int currentDieRoll2 = 0;
     private int sumOfDiceRolls = 0;
-    private GameBoard gameBoard;
-    public GameBoard getGameBoard() {return this.gameBoard;}
     private ArrayList<Player> players;
 
     public ArrayList<Player> getPlayers() { return this.players; }
@@ -20,6 +19,7 @@ public class GameController
 
     public GameController()
     {
+        this.gameBoardState = new GameBoardState(GameBoard.fieldsArray);
         this.gui = new GUI(this);
         this.die = new Die();
         this.players = new ArrayList<Player>();
@@ -103,26 +103,29 @@ public class GameController
     private void movePlayer()
     {
         int currentPosition = getCurrentPlayer().getPosition();
+        int newPosition = 0;
 
         if (hasReachedStartField())
         {
-            getCurrentPlayer().setPosition(currentPosition + this.sumOfDiceRolls - GameBoard.fieldsList.length);
+            newPosition = currentPosition + this.sumOfDiceRolls - GameBoard.fieldsArray.length;
+            getCurrentPlayer().setPosition(newPosition);
             getCurrentPlayer().changeBalance(4000);
         }
         else
         {
-            getCurrentPlayer().setPosition(currentPosition + this.sumOfDiceRolls);
+            newPosition = currentPosition + this.sumOfDiceRolls;
+            getCurrentPlayer().setPosition(newPosition);
         }
     }
 
     private boolean hasReachedStartField()
     {
-        return getCurrentPlayer().getPosition() + this.sumOfDiceRolls >= GameBoard.fieldsList.length;
+        return getCurrentPlayer().getPosition() + this.sumOfDiceRolls >= GameBoard.fieldsArray.length;
     }
 
     private void evaluateFieldAndExecute()
     {
-        Field field = GameBoard.fieldsList[getCurrentPlayer().getPosition()];
+        Field field = GameBoard.fieldsArray[getCurrentPlayer().getPosition()];
         switch (field.getType())
         {
             case CHANCE, JAIL, TAX -> executeEvent(((EffectField)field).getEffect());
