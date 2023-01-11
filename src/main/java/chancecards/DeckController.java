@@ -28,9 +28,9 @@ public class DeckController {
                 "chancecards.txt");
         this.cardInfo = TxtReader.convertLinesToArray(this.chanceCardFile);
         this.cards = new ArrayList<>();
-        this.cards.add(new PayPerPropertyCard(cardInfo[0],500,2000));
-        this.cards.add(new PayPerPropertyCard(cardInfo[0],500,2000));
-        this.cards.add(new PayPerPropertyCard(cardInfo[1],800,2300));
+        this.cards.add(new PayPerHouseCard(cardInfo[0],500,2000));
+        this.cards.add(new PayPerHouseCard(cardInfo[0],500,2000));
+        this.cards.add(new PayPerHouseCard(cardInfo[1],800,2300));
         this.cards.add(new RecieveOrPayCard(cardInfo[2],-1000));
         this.cards.add(new RecieveOrPayCard(cardInfo[3],-300));
         this.cards.add(new RecieveOrPayCard(cardInfo[4],-200));

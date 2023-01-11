@@ -2,12 +2,10 @@ package chancecards;
 
 import game.Player;
 
-import java.awt.*;
-
-public class PayPerPropertyCard extends ChanceCard {
+public class PayPerHouseCard extends ChanceCard {
     int house;
     int hotel;
-    public PayPerPropertyCard(String text, int house, int hotel) {
+    public PayPerHouseCard(String text, int house, int hotel) {
         super(text);
         this.house = house;
         this.hotel = hotel;
