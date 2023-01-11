@@ -175,7 +175,7 @@ public class GUI {
     }
     public String displayJailOptions (Player player)
     {
-        if (player.getBalance()>1000){
+        if (player.getBalance()<1000){
            return this.gui.getUserButtonPressed("Slå med terningerne for at komme ud af fængslet", "Slå terninger");
 
         }

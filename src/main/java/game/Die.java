@@ -12,6 +12,10 @@ public class Die
         this.numberOfEqualRolls++;
     }
 
+    public void resetNumberOfEqualRolls(){
+        this.numberOfEqualRolls = 0;
+    }
+
     private int faceValue;  // antal øjne der vises pt
 
     public Die() // vores constructor

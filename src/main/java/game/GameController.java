@@ -71,15 +71,31 @@ public class GameController
     {
         while(true)
         {
-            if (getCurrentPlayer().isJailed()){
-                this.gui.displayJailOptions(getCurrentPlayer());
-                
+            if (getCurrentPlayer().isJailed()) {
+                String choicenjailoption = this.gui.displayJailOptions(getCurrentPlayer());
+
+                if (choicenjailoption.equals("Betal")) {
+                    JailRules.PayOutOfJail(getCurrentPlayer());
+                    getUserInputToBegin();
+                    rollDice();
+                    this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
 
 
+                } else if (choicenjailoption.equals("Slå terninger")) {
+                    rollDice();
+                    this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
+                    if (die.EqualRolls(currentDieRoll1, currentDieRoll2)) {
+                        getCurrentPlayer().setjailed(false);
+                    }
+                }
             }
-            getUserInputToBegin();
-            rollDice();
-            this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
+            else
+            {
+                getUserInputToBegin();
+                rollDice();
+                this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
+            }
+
             movePlayer();
             this.gui.moveCarToField(indexOfCurrentPlayer);
             evaluateFieldAndExecute();
@@ -113,6 +129,7 @@ public class GameController
             } else {
                 this.indexOfCurrentPlayer = 0;
             }
+            die.resetNumberOfEqualRolls();
         }
     }
 
@@ -152,7 +169,7 @@ public class GameController
     {
        if (effect == Effect.JAIL_GOTO) {
             getCurrentPlayer().setPosition(GameBoard.getIndexOfJail());
-            getCurrentPlayer().setjailed();
+            getCurrentPlayer().setjailed(true);
        }
     }
 
@@ -164,6 +181,7 @@ public class GameController
     private void getUserInputToBegin() {
         this.gui.displayRollDiceButton(getCurrentPlayer().getName());
     }
+
 
     /**
      * gui shows field for name input and value is stored in Player
