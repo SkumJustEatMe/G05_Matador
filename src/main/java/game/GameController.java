@@ -73,6 +73,7 @@ public class GameController
         {
             if (getCurrentPlayer().isJailed()){
                 this.gui.displayJailOptions(getCurrentPlayer());
+                
 
 
             }
@@ -143,14 +144,15 @@ public class GameController
         Field field = GameBoard.fieldsList[getCurrentPlayer().getPosition()];
         switch (field.getType())
         {
-            case CHANCE, JAIL, TAX -> executeEvent(((EffectField)field).getEffect());
+            case CHANCE, JAIL, TAX -> executeEffect(((EffectField)field).getEffect());
         }
     }
 
-    private void executeEvent(Effect effect)
+    private void executeEffect(Effect effect)
     {
        if (effect == Effect.JAIL_GOTO) {
             getCurrentPlayer().setPosition(GameBoard.getIndexOfJail());
+            getCurrentPlayer().setjailed();
        }
     }
 
@@ -173,9 +175,5 @@ public class GameController
             this.players.get(i).setName(this.gui.getUserStringInput(i));
         }
     }
-    private void jailed()
-    {
-        getCurrentPlayer().isJailed();
 
-    }
 }

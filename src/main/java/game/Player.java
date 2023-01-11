@@ -28,7 +28,12 @@ public class Player {
         this.balance = startingBalance;
     }
 
-    // @param to check if a player is jailed.
+
+
+    /**
+     * Input of new jail status
+     * @param jailed
+     */
     public void setjailed(boolean jailed){
         this.jailed = jailed;
     }
