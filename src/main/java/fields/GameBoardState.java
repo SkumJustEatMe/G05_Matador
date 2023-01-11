@@ -5,7 +5,7 @@ public class GameBoardState {
     private final Field[] fieldsArray;
 
     private FieldState[] fieldStates;
-    public FieldState[] getFieldStates() {return this.fieldStates;}
+    public FieldState getFieldState(int indexOfGameBoard) {return this.fieldStates[indexOfGameBoard];}
 
     public GameBoardState(Field[] fieldsArray)
     {
