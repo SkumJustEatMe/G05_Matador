@@ -24,14 +24,14 @@ public class GUI {
         this.gameController = gameController;
         this.gui_players = new ArrayList<GUI_Player>();
         this.cars = new ArrayList<GUI_Car>();
-        this.fields = new GUI_Field[GameBoard.fieldsList.length];
+        this.fields = new GUI_Field[GameBoard.fieldsArray.length];
         populateFields();
         this.gui = new gui_main.GUI(fields, new Color(51, 153, 255));
     }
 
     public void createStartField(int fieldIndex){
         GUI_Start gui_field = new GUI_Start();
-        Field field = GameBoard.fieldsList[fieldIndex];
+        Field field = GameBoard.fieldsArray[fieldIndex];
         gui_field.setTitle(field.getName());
         gui_field.setDescription(field.getName());
         gui_field.setSubText("");
@@ -40,7 +40,7 @@ public class GUI {
 
     public void createStreetField(int fieldIndex){
         GUI_Street gui_field = new GUI_Street();
-        Field field = GameBoard.fieldsList[fieldIndex];
+        Field field = GameBoard.fieldsArray[fieldIndex];
        gui_field.setTitle(field.getName());
        gui_field.setDescription(field.getName());
        gui_field.setSubText("");
@@ -49,7 +49,7 @@ public class GUI {
 
     public void createJailField(int fieldIndex){
         GUI_Jail gui_field = new GUI_Jail();
-        Field jailField = GameBoard.fieldsList[fieldIndex];
+        Field jailField = GameBoard.fieldsArray[fieldIndex];
         gui_field.setTitle(jailField.getName());
         gui_field.setDescription(jailField.getName());
         gui_field.setSubText("");
@@ -57,7 +57,7 @@ public class GUI {
     }
     public void createBreweryField(int fieldIndex){
         GUI_Brewery gui_field = new GUI_Brewery();
-        Field field = GameBoard.fieldsList[fieldIndex];
+        Field field = GameBoard.fieldsArray[fieldIndex];
         gui_field.setTitle(field.getName());
         gui_field.setDescription(field.getName());
         gui_field.setSubText("");
@@ -66,7 +66,7 @@ public class GUI {
 
     public void createChanceField(int fieldIndex){
         GUI_Chance gui_field = new GUI_Chance();
-        Field field = GameBoard.fieldsList[fieldIndex];
+        Field field = GameBoard.fieldsArray[fieldIndex];
         gui_field.setDescription(field.getName());
         gui_field.setBackGroundColor(Color.green);
         this.fields[fieldIndex] = gui_field;
@@ -74,7 +74,7 @@ public class GUI {
 
     public void createFerryField(int fieldIndex){
         GUI_Shipping gui_field = new GUI_Shipping();
-        Field field = GameBoard.fieldsList[fieldIndex];
+        Field field = GameBoard.fieldsArray[fieldIndex];
         gui_field.setTitle(field.getName());
         gui_field.setDescription(field.getName());
         gui_field.setSubText("");
@@ -83,7 +83,7 @@ public class GUI {
 
     public void createTaxField(int fieldIndex){
         GUI_Tax gui_field = new GUI_Tax();
-        Field field = GameBoard.fieldsList[fieldIndex];
+        Field field = GameBoard.fieldsArray[fieldIndex];
         gui_field.setTitle(field.getName());
         gui_field.setDescription(field.getName());
         gui_field.setSubText("");
@@ -92,7 +92,7 @@ public class GUI {
 
     public void createRefugeField(int fieldIndex){
         GUI_Refuge gui_field = new GUI_Refuge();
-        Field field = GameBoard.fieldsList[fieldIndex];
+        Field field = GameBoard.fieldsArray[fieldIndex];
         gui_field.setTitle(field.getName());
         gui_field.setDescription(field.getName());
         gui_field.setSubText("");
@@ -101,9 +101,9 @@ public class GUI {
 
     public void populateFields()
     {
-        for (int i = 0; i < GameBoard.fieldsList.length; i++)
+        for (int i = 0; i < GameBoard.fieldsArray.length; i++)
         {
-            switch (GameBoard.fieldsList[i].getType()) {
+            switch (GameBoard.fieldsArray[i].getType()) {
                 case START -> createStartField(i);
                 case JAIL -> createJailField(i);
                 case FERRY -> createFerryField(i);
