@@ -13,12 +13,12 @@ public class ReceivePerPlayerCard extends ChanceCard{
     }
 
     public void execute(ArrayList<Player> players, int playerIndex) {
-        for (int i = 0; i < players.size(); i++) {
+        for (int i = 1; i < players.size(); i++) {
             if (i == playerIndex) {
                 continue;
             }
             players.get(i).changeBalance(-value);
-            players.get(playerIndex).changeBalance(i * value);
         }
+        players.get(playerIndex).changeBalance((players.size() - 1) * value);
     }
 }

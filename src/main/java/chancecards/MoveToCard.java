@@ -14,7 +14,7 @@ public class MoveToCard extends ChanceCard{
         spot = p.getPosition();
         p.setPosition(value);
         if(spot > p.getPosition()){
-            p.changeBalance(2);
+            p.changeBalance(4000);
         }
     }
 }
