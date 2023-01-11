@@ -72,8 +72,8 @@ public class DeckController {
         this.cards.add(new MoveToCard(cardInfo[41], 39));
         this.cards.add(new GetOutOfJailCard(cardInfo[42]));
         this.cards.add(new GetOutOfJailCard(cardInfo[43]));
-        this.cards.add(new GoToJailCard(cardInfo[44], 10));
-        this.cards.add(new GoToJailCard(cardInfo[45], 10));
+        this.cards.add(new GoToJailCard(cardInfo[44]));
+        this.cards.add(new GoToJailCard(cardInfo[45]));
     }
     public int getOutOfJailCards(ArrayList<Player> players){
         int sum = 0;
