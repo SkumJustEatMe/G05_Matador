@@ -1,5 +1,6 @@
 package game;
 
+import chancecards.*;
 import fields.*;
 import java.util.ArrayList;
 
@@ -12,6 +13,7 @@ public class GameController
     private int currentDieRoll2 = 0;
     private int sumOfDiceRolls = 0;
     private ArrayList<Player> players;
+    private DeckController deck = new DeckController();
 
     public ArrayList<Player> getPlayers() { return this.players; }
     private Player getCurrentPlayer() { return this.players.get(indexOfCurrentPlayer); }
@@ -137,8 +139,38 @@ public class GameController
        if (effect == Effect.JAIL_GOTO) {
             getCurrentPlayer().setPosition(GameBoard.getIndexOfJail());
        }
+       else if (effect == Effect.CHANCE){
+        var card = this.deck.getCard();
+           this.gui.displayChanceCard(card);
+           if(card instanceof GoToJailCard goToJail) {
+               goToJail.execute(getCurrentPlayer());
+           }
+           else if(card instanceof ReceivePerPlayerCard receivePerPlayerCard){
+               receivePerPlayerCard.execute(players, indexOfCurrentPlayer);
+           }
+           else if (card instanceof GetOutOfJailCard getOutOfJailCard){
+           getOutOfJailCard.execute(getCurrentPlayer());
+           }
+           //else if (card instanceof MoveCard moveCard){
+           //moveCard.execute(getCurrentPlayer());
+           //}
+           else if (card instanceof MoveToCard moveToCard) {
+           moveToCard.execute(getCurrentPlayer());
+           }
+           else if(card instanceof RecieveOrPayCard recieveOrPayCard){
+           recieveOrPayCard.execute(getCurrentPlayer());
+           }
+           //else if(card instanceof MatadorCard matadorCard){
+           //    matadorCard.execute(getCurrentPlayer());
+           //}
+           //else if(card instanceof MoveToTypeCard moveToTypeCard){
+           //    moveToTypeCard.execute(players, indexOfCurrentPlayer, );
+           //}
+           //else if (card instanceof PayPerHouseCard payPerHouseCard) {
+           //    payPerHouseCard.execute(getCurrentPlayer());
+           //}
+       }
     }
-
     private int getNumberOfPlayers() {
         String result = (this.gui.displayPlayerSelectionButtons());
         return Integer.parseInt(String.valueOf(result.charAt(0)));

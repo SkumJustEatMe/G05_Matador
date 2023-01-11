@@ -1,6 +1,14 @@
 package game;
 
+
 public class Player {
+
+    private int getOutOfJailFreeCard = 0;
+    public void setGetOutOfJailFreeCard(int getOutOfJailFreeCard) {
+        this.getOutOfJailFreeCard = getOutOfJailFreeCard;
+    }
+    public int getGetOutOfJailFreeCard(){return getOutOfJailFreeCard;}
+
     private int balance;
 
     private String name;
