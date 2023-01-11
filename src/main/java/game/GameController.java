@@ -72,6 +72,11 @@ public class GameController
     {
         while(true)
         {
+            if (getCurrentPlayer().isJailed()){
+                this.gui.displayJailOptions(getCurrentPlayer());
+
+
+            }
             getUserInputToBegin();
             rollDice();
             this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
@@ -168,5 +173,10 @@ public class GameController
         {
             this.players.get(i).setName(this.gui.getUserStringInput(i));
         }
+    }
+    private void jailed()
+    {
+        getCurrentPlayer().isJailed();
+
     }
 }

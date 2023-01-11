@@ -32,7 +32,7 @@ public class Player {
     public void setjailed(boolean jailed){
         this.jailed = jailed;
     }
-    public boolean getjailed(){
+    public boolean isJailed(){
         return jailed;
     }
 

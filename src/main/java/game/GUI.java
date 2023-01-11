@@ -122,4 +122,16 @@ public class GUI {
 
         return name;
     }
+    public String displayJailOptions (Player player)
+    {
+        if (player.getBalance()>1000){
+           return this.gui.getUserButtonPressed("Slå med terningerne for at komme ud af fængslet", "Slå terninger");
+
+        }
+        else {
+        return gui.getUserButtonPressed("Vælg om du vil slå eller betal for at komme fri", "Slå terninger", "Betal");
+
+    }
+
+    }
 }
