@@ -95,7 +95,7 @@ public final class GameBoard {
         int index = 0;
         for (Field field : fieldsList)
         {
-            if (field.getType() == FieldType.JAIL && ((EffectField)field).getEffect() == Effect.JAIL_GOTO){
+            if (field.getType() == FieldType.JAIL && ((EffectField)field).getEffect() == Effect.JAIL_VISIT){
                 break;
             }
 
