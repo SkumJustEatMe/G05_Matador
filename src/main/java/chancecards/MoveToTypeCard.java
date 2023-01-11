@@ -1,4 +1,4 @@
-package chancecards;
+/*package chancecards;
 
 import fields.BuyableField;
 import fields.Field;
@@ -33,4 +33,4 @@ public class MoveToTypeCard extends ChanceCard {
             }
         }
     }
-}
+}*/

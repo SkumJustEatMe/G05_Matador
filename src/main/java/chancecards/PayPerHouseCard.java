@@ -1,4 +1,4 @@
-package chancecards;
+/*package chancecards;
 
 import game.Player;
 
@@ -19,4 +19,4 @@ public class PayPerHouseCard extends ChanceCard {
     public String printText(){
         return text;
     }
-}
+}*/

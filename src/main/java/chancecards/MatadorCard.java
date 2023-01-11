@@ -1,4 +1,4 @@
-package chancecards;
+/*package chancecards;
 
 import game.Player;
 
@@ -16,4 +16,4 @@ public class MatadorCard extends ChanceCard {
             p.changeBalance(matador);
         }
     }
-}
+}*/

@@ -1,4 +1,4 @@
-package chancecards;
+/*package chancecards;
 
 import fields.GameBoard;
 import game.Player;
@@ -20,4 +20,4 @@ public class MoveCard extends ChanceCard{
             p.setPosition(p.getPosition()+amount);
         }
     }
-}
+} */

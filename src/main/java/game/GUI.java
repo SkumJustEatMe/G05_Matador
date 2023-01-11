@@ -1,5 +1,6 @@
 package game;
 
+import chancecards.ChanceCard;
 import fields.*;
 import gui_fields.*;
 
@@ -173,4 +174,10 @@ public class GUI {
 
         return name;
     }
+
+    public void displayChanceCard(ChanceCard chancecard)
+    {
+        this.gui.displayChanceCard(chancecard.getText());
+    }
+
 }
