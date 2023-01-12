@@ -214,9 +214,9 @@ public class GameController
            else if(card instanceof MoveToTypeCard moveToTypeCard){
                moveToTypeCard.execute(players, indexOfCurrentPlayer);
            }
-           //else if (card instanceof PayPerHouseCard payPerHouseCard) {
-           //    payPerHouseCard.execute(getCurrentPlayer());
-           //}
+           else if (card instanceof PayPerHouseCard payPerHouseCard) {
+               payPerHouseCard.execute(getCurrentPlayer());
+           }
        }
     }
     private int getNumberOfPlayers() {
