@@ -6,12 +6,14 @@ import java.io.File;
 
 public class GameBoard {
 
+    private static final GameBoard gameBoard = new GameBoard();
+    public static GameBoard getSingleton() {return GameBoard.gameBoard;}
     private final String[][] fieldsInfo;
     private final Field[] fields;
     public Field[] getFields() {return this.fields;}
 
 
-    public GameBoard()
+    private GameBoard()
     {
         String gameBoardFilePath = System.getProperty("user.dir").concat(File.separator +
                 "src" + File.separator + "main" + File.separator +

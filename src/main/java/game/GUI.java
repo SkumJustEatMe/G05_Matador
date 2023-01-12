@@ -8,7 +8,6 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class GUI {
-    private GameBoard gameBoard;
     private gui_main.GUI gui;
     private GameController gameController;
     private GUI_Field[] fields;
@@ -24,18 +23,17 @@ public class GUI {
     private ArrayList<GUI_Car> cars;
 
     public GUI(GameController gameController){
-        this.gameBoard = new GameBoard();
         this.gameController = gameController;
         this.gui_players = new ArrayList<GUI_Player>();
         this.cars = new ArrayList<GUI_Car>();
-        this.fields = new GUI_Field[this.gameBoard.getFields().length];
+        this.fields = new GUI_Field[GameBoard.getSingleton().getFields().length];
         populateFields();
         this.gui = new gui_main.GUI(fields, new Color(51, 153, 255));
     }
 
     public void createStartField(int fieldIndex) {
         GUI_Start gui_field = new GUI_Start();
-        Field field = this.gameBoard.getFields()[fieldIndex];
+        Field field = GameBoard.getSingleton().getFields()[fieldIndex];
         gui_field.setTitle(field.getName());
         gui_field.setDescription(field.getName());
         gui_field.setSubText("");
@@ -44,7 +42,7 @@ public class GUI {
 
     public void createStreetField(int fieldIndex) {
         GUI_Street gui_field = new GUI_Street();
-        Field field = this.gameBoard.getFields()[fieldIndex];
+        Field field = GameBoard.getSingleton().getFields()[fieldIndex];
         gui_field.setTitle(field.getName());
         gui_field.setDescription(field.getName());
         gui_field.setSubText("");
@@ -53,7 +51,7 @@ public class GUI {
 
     public void createJailField(int fieldIndex) {
         GUI_Jail gui_field = new GUI_Jail();
-        Field field = this.gameBoard.getFields()[fieldIndex];
+        Field field = GameBoard.getSingleton().getFields()[fieldIndex];
         gui_field.setTitle(field.getName());
         gui_field.setDescription(field.getName());
         gui_field.setSubText("");
@@ -62,7 +60,7 @@ public class GUI {
 
     public void createBreweryField(int fieldIndex) {
         GUI_Brewery gui_field = new GUI_Brewery();
-        Field field = this.gameBoard.getFields()[fieldIndex];
+        Field field = GameBoard.getSingleton().getFields()[fieldIndex];
         gui_field.setTitle(field.getName());
         gui_field.setDescription(field.getName());
         gui_field.setSubText("");
@@ -72,7 +70,7 @@ public class GUI {
 
     public void createChanceField(int fieldIndex) {
         GUI_Chance gui_field = new GUI_Chance();
-        Field field = this.gameBoard.getFields()[fieldIndex];
+        Field field = GameBoard.getSingleton().getFields()[fieldIndex];
         gui_field.setDescription(field.getName());
         gui_field.setBackGroundColor(Color.green);
         this.fields[fieldIndex] = gui_field;
@@ -80,7 +78,7 @@ public class GUI {
 
     public void createFerryField(int fieldIndex) {
         GUI_Shipping gui_field = new GUI_Shipping();
-        Field field = this.gameBoard.getFields()[fieldIndex];
+        Field field = GameBoard.getSingleton().getFields()[fieldIndex];
         gui_field.setTitle(field.getName());
         gui_field.setDescription(field.getName());
         gui_field.setSubText("");
@@ -89,7 +87,7 @@ public class GUI {
 
     public void createTaxField(int fieldIndex) {
         GUI_Tax gui_field = new GUI_Tax();
-        Field field = this.gameBoard.getFields()[fieldIndex];
+        Field field = GameBoard.getSingleton().getFields()[fieldIndex];
         gui_field.setTitle(field.getName());
         gui_field.setDescription(field.getName());
         gui_field.setSubText("");
@@ -98,7 +96,7 @@ public class GUI {
 
     public void createRefugeField(int fieldIndex) {
         GUI_Refuge gui_field = new GUI_Refuge();
-        Field field = this.gameBoard.getFields()[fieldIndex];
+        Field field = GameBoard.getSingleton().getFields()[fieldIndex];
         gui_field.setTitle(field.getName());
         gui_field.setDescription(field.getName());
         gui_field.setSubText("");
@@ -107,7 +105,7 @@ public class GUI {
 
     public void populateFields()
     {
-        Field[] fields = this.gameBoard.getFields();
+        Field[] fields = GameBoard.getSingleton().getFields();
         for (int i = 0; i < fields.length; i++)
         {
             switch (fields[i].getType()) {
