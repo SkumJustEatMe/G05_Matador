@@ -6,9 +6,19 @@ import java.util.ArrayList;
 
 public class GameController
 {
+    boolean test1;
     private GameBoardState gameBoardState;
     private GUI gui;
     private Die die;
+
+    public int getCurrentDieRoll1() {
+        return currentDieRoll1;
+    }
+
+    public int getCurrentDieRoll2() {
+        return currentDieRoll2;
+    }
+
     private int currentDieRoll1 = 0;
     private int currentDieRoll2 = 0;
     private int sumOfDiceRolls = 0;
@@ -64,9 +74,47 @@ public class GameController
     {
         while(true)
         {
-            getUserInputToBegin();
-            rollDice();
-            this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
+            if (getCurrentPlayer().isJailed()) {
+                String chosenJailOption = this.gui.displayJailOptions(getCurrentPlayer());
+
+                if (chosenJailOption.equals("Slå terninger")) {
+                    rollDice();
+                    this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
+                    if (die.EqualRolls(currentDieRoll1, currentDieRoll2)) {
+                        getCurrentPlayer().setJailed(false);
+                    } else {
+                        getCurrentPlayer().incrementRoundsInJail();
+                        if (getCurrentPlayer().getRoundsInJail() == 3) {
+                            chosenJailOption = this.gui.displayJailOptions(getCurrentPlayer());
+                        }
+                    }
+                }
+                if(chosenJailOption.equals("Betal")) {
+                    JailRules.PayOutOfJail(getCurrentPlayer());
+                    this.gui.displayPlayerBalance();
+                    if (getCurrentPlayer().getRoundsInJail() != 3){
+                    getUserInputToBegin();
+                    rollDice();
+                    this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);}
+
+                }
+                if (chosenJailOption.equals("Benådningskort")) {
+                    getCurrentPlayer().setJailed(false);
+                    getCurrentPlayer().setGetOutOfJailFreeCard(-1);
+                    getUserInputToBegin();
+                    rollDice();
+                    this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
+                }
+                if(getCurrentPlayer().isJailed()==false){
+                    getCurrentPlayer().resetRoundsInJail();
+                }
+            }
+            else
+            {
+                getUserInputToBegin();
+                rollDice();
+                this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
+            }
             movePlayer();
             this.gui.moveCarToField(indexOfCurrentPlayer);
             evaluateFieldAndExecute();
@@ -84,6 +132,9 @@ public class GameController
         this.currentDieRoll1 = this.die.roll();
         this.currentDieRoll2 = this.die.roll();
         this.sumOfDiceRolls = this.currentDieRoll1 + this.currentDieRoll2;
+        if (this.die.EqualRolls(currentDieRoll1,currentDieRoll2)){
+            die.incrementNumberOfEqualRolls();
+        }
     }
 
     /**
@@ -91,35 +142,33 @@ public class GameController
      */
     private void setNextPlayer()
     {
-        if (this.indexOfCurrentPlayer + 1 < this.players.size()) {
-            this.indexOfCurrentPlayer++;
-        }
-        else {
-            this.indexOfCurrentPlayer = 0;
+        if (!die.EqualRolls(currentDieRoll1,currentDieRoll2) || JailRules.ForceJail(die.getNumberOfEqualRolls())) {
+            if (this.indexOfCurrentPlayer + 1 < this.players.size()) {
+                this.indexOfCurrentPlayer++;
+            } else {
+                this.indexOfCurrentPlayer = 0;
+            }
+            die.resetNumberOfEqualRolls();
         }
     }
 
     /**
      * moves the current player and checks if it passes start
      */
-    private void movePlayer()
-    {
+    private void movePlayer() {
         int currentPosition = getCurrentPlayer().getPosition();
         int newPosition = 0;
-
-        if (hasReachedStartField())
-        {
-            newPosition = currentPosition + this.sumOfDiceRolls - GameBoard.fieldsArray.length;
-            getCurrentPlayer().setPosition(newPosition);
-            getCurrentPlayer().changeBalance(4000);
-        }
-        else
-        {
-            newPosition = currentPosition + this.sumOfDiceRolls;
-            getCurrentPlayer().setPosition(newPosition);
+        if (getCurrentPlayer().isJailed()==false){
+            if (hasReachedStartField()) {
+                newPosition = currentPosition + this.sumOfDiceRolls - GameBoard.fieldsArray.length;
+                getCurrentPlayer().setPosition(newPosition);
+                getCurrentPlayer().changeBalance(4000);
+            } else {
+                newPosition = currentPosition + this.sumOfDiceRolls;
+                getCurrentPlayer().setPosition(newPosition);
+            }
         }
     }
-
     private boolean hasReachedStartField()
     {
         return getCurrentPlayer().getPosition() + this.sumOfDiceRolls >= GameBoard.fieldsArray.length;
@@ -130,14 +179,15 @@ public class GameController
         Field field = GameBoard.fieldsArray[getCurrentPlayer().getPosition()];
         switch (field.getType())
         {
-            case CHANCE, JAIL, TAX -> executeEvent(((EffectField)field).getEffect());
+            case CHANCE, JAIL, TAX -> executeEffect(((EffectField)field).getEffect());
         }
     }
 
-    private void executeEvent(Effect effect)
+    private void executeEffect(Effect effect)
     {
        if (effect == Effect.JAIL_GOTO) {
             getCurrentPlayer().setPosition(GameBoard.getIndexOfJail());
+            getCurrentPlayer().setJailed(true);
        }
        else if (effect == Effect.CHANCE){
         var card = this.deck.getCard();
@@ -180,6 +230,7 @@ public class GameController
         this.gui.displayRollDiceButton(getCurrentPlayer().getName());
     }
 
+
     /**
      * gui shows field for name input and value is stored in Player
      */
@@ -190,4 +241,5 @@ public class GameController
             this.players.get(i).setName(this.gui.getUserStringInput(i));
         }
     }
+
 }
