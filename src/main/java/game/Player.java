@@ -3,6 +3,12 @@ package game;
 public class Player {
     private int balance;
 
+    private int roundsInJail = 0;
+
+    public int getRoundsInJail(){return this.roundsInJail;}
+    public void incrementRoundsInJail(){this.roundsInJail++;}
+    public void resetRoundsInJail(){this.roundsInJail = 0;}
+
     private String name;
 
     private boolean jailed;
@@ -40,6 +46,7 @@ public class Player {
     public boolean isJailed(){
         return jailed;
     }
+
 
 
 

@@ -175,11 +175,13 @@ public class GUI {
     }
     public String displayJailOptions (Player player)
     {
-        if (player.getBalance()<1000){
-           return this.gui.getUserButtonPressed("Slå med terningerne for at komme ud af fængslet", "Slå terninger");
-
+        if(player.getRoundsInJail()==3){
+            return gui.getUserButtonPressed("Betal 1000 kr. for at komme ud af fængslet",  "Betal");
         }
-        else {
+        else if (player.getBalance()<1000){
+           return this.gui.getUserButtonPressed("Slå med terningerne for at komme ud af fængslet", "Slå terninger");
+        }
+        else if {
         return gui.getUserButtonPressed("Vælg om du vil slå eller betal for at komme fri", "Slå terninger", "Betal");
 
     }

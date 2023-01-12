@@ -72,9 +72,9 @@ public class GameController
         while(true)
         {
             if (getCurrentPlayer().isJailed()) {
-                String choicenjailoption = this.gui.displayJailOptions(getCurrentPlayer());
+                String chosenJailOption = this.gui.displayJailOptions(getCurrentPlayer());
 
-                if (choicenjailoption.equals("Betal")) {
+                if (chosenJailOption.equals("Betal")) {
                     JailRules.PayOutOfJail(getCurrentPlayer());
                     this.gui.displayPlayerBalance();
                     getUserInputToBegin();
@@ -82,12 +82,20 @@ public class GameController
                     this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
 
 
-                } else if (choicenjailoption.equals("Slå terninger")) {
+                } else if (chosenJailOption.equals("Slå terninger")) {
                     rollDice();
                     this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
                     if (die.EqualRolls(currentDieRoll1, currentDieRoll2)) {
                         getCurrentPlayer().setjailed(false);
                     }
+                    else{
+                        getCurrentPlayer().incrementRoundsInJail();
+                    }
+                }
+                if(getCurrentPlayer().getRoundsInJail()==3){
+                    JailRules.PayOutOfJail(getCurrentPlayer());
+                    this.gui.displayPlayerBalance();
+                    getUserInputToBegin();
                 }
             }
             else
