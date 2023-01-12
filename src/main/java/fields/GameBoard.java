@@ -32,6 +32,13 @@ public class GameBoard {
             String[] currentRow = fieldsInfo[i];
             FieldType currentType = FieldType.valueOf(currentRow[2].toUpperCase());
 
+            Color currenColor;
+            try {
+                currenColor = (Color)Color.class.getField(currentRow[3]).get(null);
+            }
+            catch (Exception e){
+                currenColor = null;
+            }
             switch (currentType)
             {
                 default:
@@ -79,7 +86,7 @@ public class GameBoard {
                         currentRow[0],
                         Integer.parseInt(currentRow[1]),
                         FieldType.valueOf(currentRow[2].toUpperCase()),
-                        Color.getColor(currentRow[3]),
+                        currenColor,
                         Integer.parseInt(currentRow[4]),
                         Integer.parseInt(currentRow[5]),
                         new int[]{

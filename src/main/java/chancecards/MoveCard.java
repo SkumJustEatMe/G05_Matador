@@ -11,8 +11,8 @@ public class MoveCard extends ChanceCard{
     }
 
     public void execute(Player p){
-        if(p.getPosition() + amount > GameBoard.fieldsArray.length) {
-            p.setPosition(p.getPosition() + amount - GameBoard.fieldsArray.length);
+        if(p.getPosition() + amount > GameBoard.getSingleton().getFields().length) {
+            p.setPosition(p.getPosition() + amount - GameBoard.getSingleton().getFields().length);
             p.changeBalance(4000);
         }else if(p.getPosition() + amount < 0){
                 p.setPosition(p.getPosition()+40+amount);
