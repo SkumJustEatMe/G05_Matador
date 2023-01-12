@@ -6,6 +6,7 @@ import utils.TxtReader;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class DeckController {
 
@@ -17,7 +18,7 @@ public class DeckController {
     private ArrayList<ChanceCard> cards;
 
     public ChanceCard getCard() {
-        return this.cards.get((int) (Math.random() * 37));
+        return this.cards.get((int) (Math.random() * 46));
     }
 
     public DeckController() {
@@ -28,8 +29,8 @@ public class DeckController {
                 "chancecards.txt");
         this.cardInfo = TxtReader.convertLinesToArray(this.chanceCardFile);
         this.cards = new ArrayList<>();
-        //this.cards.add(new PayPerHouseCard(cardInfo[0], 500, 2000));
-        //this.cards.add(new PayPerHouseCard(cardInfo[1],800,2300));
+        this.cards.add(new PayPerHouseCard(cardInfo[0], 500, 2000));
+        this.cards.add(new PayPerHouseCard(cardInfo[1],800,2300));
         this.cards.add(new RecieveOrPayCard(cardInfo[2],-1000));
         this.cards.add(new RecieveOrPayCard(cardInfo[3],-300));
         this.cards.add(new RecieveOrPayCard(cardInfo[4],-200));
@@ -52,7 +53,7 @@ public class DeckController {
         this.cards.add(new RecieveOrPayCard(cardInfo[21], 1000));
         this.cards.add(new RecieveOrPayCard(cardInfo[22], 1000));
         this.cards.add(new RecieveOrPayCard(cardInfo[23],  200));
-        //this.cards.add(new MatadorCard(cardInfo[24], 40000 ));
+        this.cards.add(new MatadorCard(cardInfo[24], 40000 ));
         this.cards.add(new ReceivePerPlayerCard(cardInfo[25], 200 ));
         this.cards.add(new ReceivePerPlayerCard(cardInfo[26], 500));
         this.cards.add(new ReceivePerPlayerCard(cardInfo[27], 500));
@@ -62,12 +63,12 @@ public class DeckController {
         this.cards.add(new MoveCard(cardInfo[31], -3));
         this.cards.add(new MoveCard(cardInfo[32], -3));
         this.cards.add(new MoveToCard(cardInfo[33], 11));
-        //this.cards.add(new MoveToTypeCard(cardInfo[34], FERRY, 1));
-        //this.cards.add(new MoveToTypeCard(cardInfo[35], FERRY, 1));
+        this.cards.add(new MoveToTypeCard(cardInfo[34], FERRY, 1));
+        this.cards.add(new MoveToTypeCard(cardInfo[35], FERRY, 1));
         this.cards.add(new MoveToCard(cardInfo[36],15));
         this.cards.add(new MoveToCard(cardInfo[37], 24));
         this.cards.add(new MoveToCard(cardInfo[38], 32));
-        //this.cards.add(new MoveToTypeCard(cardInfo[39], FERRY, 0));
+        this.cards.add(new MoveToTypeCard(cardInfo[39], FERRY, 0));
         this.cards.add(new MoveToCard(cardInfo[40], 19));
         this.cards.add(new MoveToCard(cardInfo[41], 39));
         this.cards.add(new GetOutOfJailCard(cardInfo[42]));
