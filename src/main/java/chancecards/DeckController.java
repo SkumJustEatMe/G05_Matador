@@ -58,9 +58,9 @@ public class DeckController {
         this.cards.add(new ReceivePerPlayerCard(cardInfo[27], 500));
         this.cards.add(new MoveToCard(cardInfo[28], 0));
         this.cards.add(new MoveToCard(cardInfo[29], 0));
-        //this.cards.add(new MoveCard(cardInfo[30], 3));
-        //this.cards.add(new MoveCard(cardInfo[31], -3));
-        //this.cards.add(new MoveCard(cardInfo[32], -3));
+        this.cards.add(new MoveCard(cardInfo[30], 3));
+        this.cards.add(new MoveCard(cardInfo[31], -3));
+        this.cards.add(new MoveCard(cardInfo[32], -3));
         this.cards.add(new MoveToCard(cardInfo[33], 11));
         //this.cards.add(new MoveToTypeCard(cardInfo[34], FERRY, 1));
         //this.cards.add(new MoveToTypeCard(cardInfo[35], FERRY, 1));
