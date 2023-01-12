@@ -39,7 +39,7 @@ public class GameController
     {
         for (int i = 1; i <= numberOfPlayers; i++)
         {
-            this.players.add(new Player(0));
+            this.players.add(new Player(30000));
         }
 
         for (Player i : this.players)
@@ -199,24 +199,24 @@ public class GameController
            else if (card instanceof GetOutOfJailCard getOutOfJailCard){
            getOutOfJailCard.execute(getCurrentPlayer());
            }
-           //else if (card instanceof MoveCard moveCard){
-           //moveCard.execute(getCurrentPlayer());
-           //}
+           else if (card instanceof MoveCard moveCard){
+           moveCard.execute(getCurrentPlayer());
+           }
            else if (card instanceof MoveToCard moveToCard) {
            moveToCard.execute(getCurrentPlayer());
            }
            else if(card instanceof RecieveOrPayCard recieveOrPayCard){
            recieveOrPayCard.execute(getCurrentPlayer());
            }
-           //else if(card instanceof MatadorCard matadorCard){
-           //    matadorCard.execute(getCurrentPlayer());
-           //}
-           //else if(card instanceof MoveToTypeCard moveToTypeCard){
-           //    moveToTypeCard.execute(players, indexOfCurrentPlayer, );
-           //}
-           //else if (card instanceof PayPerHouseCard payPerHouseCard) {
-           //    payPerHouseCard.execute(getCurrentPlayer());
-           //}
+           else if(card instanceof MatadorCard matadorCard){
+               matadorCard.execute(getCurrentPlayer());
+           }
+           else if(card instanceof MoveToTypeCard moveToTypeCard){
+               moveToTypeCard.execute(players, indexOfCurrentPlayer);
+           }
+           else if (card instanceof PayPerHouseCard payPerHouseCard) {
+               payPerHouseCard.execute(getCurrentPlayer());
+           }
        }
     }
     private int getNumberOfPlayers() {

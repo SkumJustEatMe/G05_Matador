@@ -1,5 +1,6 @@
-/*package chancecards;
+package chancecards;
 
+import fields.GameBoard;
 import game.Player;
 
 public class PayPerHouseCard extends ChanceCard {
@@ -11,12 +12,8 @@ public class PayPerHouseCard extends ChanceCard {
         this.hotel = hotel;
     }
 
-    public void execute(Player p) {
-        int pay = p.getHouses * house + p.getHotels * hotel;
-        p.changeBalance(-pay);
+    public void execute(Player player) {
+        int pay = GameBoard.getSingleton().getTotalHousesOwnedByPlayer(player) * house + GameBoard.getSingleton().getTotalHotelsOwnedByPlayer(player) * hotel;
+        player.changeBalance(-pay);
     }
-
-    public String printText(){
-        return text;
-    }
-}*/
+}

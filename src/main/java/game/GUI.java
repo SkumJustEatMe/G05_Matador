@@ -46,6 +46,7 @@ public class GUI {
         gui_field.setTitle(field.getName());
         gui_field.setDescription(field.getName());
         gui_field.setSubText("");
+        gui_field.setBackGroundColor(field.getColor());
         this.fields[fieldIndex] = gui_field;
     }
 
@@ -191,5 +192,4 @@ public class GUI {
     public void displayChanceCard(ChanceCard chancecard) {
         this.gui.displayChanceCard(chancecard.getText());
     }
-
 }
