@@ -179,5 +179,4 @@ public class GUI {
     {
         this.gui.displayChanceCard(chancecard.getText());
     }
-
 }

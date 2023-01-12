@@ -19,4 +19,4 @@ public class PayPerHouseCard extends ChanceCard {
     public String printText(){
         return text;
     }
-}*/
+} */

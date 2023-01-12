@@ -33,4 +33,5 @@ public class MoveToTypeCard extends ChanceCard {
             }
         }
     }
-}*/
+}
+*/

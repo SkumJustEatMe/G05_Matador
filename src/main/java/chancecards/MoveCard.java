@@ -1,4 +1,4 @@
-/*package chancecards;
+package chancecards;
 
 import fields.GameBoard;
 import game.Player;
@@ -10,9 +10,9 @@ public class MoveCard extends ChanceCard{
         this.amount = amount;
     }
 
-    public void execute(Player p, GameBoard gameBoard){
-        if(p.getPosition() + amount > gameBoard.getFieldList().length) {
-            p.setPosition(p.getPosition() + amount - gameBoard.getFieldList().length);
+    public void execute(Player p){
+        if(p.getPosition() + amount > GameBoard.fieldsArray.length) {
+            p.setPosition(p.getPosition() + amount - GameBoard.fieldsArray.length);
             p.changeBalance(4000);
         }else if(p.getPosition() + amount < 0){
                 p.setPosition(p.getPosition()+40+amount);
@@ -20,4 +20,4 @@ public class MoveCard extends ChanceCard{
             p.setPosition(p.getPosition()+amount);
         }
     }
-}*/
+}
