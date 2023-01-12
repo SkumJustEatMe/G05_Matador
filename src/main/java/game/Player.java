@@ -11,7 +11,15 @@ public class Player {
 
     private int balance;
 
+    private int roundsInJail = 0;
+
+    public int getRoundsInJail(){return this.roundsInJail;}
+    public void incrementRoundsInJail(){this.roundsInJail++;}
+    public void resetRoundsInJail(){this.roundsInJail = 0;}
+
     private String name;
+
+    private boolean jailed;
 
     public String getName() { return this.name; }
     public void setName(String name) { this.name = name; }
@@ -33,5 +41,23 @@ public class Player {
     public Player(int startingBalance){
         this.balance = startingBalance;
     }
+
+
+
+    /**
+     * Input of new jail status
+     * @param jailed
+     */
+    public void setJailed(boolean jailed){
+        this.jailed = jailed;
+    }
+    public boolean isJailed(){
+        return jailed;
+    }
+
+
+
+
+
 
 }
