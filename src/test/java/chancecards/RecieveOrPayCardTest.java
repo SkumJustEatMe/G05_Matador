@@ -5,14 +5,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MoveCardTest {
+class RecieveOrPayCardTest {
 
     @Test
-    void CheckIfCardMovesPlayer() {
-        ChanceCard card = new MoveCard(null,2);
+    void CheckIfPlayerBalanceChanges() {
+        ChanceCard card = new RecieveOrPayCard(null, 1000);
         Player player = new Player(4000);
-        player.setPosition(30);
         card.execute(player);
-        assertEquals(32, player.getPosition());
+        assertEquals(5000, player.getBalance());
     }
 }
