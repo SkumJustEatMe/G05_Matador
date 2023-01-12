@@ -4,25 +4,27 @@ import utils.CsvReader;
 import java.awt.*;
 import java.io.File;
 
-public final class GameBoard {
+public class GameBoard {
 
-    private static final String gameBoardFilePath = System.getProperty("user.dir").concat(File.separator +
-            "src" + File.separator +
-            "main" + File.separator +
-            "resources" + File.separator +
-            "fields.csv"
-    );;
-    private static final String[][] fieldsInfo = CsvReader.convertTo2DArray(gameBoardFilePath);;
-    public static final Field[] fieldsArray = populateFieldsArray();
+    private final String[][] fieldsInfo;
+    private final Field[] fields;
+    public Field[] getFields() {return this.fields;}
 
-    private GameBoard()
+
+    public GameBoard()
     {
+        String gameBoardFilePath = System.getProperty("user.dir").concat(File.separator +
+                "src" + File.separator + "main" + File.separator +
+                "resources" + File.separator + "fields.csv"
+        );
+        this.fieldsInfo = CsvReader.convertTo2DArray(gameBoardFilePath);
+        this.fields = populateFieldsArray();
     }
 
-    private static Field[] populateFieldsArray()
+    private Field[] populateFieldsArray()
     {
         //csv header: Name,Position,Type,Color,Price,HousePrice,Rent0,Rent1,Rent2,Rent3,Rent4,Rent5
-        Field[] fields = new Field[fieldsInfo.length - 1];
+        Field[] fields = new Field[this.fieldsInfo.length - 1];
         for (int i = 1; i < fieldsInfo.length; i++)
         {
             String[] currentRow = fieldsInfo[i];
@@ -91,9 +93,9 @@ public final class GameBoard {
         return fields;
     }
 
-    public static int getIndexOfJail() {
+    public int getIndexOfJail() {
         int index = 0;
-        for (Field field : fieldsArray)
+        for (Field field : fields)
         {
             if (field.getType() == FieldType.JAIL && ((EffectField)field).getEffect() == Effect.JAIL_GOTO){
                 break;

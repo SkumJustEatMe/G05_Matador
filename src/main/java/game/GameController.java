@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class GameController
 {
-    private GameBoardState gameBoardState;
+    private GameBoard gameBoard;
     private GUI gui;
     private Die die;
     private int currentDieRoll1 = 0;
@@ -21,7 +21,7 @@ public class GameController
 
     public GameController()
     {
-        this.gameBoardState = new GameBoardState(GameBoard.fieldsArray);
+        this.gameBoard = new GameBoard();
         this.gui = new GUI(this);
         this.die = new Die();
         this.players = new ArrayList<Player>();
@@ -109,7 +109,7 @@ public class GameController
 
         if (hasReachedStartField())
         {
-            newPosition = currentPosition + this.sumOfDiceRolls - GameBoard.fieldsArray.length;
+            newPosition = currentPosition + this.sumOfDiceRolls - this.gameBoard.getFields().length;
             getCurrentPlayer().setPosition(newPosition);
             getCurrentPlayer().changeBalance(4000);
         }
@@ -122,12 +122,12 @@ public class GameController
 
     private boolean hasReachedStartField()
     {
-        return getCurrentPlayer().getPosition() + this.sumOfDiceRolls >= GameBoard.fieldsArray.length;
+        return getCurrentPlayer().getPosition() + this.sumOfDiceRolls >= this.gameBoard.getFields().length;
     }
 
     private void evaluateFieldAndExecute()
     {
-        Field field = GameBoard.fieldsArray[getCurrentPlayer().getPosition()];
+        Field field = this.gameBoard.getFields()[getCurrentPlayer().getPosition()];
         switch (field.getType())
         {
             case CHANCE, JAIL, TAX -> executeEvent(((EffectField)field).getEffect());
@@ -137,7 +137,7 @@ public class GameController
     private void executeEvent(Effect effect)
     {
        if (effect == Effect.JAIL_GOTO) {
-            getCurrentPlayer().setPosition(GameBoard.getIndexOfJail());
+            getCurrentPlayer().setPosition(this.gameBoard.getIndexOfJail());
        }
        else if (effect == Effect.CHANCE){
         var card = this.deck.getCard();
