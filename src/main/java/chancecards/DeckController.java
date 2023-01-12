@@ -79,7 +79,7 @@ public class DeckController {
     public int getOutOfJailCards(ArrayList<Player> players){
         int sum = 0;
         for(int i = 0; i<=players.size(); i++){
-            sum =+ players.get(i).getGetOutOfJailFreeCard();
+            sum += players.get(i).getGetOutOfJailFreeCard();
         }
         return sum;
     }

@@ -39,7 +39,7 @@ public class GameController
     {
         for (int i = 1; i <= numberOfPlayers; i++)
         {
-            this.players.add(new Player(4000));
+            this.players.add(new Player(30000));
         }
 
         for (Player i : this.players)
