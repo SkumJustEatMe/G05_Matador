@@ -199,21 +199,21 @@ public class GameController
            else if (card instanceof GetOutOfJailCard getOutOfJailCard){
            getOutOfJailCard.execute(getCurrentPlayer());
            }
-           //else if (card instanceof MoveCard moveCard){
-           //moveCard.execute(getCurrentPlayer());
-           //}
+           else if (card instanceof MoveCard moveCard){
+           moveCard.execute(getCurrentPlayer());
+           }
            else if (card instanceof MoveToCard moveToCard) {
            moveToCard.execute(getCurrentPlayer());
            }
            else if(card instanceof RecieveOrPayCard recieveOrPayCard){
            recieveOrPayCard.execute(getCurrentPlayer());
            }
-           //else if(card instanceof MatadorCard matadorCard){
-           //    matadorCard.execute(getCurrentPlayer());
-           //}
-           //else if(card instanceof MoveToTypeCard moveToTypeCard){
-           //    moveToTypeCard.execute(players, indexOfCurrentPlayer, );
-           //}
+           else if(card instanceof MatadorCard matadorCard){
+               matadorCard.execute(getCurrentPlayer());
+           }
+           else if(card instanceof MoveToTypeCard moveToTypeCard){
+               moveToTypeCard.execute(players, indexOfCurrentPlayer);
+           }
            //else if (card instanceof PayPerHouseCard payPerHouseCard) {
            //    payPerHouseCard.execute(getCurrentPlayer());
            //}
