@@ -20,4 +20,4 @@ public class MoveCard extends ChanceCard{
             p.setPosition(p.getPosition()+amount);
         }
     }
-} */
+}*/

@@ -9,6 +9,7 @@ public class GoToJailCard extends ChanceCard {
 
     public void execute(Player p) {
         p.setPosition(10);
+        p.setJailed(true);
     }
 
 }
