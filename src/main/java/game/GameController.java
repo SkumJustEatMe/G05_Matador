@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class GameController
 {
+    boolean test1;
     private GameBoardState gameBoardState;
     private GUI gui;
     private Die die;
@@ -76,28 +77,36 @@ public class GameController
             if (getCurrentPlayer().isJailed()) {
                 String chosenJailOption = this.gui.displayJailOptions(getCurrentPlayer());
 
-                if (chosenJailOption.equals("Betal")) {
-                    JailRules.PayOutOfJail(getCurrentPlayer());
-                    this.gui.displayPlayerBalance();
-                    getUserInputToBegin();
-                    rollDice();
-                    this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
-
-
-                } else if (chosenJailOption.equals("Slå terninger")) {
+                if (chosenJailOption.equals("Slå terninger")) {
                     rollDice();
                     this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
                     if (die.EqualRolls(currentDieRoll1, currentDieRoll2)) {
-                        getCurrentPlayer().setjailed(false);
-                    }
-                    else{
+                        getCurrentPlayer().setJailed(false);
+                    } else {
                         getCurrentPlayer().incrementRoundsInJail();
+                        if (getCurrentPlayer().getRoundsInJail() == 3) {
+                            chosenJailOption = this.gui.displayJailOptions(getCurrentPlayer());
+                        }
                     }
                 }
-                if(getCurrentPlayer().getRoundsInJail()==3){
+                if(chosenJailOption.equals("Betal")) {
                     JailRules.PayOutOfJail(getCurrentPlayer());
                     this.gui.displayPlayerBalance();
+                    if (getCurrentPlayer().getRoundsInJail() != 3){
                     getUserInputToBegin();
+                    rollDice();
+                    this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);}
+
+                }
+                if (chosenJailOption.equals("Benådningskort")) {
+                    getCurrentPlayer().setJailed(false);
+                    getCurrentPlayer().setGetOutOfJailFreeCard(-1);
+                    getUserInputToBegin();
+                    rollDice();
+                    this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
+                }
+                if(getCurrentPlayer().isJailed()==false){
+                    getCurrentPlayer().resetRoundsInJail();
                 }
             }
             else
@@ -106,7 +115,6 @@ public class GameController
                 rollDice();
                 this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
             }
-
             movePlayer();
             this.gui.moveCarToField(indexOfCurrentPlayer);
             evaluateFieldAndExecute();
@@ -147,24 +155,20 @@ public class GameController
     /**
      * moves the current player and checks if it passes start
      */
-    private void movePlayer()
-    {
+    private void movePlayer() {
         int currentPosition = getCurrentPlayer().getPosition();
         int newPosition = 0;
-
-        if (hasReachedStartField())
-        {
-            newPosition = currentPosition + this.sumOfDiceRolls - GameBoard.fieldsArray.length;
-            getCurrentPlayer().setPosition(newPosition);
-            getCurrentPlayer().changeBalance(4000);
-        }
-        else
-        {
-            newPosition = currentPosition + this.sumOfDiceRolls;
-            getCurrentPlayer().setPosition(newPosition);
+        if (getCurrentPlayer().isJailed()==false){
+            if (hasReachedStartField()) {
+                newPosition = currentPosition + this.sumOfDiceRolls - GameBoard.fieldsArray.length;
+                getCurrentPlayer().setPosition(newPosition);
+                getCurrentPlayer().changeBalance(4000);
+            } else {
+                newPosition = currentPosition + this.sumOfDiceRolls;
+                getCurrentPlayer().setPosition(newPosition);
+            }
         }
     }
-
     private boolean hasReachedStartField()
     {
         return getCurrentPlayer().getPosition() + this.sumOfDiceRolls >= GameBoard.fieldsArray.length;
@@ -183,7 +187,7 @@ public class GameController
     {
        if (effect == Effect.JAIL_GOTO) {
             getCurrentPlayer().setPosition(GameBoard.getIndexOfJail());
-            getCurrentPlayer().setjailed(true);
+            getCurrentPlayer().setJailed(true);
        }
        else if (effect == Effect.CHANCE){
         var card = this.deck.getCard();

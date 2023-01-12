@@ -168,12 +168,17 @@ public class GUI {
 
     public String displayJailOptions(Player player) {
         if (player.getRoundsInJail() == 3) {
-            return gui.getUserButtonPressed("Betal 1000 kr. for at komme ud af fængslet", "Betal");
-        } else if (player.getBalance() < 1000) {
-            return this.gui.getUserButtonPressed("Slå med terningerne for at komme ud af fængslet", "Slå terninger");
-        } else if {
-            return gui.getUserButtonPressed("Vælg om du vil slå eller betal for at komme fri", "Slå terninger", "Betal");
-
+            return gui.getUserButtonPressed(player.getName() + ", Du har siddet i fængsel 3 runder. Betal 1000 kr. for at komme ud af fængslet", "Betal");
+        } else if (player.getBalance() < 1000 && player.getGetOutOfJailFreeCard() == 0) {
+            return this.gui.getUserButtonPressed(player.getName() + ", Slå 2 ens med terningerne for at komme ud af fængslet", "Slå terninger");
+        } else if (player.getBalance() < 1000 && player.getGetOutOfJailFreeCard() > 0) {
+            return gui.getUserButtonPressed(player.getName() + ", Vælg hvordan du vil komme fri: Slå 2 ens, eller bruge et benådningskort?", "Slå terninger", "Benådningskort");
+        }
+        else if (player.getBalance() > 1000 && player.getGetOutOfJailFreeCard() == 0){
+            return this.gui.getUserButtonPressed(player.getName() + ", Vælg hvordan du vil komme fri: Slå 2 ens, eller betal 1000 kr.","Slå terninger", "Betal");
+        }
+        else{
+            return this.gui.getUserButtonPressed(player.getName() + ", Vælg hvordan du vil komme fri:", "Slå terninger", "Betal", "Benådningskort");
         }
 
     }

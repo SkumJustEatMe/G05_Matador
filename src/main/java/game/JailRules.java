@@ -1,8 +1,6 @@
 package game;
 
 
-import fields.GameBoard;
-
 public class JailRules {
 
 
@@ -11,7 +9,7 @@ public class JailRules {
 public static void PayOutOfJail(Player player){
 
     player.changeBalance(-1000);
-    player.setjailed(false);
+    player.setJailed(false);
 
 }
 
@@ -19,7 +17,7 @@ public static void PayOutOfJail(Player player){
 public static void ForceOutOfJail(Player player){
 
     player.changeBalance(-1000);
-    player.setjailed(false);
+    player.setJailed(false);
 }
 
 //if you roll equals 3 times in a row, force Jail

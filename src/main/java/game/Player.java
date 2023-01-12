@@ -48,7 +48,7 @@ public class Player {
      * Input of new jail status
      * @param jailed
      */
-    public void setjailed(boolean jailed){
+    public void setJailed(boolean jailed){
         this.jailed = jailed;
     }
     public boolean isJailed(){
