@@ -12,9 +12,11 @@ public abstract class Field
     public FieldType getType() { return this.type; }
     private final Integer price;
     public Integer getPrice() { return this.price; }
-
     private final Color color;
     public Color getColor() { return this.color; }
+
+    private FieldState state;
+    public FieldState getState() {return this.state;}
 
     public Field(String name, int position, FieldType type, Color color, Integer price)
     {
@@ -23,5 +25,6 @@ public abstract class Field
         this.type = type;
         this.color = color;
         this.price = price;
+        this.state = new FieldState();
     }
 }
