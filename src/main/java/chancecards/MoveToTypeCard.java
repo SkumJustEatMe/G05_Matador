@@ -18,25 +18,26 @@ public class MoveToTypeCard extends ChanceCard {
         this.timesRent = timesRent;
     }
 
-    public void execute(ArrayList<Player> players, int currentPlayerIndex) {
-        int spot = players.get(currentPlayerIndex).getPosition();
-        for (int i = players.get(currentPlayerIndex).getPosition(); i <= 39 ; i++) {
+    public void execute(Player player) {
+        int spot = player.getPosition();
+        for (int i = player.getPosition(); i <= 39 ; i++) {
             if (i == 39) {
                 i = 0;
             }
             if (GameBoard.getSingleton().getFields()[i].getType() == FieldType.FERRY) {
-                players.get(currentPlayerIndex).setPosition(i);
+                player.setPosition(i);
                 if (GameBoard.getSingleton().getFields()[i].getState().hasOwner()) {
                     Player opponent = GameBoard.getSingleton().getFields()[i].getState().getOwner();
                     int nrOfFerries = GameBoard.getSingleton().getNrOfFerriesOwnedByPlayer(opponent);
                     int rent = ((BuyableField) GameBoard.getSingleton().getFields()[i]).getRent()[nrOfFerries];
-                    players.get(currentPlayerIndex).changeBalance(-(rent * timesRent));
-                    GameBoard.getSingleton().getFields()[i].getState().getOwner().changeBalance(rent * timesRent);
+                    player.changeBalance(-(rent * timesRent));
+                    opponent.changeBalance(rent * timesRent);
+                    i =40;
                 }
             }
         }
-        if (players.get(currentPlayerIndex).getPosition()<spot){
-            players.get(currentPlayerIndex).changeBalance(4000);
+        if (player.getPosition()<spot){
+            player.changeBalance(4000);
         }
     }
 }

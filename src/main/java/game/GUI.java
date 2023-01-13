@@ -197,7 +197,14 @@ public class GUI {
     }
 
     public String displayLandingOnOpponentProperty(Player player, Field field){
-        int rent = ((BuyableField)field).getRent()[field.getState().getNumOfHouses()];
+        int rent;
+        if(field.getType().equals(FieldType.STREET)){
+            rent = ((BuyableField)field).getRent()[field.getState().getNumOfHouses()];}
+        else if(field.getType().equals(FieldType.FERRY)){
+            rent = ((BuyableField)field).getRent()[GameBoard.getSingleton().getNrOfFerriesOwnedByPlayer(field.getState().getOwner())];}
+        else{
+            rent = ((BuyableField)field).getRent()[GameBoard.getSingleton().getNrOfBreweriesOwnedByPlayer(field.getState().getOwner())];
+        }
         String opponent = field.getState().getOwner().getName();
         return gui.getUserButtonPressed(player.getName() + ", du er landet på " + field.getName() + " som " + opponent + " ejer. Betal " + rent + "kr. til " + opponent + ".", "Øv. Betal " + rent + "kr.");
     }
