@@ -18,7 +18,7 @@ public class DeckController {
     private ArrayList<ChanceCard> cards;
 
     public ChanceCard getCard() {
-        return this.cards.get((int) (Math.random() * 46));
+        return this.cards.get((int) (Math.random() * this.cards.size()));
     }
 
     public DeckController() {

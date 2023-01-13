@@ -3,8 +3,6 @@ package chancecards;
 import fields.GameBoard;
 import game.Player;
 
-import java.awt.*;
-
 public class MatadorCard extends ChanceCard {
     int matador;
 
@@ -13,7 +11,7 @@ public class MatadorCard extends ChanceCard {
         this.matador = matador;
     }
     public void execute(Player player) {
-        if (GameBoard.getSingleton().totalWealth(player) <= 15000) {
+        if (GameBoard.getSingleton().getTotalWealth(player) <= 15000) {
             player.changeBalance(matador);
         }
     }

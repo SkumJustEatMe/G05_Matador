@@ -118,34 +118,40 @@ public class GameBoard {
 
     public int getNrOfFerriesOwnedByPlayer(Player player){
         int nrOfFerriesOwned = 0 ;
-        for(int i =0; i < this.fields.length; i++){
-            if(this.fields[i].getType().equals(FieldType.FERRY)){
-                if(player==this.fields[i].getState().getOwner()){
-                    nrOfFerriesOwned++;
+        for(int i = 0; i < this.fields.length; i++){
+            if(this.fields[i].getType().equals(FieldType.FERRY)) {
+                if (this.fields[i].getState().hasOwner()) {
+                    if (player == this.fields[i].getState().getOwner()) {
+                        nrOfFerriesOwned++;
+                    }
                 }
             }
         }
-        return nrOfFerriesOwned;
+        return nrOfFerriesOwned-1;
     }
 
     public int getNrOfBreweriesOwnedByPlayer(Player player){
         int nrOfBreweriesOwnedByPlayer = 0 ;
-        for(int i =0; i < this.fields.length; i++){
-            if(this.fields[i].getType().equals(FieldType.BREWERY)){
-                if(player==this.fields[i].getState().getOwner()){
-                    nrOfBreweriesOwnedByPlayer++;
+        for(int i = 0; i < this.fields.length; i++){
+            if (this.fields[i].getState().hasOwner()) {
+                if(this.fields[i].getType().equals(FieldType.BREWERY)) {
+                    if (player == this.fields[i].getState().getOwner()) {
+                        nrOfBreweriesOwnedByPlayer++;
+                    }
                 }
             }
         }
-        return nrOfBreweriesOwnedByPlayer;
+        return nrOfBreweriesOwnedByPlayer-1;
     }
 
     public int getTotalHousesOwnedByPlayer(Player player){
         int totalHousesOwnedByPlayer = 0;
         for (int i = 0; i < this.fields.length; i++) {
-            if (this.fields[i].getType().equals(FieldType.STREET) && this.fields[i].getState().getOwner().equals(player)) {
-                if (this.fields[i].getState().getNumOfHouses() <= 4) {
-                    totalHousesOwnedByPlayer += this.fields[i].getState().getNumOfHouses();
+            if (this.fields[i].getState().hasOwner()) {
+                if (this.fields[i].getType().equals(FieldType.STREET) && this.fields[i].getState().getOwner().equals(player)) {
+                    if (this.fields[i].getState().getNumOfHouses() <= 4) {
+                        totalHousesOwnedByPlayer += this.fields[i].getState().getNumOfHouses();
+                    }
                 }
             }
         }
@@ -155,24 +161,39 @@ public class GameBoard {
     public int getTotalHotelsOwnedByPlayer(Player player){
         int totalHotelsOwnedByPlayer = 0;
         for (int i = 0; i < this.fields.length; i++) {
-            if (this.fields[i].getType().equals(FieldType.STREET) && this.fields[i].getState().getOwner().equals(player)) {
-                if (this.fields[i].getState().getNumOfHouses() == 5) {
-                    totalHotelsOwnedByPlayer += 1;
+            if(this.fields[i].getState().hasOwner()){
+                if (this.fields[i].getType().equals(FieldType.STREET) && this.fields[i].getState().getOwner().equals(player)) {
+                    if (this.fields[i].getState().getNumOfHouses() == 5) {
+                        totalHotelsOwnedByPlayer += 1;
+                    }
                 }
-            }
+             }
         }
         return totalHotelsOwnedByPlayer;
     }
 
 
-    public int totalWealth(Player player){
+    public int getTotalWealth(Player player){
         int totalWealth = player.getBalance() + getNrOfFerriesOwnedByPlayer(player)*4000 + getNrOfBreweriesOwnedByPlayer(player)*2000;
         for (int i = 0; i < this.fields.length; i++){
-            if(this.fields[i].getType().equals(FieldType.STREET) && this.fields[i].getState().getOwner().equals(player)){
-                totalWealth += this.fields[i].getPrice();
-                totalWealth += this.fields[i].getState().getNumOfHouses() * ((BuyableField)this.fields[i]).getHousePrice();
+            if(this.fields[i].getState().hasOwner()){
+                if(this.fields[i].getType().equals(FieldType.STREET) && this.fields[i].getState().getOwner().equals(player)){
+                    totalWealth += this.fields[i].getPrice();
+                    totalWealth += this.fields[i].getState().getNumOfHouses() * ((BuyableField)this.fields[i]).getHousePrice();
+                }
             }
         }
-        return totalWealth;
+    return totalWealth;
+}
+
+    public int getNrOfSameColor(Color color){
+        int nrOfSameColor = 0;
+        for(int i = 0; i < this.fields.length; i++){
+            if(this.fields[i].getColor().equals(color)){
+                nrOfSameColor++;
+            }
+        }
+        return nrOfSameColor;
     }
+
 }

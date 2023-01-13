@@ -188,8 +188,33 @@ public class GUI {
 
     }
 
+    public String displayUnownedPropertyOptions(Player player, Field field) {
+        if (player.getBalance() >= field.getPrice()) {
+            return gui.getUserButtonPressed(player.getName() + ", " + field.getName() + " er ikke ejet af nogen, vil du købe den for " + field.getPrice() + " kr. ?", "Ja tak, betal " + field.getPrice() + " kr.", "Nej tak");
+        } else {
+            return gui.getUserButtonPressed(player.getName() + ", du har desværre ikke råd til " + field.getName() + ".", "Øv");
+        }
+    }
 
-    public void displayChanceCard(ChanceCard chancecard) {
+    public String displayLandingOnOpponentProperty(Player player, Field field){
+        int rent;
+        if(field.getType().equals(FieldType.STREET)){
+            rent = ((BuyableField)field).getRent()[field.getState().getNumOfHouses()];}
+        else if(field.getType().equals(FieldType.FERRY)){
+            rent = ((BuyableField)field).getRent()[GameBoard.getSingleton().getNrOfFerriesOwnedByPlayer(field.getState().getOwner())];}
+        else{
+            rent = ((BuyableField)field).getRent()[GameBoard.getSingleton().getNrOfBreweriesOwnedByPlayer(field.getState().getOwner())];
+        }
+        String opponent = field.getState().getOwner().getName();
+        return gui.getUserButtonPressed(player.getName() + ", du er landet på " + field.getName() + " som " + opponent + " ejer. Betal " + rent + "kr. til " + opponent + ".", "Øv. Betal " + rent + "kr.");
+    }
+
+    public String displayOwnedPropertiesOptions(Player player, ArrayList<Field> fields){
+        return this.gui.getUserButtonPressed("Vil du købe eller sælge huse på dine grunde?", String.valueOf(fields));
+    }
+
+    public void displayChanceCard (ChanceCard chancecard){
         this.gui.displayChanceCard(chancecard.getText());
     }
 }
+
