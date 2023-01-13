@@ -2,7 +2,11 @@ package game;
 
 import chancecards.*;
 import fields.*;
+
+import java.awt.*;
 import java.util.ArrayList;
+
+import static fields.GameBoard.getSingleton;
 
 public class GameController
 {
@@ -71,47 +75,7 @@ public class GameController
     {
         while(true)
         {
-            if (getCurrentPlayer().isJailed()) {
-                String chosenJailOption = this.gui.displayJailOptions(getCurrentPlayer());
-
-                if (chosenJailOption.equals("Slå terninger")) {
-                    rollDice();
-                    this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
-                    if (die.EqualRolls(currentDieRoll1, currentDieRoll2)) {
-                        getCurrentPlayer().setJailed(false);
-                    } else {
-                        getCurrentPlayer().incrementRoundsInJail();
-                        if (getCurrentPlayer().getRoundsInJail() == 3) {
-                            chosenJailOption = this.gui.displayJailOptions(getCurrentPlayer());
-                        }
-                    }
-                }
-                if(chosenJailOption.equals("Betal")) {
-                    JailRules.PayOutOfJail(getCurrentPlayer());
-                    this.gui.displayPlayerBalance();
-                    if (getCurrentPlayer().getRoundsInJail() != 3){
-                    getUserInputToBegin();
-                    rollDice();
-                    this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);}
-
-                }
-                if (chosenJailOption.equals("Benådningskort")) {
-                    getCurrentPlayer().setJailed(false);
-                    getCurrentPlayer().setGetOutOfJailFreeCard(-1);
-                    getUserInputToBegin();
-                    rollDice();
-                    this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
-                }
-                if(getCurrentPlayer().isJailed()==false){
-                    getCurrentPlayer().resetRoundsInJail();
-                }
-            }
-            else
-            {
-                getUserInputToBegin();
-                rollDice();
-                this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
-            }
+            checkJailStatus();
             movePlayer();
             this.gui.moveCarToField(indexOfCurrentPlayer);
             evaluateFieldAndExecute();
@@ -120,7 +84,6 @@ public class GameController
             setNextPlayer();
         }
     }
-
     /**
      * rolls Die object twice and stores the rolls
      */
@@ -158,7 +121,7 @@ public class GameController
 
         if (!getCurrentPlayer().isJailed()){
             if (hasReachedStartField()) {
-                newPosition = currentPosition + this.sumOfDiceRolls - GameBoard.getSingleton().getFields().length;
+                newPosition = currentPosition + this.sumOfDiceRolls - getSingleton().getFields().length;
                 getCurrentPlayer().setPosition(newPosition);
                 getCurrentPlayer().changeBalance(4000);
             } else {
@@ -169,12 +132,12 @@ public class GameController
     }
     private boolean hasReachedStartField()
     {
-        return getCurrentPlayer().getPosition() + this.sumOfDiceRolls >= GameBoard.getSingleton().getFields().length;
+        return getCurrentPlayer().getPosition() + this.sumOfDiceRolls >= getSingleton().getFields().length;
     }
 
     private void evaluateFieldAndExecute()
     {
-        Field field = GameBoard.getSingleton().getFields()[getCurrentPlayer().getPosition()];
+        Field field = getSingleton().getFields()[getCurrentPlayer().getPosition()];
         switch (field.getType())
         {
             case CHANCE, JAIL, TAX -> executeEffect(((EffectField)field).getEffect());
@@ -185,7 +148,7 @@ public class GameController
     private void executeEffect(Effect effect)
     {
        if (effect == Effect.JAIL_GOTO) {
-            getCurrentPlayer().setPosition(GameBoard.getSingleton().getIndexOfJail());
+            getCurrentPlayer().setPosition(getSingleton().getIndexOfJail());
             getCurrentPlayer().setJailed(true);
        }
        else if (effect == Effect.CHANCE){
@@ -221,7 +184,7 @@ public class GameController
        }
     }
     private void payRentOrBuyProperty(Player player) {
-        Field currentField = GameBoard.getSingleton().getFields()[player.getPosition()];
+        Field currentField = getSingleton().getFields()[player.getPosition()];
         int currentFieldRent = ((BuyableField)currentField).getRent()[currentField.getState().getNumOfHouses()];
         if(currentField.getState().hasOwner()){
             if(currentField.getState().getOwner() != getCurrentPlayer())
@@ -245,6 +208,76 @@ public class GameController
     private void getUserInputToBegin() {
         this.gui.displayRollDiceButton(getCurrentPlayer().getName());
     }
+
+    private void checkJailStatus(){
+        if (getCurrentPlayer().isJailed()) {
+            String chosenJailOption = this.gui.displayJailOptions(getCurrentPlayer());
+
+            if (chosenJailOption.equals("Slå terninger")) {
+                rollDice();
+                this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
+                if (die.EqualRolls(currentDieRoll1, currentDieRoll2)) {
+                    getCurrentPlayer().setJailed(false);
+                } else {
+                    getCurrentPlayer().incrementRoundsInJail();
+                    if (getCurrentPlayer().getRoundsInJail() == 3) {
+                        chosenJailOption = this.gui.displayJailOptions(getCurrentPlayer());
+                    }
+                }
+            }
+            if(chosenJailOption.equals("Betal")) {
+                JailRules.PayOutOfJail(getCurrentPlayer());
+                this.gui.displayPlayerBalance();
+                if (getCurrentPlayer().getRoundsInJail() != 3){
+                    getUserInputToBegin();
+                    rollDice();
+                    this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);}
+
+            }
+            if (chosenJailOption.equals("Benådningskort")) {
+                getCurrentPlayer().setJailed(false);
+                getCurrentPlayer().setGetOutOfJailFreeCard(-1);
+                getUserInputToBegin();
+                rollDice();
+                this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
+            }
+            if(getCurrentPlayer().isJailed()==false){
+                getCurrentPlayer().resetRoundsInJail();
+            }
+        }
+        else
+        {
+            getUserInputToBegin();
+            rollDice();
+            this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
+        }
+    }
+
+    private void sellAndBuyHouses() {}
+
+    private void checkIfBuyHousesPossible(){
+        Field field = GameBoard.getSingleton().getFields()[getCurrentPlayer().getPosition()];
+        int i = 0;
+        int nrOfSameColorsOwned=0;
+        Field searchedField = GameBoard.getSingleton().getFields()[i];
+        Color searchedColor =  GameBoard.getSingleton().getFields()[i].getColor();
+        for(i = 0; i < GameBoard.getSingleton().getFields().length; i++){
+            if(field.getColor() == searchedColor)
+                nrOfSameColorsOwned++;
+        }
+        if(nrOfSameColorsOwned == GameBoard.getSingleton().getNrOfSameColor(field.getColor())){
+            int minNrOfHouses = 5;
+            Field leastHouses;
+            for(i = 0; i < GameBoard.getSingleton().getFields().length; i++){
+            if(searchedColor == field.getColor()){
+                if(searchedField.getState().getNumOfHouses() < minNrOfHouses){
+                    minNrOfHouses = searchedField.getState().getNumOfHouses();
+                }
+            }
+            }
+        }
+    }
+
 
 
     /**

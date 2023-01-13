@@ -176,4 +176,14 @@ public class GameBoard {
         return totalWealth;
     }
 
+    public int getNrOfSameColor(Color color){
+        int nrOfSameColor = 0;
+        for(int i = 0; i < this.fields.length; i++){
+            if(this.fields[i].getColor().equals(color)){
+                nrOfSameColor++;
+            }
+        }
+        return nrOfSameColor;
+    }
+
 }
