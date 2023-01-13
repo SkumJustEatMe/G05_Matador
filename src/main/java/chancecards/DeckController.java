@@ -53,7 +53,7 @@ public class DeckController {
         this.cards.add(new RecieveOrPayCard(cardInfo[21], 1000));
         this.cards.add(new RecieveOrPayCard(cardInfo[22], 1000));
         this.cards.add(new RecieveOrPayCard(cardInfo[23],  200));
-        this.cards.add(new MatadorCard(cardInfo[24], 40000 ));
+        //this.cards.add(new MatadorCard(cardInfo[24], 40000 ));
         this.cards.add(new ReceivePerPlayerCard(cardInfo[25], 200 ));
         this.cards.add(new ReceivePerPlayerCard(cardInfo[26], 500));
         this.cards.add(new ReceivePerPlayerCard(cardInfo[27], 500));

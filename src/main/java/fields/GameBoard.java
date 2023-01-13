@@ -118,7 +118,7 @@ public class GameBoard {
 
     public int getNrOfFerriesOwnedByPlayer(Player player){
         int nrOfFerriesOwned = 0 ;
-        for(int i =0; i < this.fields.length; i++){
+        for(int i = 0; i < this.fields.length; i++){
             if(this.fields[i].getType().equals(FieldType.FERRY)){
                 if(player==this.fields[i].getState().getOwner()){
                     nrOfFerriesOwned++;
@@ -130,7 +130,7 @@ public class GameBoard {
 
     public int getNrOfBreweriesOwnedByPlayer(Player player){
         int nrOfBreweriesOwnedByPlayer = 0 ;
-        for(int i =0; i < this.fields.length; i++){
+        for(int i = 0; i < this.fields.length; i++){
             if(this.fields[i].getType().equals(FieldType.BREWERY)){
                 if(player==this.fields[i].getState().getOwner()){
                     nrOfBreweriesOwnedByPlayer++;
@@ -165,7 +165,7 @@ public class GameBoard {
     }
 
 
-    public int totalWealth(Player player){
+    public int getTotalWealth(Player player){
         int totalWealth = player.getBalance() + getNrOfFerriesOwnedByPlayer(player)*4000 + getNrOfBreweriesOwnedByPlayer(player)*2000;
         for (int i = 0; i < this.fields.length; i++){
             if(this.fields[i].getType().equals(FieldType.STREET) && this.fields[i].getState().getOwner().equals(player)){
@@ -175,4 +175,5 @@ public class GameBoard {
         }
         return totalWealth;
     }
+
 }

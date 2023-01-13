@@ -188,8 +188,22 @@ public class GUI {
 
     }
 
+    public String displayUnownedPropertyOptions(Player player, Field field) {
+        if (player.getBalance() >= field.getPrice()) {
+            return gui.getUserButtonPressed(player.getName() + ", " + field.getName() + " er ikke ejet af nogen, vil du købe den for " + field.getPrice() + " kr. ?", "Ja tak, betal " + field.getPrice() + " kr.", "Nej tak");
+        } else {
+            return gui.getUserButtonPressed(player.getName() + ", du har desværre ikke råd til " + field.getName() + ".", "Øv");
+        }
+    }
 
-    public void displayChanceCard(ChanceCard chancecard) {
+    public String displayLandingOnOpponentProperty(Player player, Field field){
+        int rent = ((BuyableField)field).getRent()[field.getState().getNumOfHouses()];
+        String opponent = field.getState().getOwner().getName();
+        return gui.getUserButtonPressed(player.getName() + ", du er landet på " + field.getName() + " som " + opponent + " ejer. Betal " + rent + "kr. til " + opponent + ".", "Øv. Betal " + rent + "kr.");
+    }
+
+    public void displayChanceCard (ChanceCard chancecard){
         this.gui.displayChanceCard(chancecard.getText());
     }
 }
+

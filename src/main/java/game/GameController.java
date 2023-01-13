@@ -178,6 +178,7 @@ public class GameController
         switch (field.getType())
         {
             case CHANCE, JAIL, TAX -> executeEffect(((EffectField)field).getEffect());
+            case STREET, BREWERY, FERRY -> payRentOrBuyProperty(getCurrentPlayer());
         }
     }
 
@@ -218,6 +219,23 @@ public class GameController
                payPerHouseCard.execute(getCurrentPlayer());
            }
        }
+    }
+    private void payRentOrBuyProperty(Player player) {
+        Field currentField = GameBoard.getSingleton().getFields()[player.getPosition()];
+        int currentFieldRent = ((BuyableField)currentField).getRent()[currentField.getState().getNumOfHouses()];
+        if(currentField.getState().hasOwner()){
+            if(currentField.getState().getOwner() != getCurrentPlayer())
+            this.gui.displayLandingOnOpponentProperty(player, currentField);
+            player.changeBalance(-currentFieldRent);
+            currentField.getState().getOwner().changeBalance(currentFieldRent);
+        }
+        else{
+            String buyPropertyOption = this.gui.displayUnownedPropertyOptions(player, currentField);
+            if(buyPropertyOption.equals("Ja tak, betal " + currentField.getPrice() + " kr.")){
+                player.changeBalance(-currentField.getPrice());
+                currentField.getState().setOwner(player);
+            }
+        }
     }
     private int getNumberOfPlayers() {
         String result = (this.gui.displayPlayerSelectionButtons());
