@@ -75,6 +75,10 @@ public class GameController
     {
         while(true)
         {
+<<<<<<< HEAD
+=======
+            sellAndBuyHouses();
+>>>>>>> cd467fd187435f7abdcaf30ae1c8e5ee08d41f1b
             checkJailStatus();
             movePlayer();
             this.gui.moveCarToField(indexOfCurrentPlayer);
@@ -274,8 +278,7 @@ public class GameController
                     minNrOfHouses = searchedField.getState().getNumOfHouses();
                 }
             }
-            }
-        }
+
     }
 
 
