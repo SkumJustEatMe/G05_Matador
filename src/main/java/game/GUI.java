@@ -202,6 +202,10 @@ public class GUI {
         return gui.getUserButtonPressed(player.getName() + ", du er landet på " + field.getName() + " som " + opponent + " ejer. Betal " + rent + "kr. til " + opponent + ".", "Øv. Betal " + rent + "kr.");
     }
 
+    public String displayOwnedPropertiesOptions(Player player, ArrayList<Field> fields){
+        return this.gui.getUserButtonPressed("Vil du købe eller sælge huse på dine grunde?", String.valueOf(fields));
+    }
+
     public void displayChanceCard (ChanceCard chancecard){
         this.gui.displayChanceCard(chancecard.getText());
     }

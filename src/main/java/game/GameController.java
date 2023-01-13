@@ -71,47 +71,8 @@ public class GameController
     {
         while(true)
         {
-            if (getCurrentPlayer().isJailed()) {
-                String chosenJailOption = this.gui.displayJailOptions(getCurrentPlayer());
-
-                if (chosenJailOption.equals("Slå terninger")) {
-                    rollDice();
-                    this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
-                    if (die.EqualRolls(currentDieRoll1, currentDieRoll2)) {
-                        getCurrentPlayer().setJailed(false);
-                    } else {
-                        getCurrentPlayer().incrementRoundsInJail();
-                        if (getCurrentPlayer().getRoundsInJail() == 3) {
-                            chosenJailOption = this.gui.displayJailOptions(getCurrentPlayer());
-                        }
-                    }
-                }
-                if(chosenJailOption.equals("Betal")) {
-                    JailRules.PayOutOfJail(getCurrentPlayer());
-                    this.gui.displayPlayerBalance();
-                    if (getCurrentPlayer().getRoundsInJail() != 3){
-                    getUserInputToBegin();
-                    rollDice();
-                    this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);}
-
-                }
-                if (chosenJailOption.equals("Benådningskort")) {
-                    getCurrentPlayer().setJailed(false);
-                    getCurrentPlayer().setGetOutOfJailFreeCard(-1);
-                    getUserInputToBegin();
-                    rollDice();
-                    this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
-                }
-                if(getCurrentPlayer().isJailed()==false){
-                    getCurrentPlayer().resetRoundsInJail();
-                }
-            }
-            else
-            {
-                getUserInputToBegin();
-                rollDice();
-                this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
-            }
+            sellAndBuyHouses();
+            checkJailStatus();
             movePlayer();
             this.gui.moveCarToField(indexOfCurrentPlayer);
             evaluateFieldAndExecute();
@@ -120,7 +81,6 @@ public class GameController
             setNextPlayer();
         }
     }
-
     /**
      * rolls Die object twice and stores the rolls
      */
@@ -245,6 +205,68 @@ public class GameController
     private void getUserInputToBegin() {
         this.gui.displayRollDiceButton(getCurrentPlayer().getName());
     }
+
+    private void checkJailStatus(){
+        if (getCurrentPlayer().isJailed()) {
+            String chosenJailOption = this.gui.displayJailOptions(getCurrentPlayer());
+
+            if (chosenJailOption.equals("Slå terninger")) {
+                rollDice();
+                this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
+                if (die.EqualRolls(currentDieRoll1, currentDieRoll2)) {
+                    getCurrentPlayer().setJailed(false);
+                } else {
+                    getCurrentPlayer().incrementRoundsInJail();
+                    if (getCurrentPlayer().getRoundsInJail() == 3) {
+                        chosenJailOption = this.gui.displayJailOptions(getCurrentPlayer());
+                    }
+                }
+            }
+            if(chosenJailOption.equals("Betal")) {
+                JailRules.PayOutOfJail(getCurrentPlayer());
+                this.gui.displayPlayerBalance();
+                if (getCurrentPlayer().getRoundsInJail() != 3){
+                    getUserInputToBegin();
+                    rollDice();
+                    this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);}
+
+            }
+            if (chosenJailOption.equals("Benådningskort")) {
+                getCurrentPlayer().setJailed(false);
+                getCurrentPlayer().setGetOutOfJailFreeCard(-1);
+                getUserInputToBegin();
+                rollDice();
+                this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
+            }
+            if(getCurrentPlayer().isJailed()==false){
+                getCurrentPlayer().resetRoundsInJail();
+            }
+        }
+        else
+        {
+            getUserInputToBegin();
+            rollDice();
+            this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
+        }
+    }
+
+    private void sellAndBuyHouses() {}
+
+    private void checkIfBuyHousesPossible(){
+        ArrayList<Field> fields = new ArrayList<>();
+        for (int i = 0; i < GameBoard.getSingleton().getFields().length; i++){
+            Field field = GameBoard.getSingleton().getFields()[i];
+            if(field.getType().equals(FieldType.STREET) && field.getState().getOwner() == getCurrentPlayer()){
+                fields.add(field);
+            }
+        }
+        for(int i = 0; i < fields.size(); i++){
+            if()
+            GameBoard.getSingleton().getNrOfSameColor(fields.get(i).getColor());
+
+        }
+    }
+
 
 
     /**
