@@ -248,10 +248,31 @@ public class GameController {
 
     private void sellAndBuyHouses()
     {
+        // should perhaps start off by providing a filtered list containing all the same colored fields
+        // matching the index, and be checked if they're owned by the same player.
+        // Avoid duplicate array creation of the filtered array.
 
     }
 
-    private boolean canBuildAdditionalHouse(int indexOfField, Player player)
+    private boolean canSellOneMoreHouse(int indexOfField, Player player)
+    {
+        // should check the reverse of canBuildOneMoreHouse()
+        Field[] fields = GameBoard.getSingleton().getFields();
+        Color colorOfField = fields[player.getPosition()].getColor();
+        BuyableField[] streets = this.getStreetsOfSameColor(colorOfField);
+
+        int housesOnIndex = fields[indexOfField].getState().getNumOfHouses();
+        for (BuyableField street : streets)
+        {
+            if (housesOnIndex < street.getState().getNumOfHouses())
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean canBuildOneMoreHouse(int indexOfField, Player player)
     {
         Field[] fields = GameBoard.getSingleton().getFields();
         Color colorOfField = fields[player.getPosition()].getColor();
@@ -260,17 +281,17 @@ public class GameController {
             return false;
         }
 
+        // if any field of the same color has less houses than selected field, it's not allowed to build more
         BuyableField[] streets = this.getStreetsOfSameColor(colorOfField);
         int housesOnIndex = fields[indexOfField].getState().getNumOfHouses();
         for (BuyableField street : streets)
         {
-            // algorithm to determine which direction the houses are shifting +-1
-            // look for first numOfHouses over or under the value of housesOnIndex
-            // use that value to determine shift direction
+            if (housesOnIndex > street.getState().getNumOfHouses())
+            {
+                return false;
+            }
         }
-
-
-
+        return true;
     }
 
 
