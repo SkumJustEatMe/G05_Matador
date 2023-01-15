@@ -251,23 +251,28 @@ public class GameController {
 
     }
 
-    private boolean canBuyAdditionalHouse(Player player)
+    private boolean canBuildAdditionalHouse(int indexOfField, Player player)
     {
-        if (canBuildHouses())
+        Field[] fields = GameBoard.getSingleton().getFields();
+        Color colorOfField = fields[player.getPosition()].getColor();
+        if (!canBuildHouses(colorOfField, player))
+        {
+            return false;
+        }
+
+        BuyableField[] streets = this.getStreetsOfSameColor(colorOfField);
+        int housesOnIndex = fields[indexOfField].getState().getNumOfHouses();
+        for (BuyableField street : streets)
+        {
+            // algorithm to determine which direction the houses are shifting +-1
+            // look for first numOfHouses over or under the value of housesOnIndex
+            // use that value to determine shift direction
+        }
+
+
+
     }
 
-    private Field[] getStreetsOfColor(Color color){
-        Field[] fields = GameBoard.getSingleton().getFields();
-        ArrayList<Field> sameColorFields = new ArrayList<>();
-        for (int i = 0; i < fields.length; i++)
-        {
-            if (fields[i].getColor().equals(color))
-            {
-                sameColorFields.add(fields[i]);
-            }
-        }
-        return Arrays.copyOf(sameColorFields.toArray(), sameColorFields.size(), Field[].class);
-    }
 
     /**
      * checks if all streets of a color are owned by the same player
@@ -276,12 +281,26 @@ public class GameController {
      * @return
      */
     private boolean canBuildHouses(Color color, Player player){
-        BuyableField[] fields = (BuyableField[]) GameBoard.getSingleton().getFields();
-        for(int i = 0; i < fields.length; i++)
+        BuyableField[] streets = this.getStreetsOfSameColor(color);
+        return areOwnedBySamePlayer(streets, player);
+    }
+
+    private BuyableField[] getStreetsOfSameColor(Color color){
+        Field[] fields = GameBoard.getSingleton().getFields();
+        ArrayList<Field> sameColorFields = new ArrayList<>();
+        for (Field field : fields) {
+            if (field.getType() == FieldType.STREET && field.getColor().equals(color)) {
+                sameColorFields.add(field);
+            }
+        }
+        return Arrays.copyOf(sameColorFields.toArray(), sameColorFields.size(), BuyableField[].class);
+    }
+
+    private boolean areOwnedBySamePlayer(BuyableField[] streets, Player player)
+    {
+        for (BuyableField street : streets)
         {
-            if (fields[i].getType().equals(FieldType.STREET)&&
-                fields[i].getColor().equals(color) &&
-                (!fields[i].getState().hasOwner() || !fields[i].getState().getOwner().equals(player)))
+            if (!street.getState().hasOwner() || !street.getState().getOwner().equals(player))
             {
                 return false;
             }
