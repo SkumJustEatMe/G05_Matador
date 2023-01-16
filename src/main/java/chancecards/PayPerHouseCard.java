@@ -13,6 +13,7 @@ public class PayPerHouseCard extends ChanceCard {
     }
 
     public void execute(Player player) {
+        System.out.println("Du har trukket et kort som siger " + getText());
         int pay = GameBoard.getSingleton().getTotalHousesOwnedByPlayer(player) * house + GameBoard.getSingleton().getTotalHotelsOwnedByPlayer(player) * hotel;
         player.changeBalance(-pay);
     }

@@ -10,6 +10,7 @@ public class MoveToCard extends ChanceCard{
     }
 
     public void execute(Player p){
+        System.out.println("Du har trukket et kort som siger " + getText());
         int spot;
         spot = p.getPosition();
         p.setPosition(value);

@@ -71,6 +71,8 @@ public class GameController {
 
     public void startGameLoop() {
         while (true) {
+            System.out.println(" ");
+            System.out.println("Det er " + getCurrentPlayer().getName() + " tur");
             checkJailStatus();
             movePlayer();
             this.gui.moveCarToField(indexOfCurrentPlayer);
@@ -88,6 +90,7 @@ public class GameController {
         this.currentDieRoll1 = this.die.roll();
         this.currentDieRoll2 = this.die.roll();
         this.sumOfDiceRolls = this.currentDieRoll1 + this.currentDieRoll2;
+        System.out.println("du slog " + this.sumOfDiceRolls);
         if (this.die.EqualRolls(currentDieRoll1, currentDieRoll2)) {
             die.incrementNumberOfEqualRolls();
         }
@@ -123,7 +126,8 @@ public class GameController {
                 newPosition = currentPosition + this.sumOfDiceRolls;
                 getCurrentPlayer().setPosition(newPosition);
             }
-        }
+
+        }System.out.println("og rykker nu " + sumOfDiceRolls + " felter frem.");
     }
 
     private boolean hasReachedStartField() {
@@ -142,11 +146,13 @@ public class GameController {
         if (effect == Effect.JAIL_GOTO) {
             getCurrentPlayer().setPosition(GameBoard.getSingleton().getIndexOfJail());
             getCurrentPlayer().setJailed(true);
+            System.out.println(getCurrentPlayer().getName() + " er nu i fængsel");
         } else if (effect == Effect.CHANCE) {
             var card = this.deck.getCard();
             this.gui.displayChanceCard(card);
             if (card instanceof GoToJailCard goToJail) {
                 goToJail.execute(getCurrentPlayer());
+                System.out.println(getCurrentPlayer().getName() + " er nu i fængsel");
             } else if (card instanceof ReceivePerPlayerCard receivePerPlayerCard) {
                 receivePerPlayerCard.execute(players, indexOfCurrentPlayer);
             } else if (card instanceof GetOutOfJailCard getOutOfJailCard) {
@@ -181,6 +187,7 @@ public class GameController {
                     currentFieldRent = ((BuyableField) currentField).getRent()[GameBoard.getSingleton().getNrOfBreweriesOwnedByPlayer(opponent)];
                 }
                 this.gui.displayLandingOnOpponentProperty(player, currentField);
+                System.out.println(getCurrentPlayer().getName() + " betaler desværre " + currentFieldRent + "kr til " + opponent.getName());
                 player.changeBalance(-currentFieldRent);
                 opponent.changeBalance(currentFieldRent);
             }
@@ -190,6 +197,7 @@ public class GameController {
                 if (buyPropertyOption.equals("Ja tak, betal " + currentField.getPrice() + " kr.")) {
                     player.changeBalance(-currentField.getPrice());
                     currentField.getState().setOwner(player);
+                    System.out.println(getCurrentPlayer().getName() + " Købte dette felt");
             }
         }
     }
@@ -211,6 +219,7 @@ public class GameController {
                 rollDice();
                 this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
                 if (die.EqualRolls(currentDieRoll1, currentDieRoll2)) {
+                    System.out.println(getCurrentPlayer().getName() + "er nu fri fra fængslet");
                     getCurrentPlayer().setJailed(false);
                 } else {
                     getCurrentPlayer().incrementRoundsInJail();
@@ -220,6 +229,7 @@ public class GameController {
                 }
             }
             if (chosenJailOption.equals("Betal")) {
+                System.out.println(getCurrentPlayer().getName() + "er nu fri fra fængslet");
                 JailRules.PayOutOfJail(getCurrentPlayer());
                 this.gui.displayPlayerBalance();
                 if (getCurrentPlayer().getRoundsInJail() != 3) {
@@ -230,6 +240,7 @@ public class GameController {
 
             }
             if (chosenJailOption.equals("Benådningskort")) {
+                System.out.println(getCurrentPlayer().getName() + "er nu fri fra fængslet");
                 getCurrentPlayer().setJailed(false);
                 getCurrentPlayer().setGetOutOfJailFreeCard(-1);
                 getUserInputToBegin();

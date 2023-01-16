@@ -19,6 +19,7 @@ public class MoveToTypeCard extends ChanceCard {
     }
 
     public void execute(Player player) {
+        System.out.println("Du har trukket et kort som siger " + getText());
         int spot = player.getPosition();
         for (int i = player.getPosition(); i <= 39 ; i++) {
             if (i == 39) {
