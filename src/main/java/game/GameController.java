@@ -78,6 +78,7 @@ public class GameController {
             evaluateFieldAndExecute();
             this.gui.moveCarToField(indexOfCurrentPlayer);
             this.gui.displayPlayerBalance();
+            //this.gui.updateGui(getCurrentPlayer());
             setNextPlayer();
         }
     }

@@ -5,6 +5,7 @@ import fields.*;
 import gui_fields.*;
 
 import java.awt.*;
+import java.security.PublicKey;
 import java.util.ArrayList;
 
 public class GUI {
@@ -46,7 +47,7 @@ public class GUI {
         String rent = "Leje uden hus: " + ((BuyableField)field).getRent()[0] + " Kr\\n" + "Leje med 1 hus: " + ((BuyableField)field).getRent()[1] + " Kr\\n" + "Leje med 2 huse: " + ((BuyableField)field).getRent()[2] + " Kr\\n" + "Leje med 3 huse: " + ((BuyableField)field).getRent()[3] + " Kr\\n" + "Leje med 4 huse: " + ((BuyableField)field).getRent()[4] + " Kr\\n" + "Leje med hotel: " + ((BuyableField)field).getRent()[5] + " Kr\\n";
         gui_field.setTitle(field.getName());
         gui_field.setDescription(field.getName() + "\\n" + rent);
-        gui_field.setSubText("Pris: " + Integer.toString(field.getPrice()) + " Kr");
+        gui_field.setSubText("Pris: " + field.getPrice() + " Kr");
         gui_field.setBackGroundColor(field.getColor());
         this.fields[fieldIndex] = gui_field;
     }
@@ -216,6 +217,34 @@ public class GUI {
 
     public void displayChanceCard (ChanceCard chancecard){
         this.gui.displayChanceCard(chancecard.getText());
+    }
+
+    /*private void setOwnerAndRent(Player player){
+        GUI_Street gui_field = (GUI_Street) gui.getFields()[player.getPosition()];
+        Field field = GameBoard.getSingleton().getFields()[player.getPosition()];
+        if(field.getState().hasOwner()){
+            gui_field.setOwnerName(field.getState().getOwner().getName());
+            gui_field.setRent(Integer.toString(((BuyableField)field).getRent()[field.getState().getNumOfHouses()]));
+        }
+    }
+    private void setHousesAndHotels(int fieldIndex){
+        GUI_Street gui_field = (GUI_Street) gui.getFields()[fieldIndex];
+        Field field = GameBoard.getSingleton().getFields()[fieldIndex];
+        if(field.getState().getNumOfHouses()>0 && field.getState().getNumOfHouses()<5){
+            gui_field.setHouses(field.getState().getNumOfHouses());
+        }
+        if(field.getState().getNumOfHouses()==5){
+            gui_field.setHotel(true);
+        }
+    }*/
+
+    public void updateGui(Player player){
+        //setOwnerAndRent(player);
+        //setHousesAndHotels(fieldIndex);
+    }
+
+    public void manageProperties(Player player){
+        gui.getUserSelection("Vælg en grund", player.)
     }
 }
 
