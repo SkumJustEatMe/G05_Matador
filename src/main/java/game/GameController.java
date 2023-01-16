@@ -2,6 +2,7 @@ package game;
 
 import chancecards.*;
 import fields.*;
+import gui_fields.GUI_Street;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -77,7 +78,8 @@ public class GameController {
     private void managePropertiesOrEndTurn() {
         String chosenProperty = this.gui.showDropDownMenu(getCurrentPlayer());
         if(!chosenProperty.equals("Afslut tur")){
-        this.gui.buySellHouses(chosenProperty,getCurrentPlayer());
+        String houseDecision = this.gui.buySellHouses(chosenProperty,getCurrentPlayer());
+        sellAndBuyHouses(houseDecision, chosenProperty, getCurrentPlayer());
         }
     }
 
@@ -246,13 +248,21 @@ public class GameController {
         }
     }
 
-    private void sellAndBuyHouses()
-    {
+    private void sellAndBuyHouses(String choice, String fieldName, Player player){
+        BuyableField field = chosenField(fieldName,player);
+            if(choice.equals("Køb hus") && isAllowedBuildHouses(field.getColor(),player) && canBuildOneMoreHouse(field,player)){
+                field.getState().setNumOfHouses(field.getState().getNumOfHouses()+1);
+                player.changeBalance(-field.getHousePrice());
+            }
+            else if(choice.equals("Sælg hus") && canSellOneMoreHouse(field)) {
+            field.getState().setNumOfHouses(field.getState().getNumOfHouses()-1);
+            player.changeBalance(field.getHousePrice()/2);
+            }
+
+        }
         // should perhaps start off by providing a filtered list containing all the same colored fields
         // matching the index, and be checked if they're owned by the same player.
         // Avoid duplicate array creation of the filtered array.
-
-    }
 
     public boolean canSellOneMoreHouse(BuyableField field)
     {
