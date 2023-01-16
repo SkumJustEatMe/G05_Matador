@@ -66,6 +66,7 @@ public class GameController {
         while (true) {
             checkJailStatus();
             movePlayer();
+            resetEqualDieRolls();
             this.gui.moveCarToField(indexOfCurrentPlayer);
             evaluateFieldAndExecute();
             this.gui.moveCarToField(indexOfCurrentPlayer);
@@ -76,11 +77,14 @@ public class GameController {
     }
 
     private void managePropertiesOrEndTurn() {
-        String chosenProperty = this.gui.showDropDownMenu(getCurrentPlayer());
-        if(!chosenProperty.equals("Afslut tur")){
-        String houseDecision = this.gui.buySellHouses(chosenProperty,getCurrentPlayer());
-        sellAndBuyHouses(houseDecision, chosenProperty, getCurrentPlayer());
-        }
+        String chosenProperty;
+        do {
+            chosenProperty = this.gui.showDropDownMenu(getCurrentPlayer(), die.getNumberOfEqualRolls());
+            if (!chosenProperty.equals("Afslut tur")) {
+                String houseDecision = this.gui.buySellHouses(chosenProperty, getCurrentPlayer());
+                sellAndBuyHouses(houseDecision, chosenProperty, getCurrentPlayer());
+            }
+        } while (!chosenProperty.equals("Afslut tur")) ;
     }
 
     /**
@@ -95,6 +99,10 @@ public class GameController {
         }
     }
 
+    private void resetEqualDieRolls(){if(!die.EqualRolls(currentDieRoll1,currentDieRoll2)){
+    die.resetNumberOfEqualRolls();}
+    }
+
     /**
      * increments the index of the player list
      */
@@ -105,8 +113,8 @@ public class GameController {
             } else {
                 this.indexOfCurrentPlayer = 0;
             }
-            die.resetNumberOfEqualRolls();
         }
+
     }
 
     /**

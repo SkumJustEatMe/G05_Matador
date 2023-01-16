@@ -153,7 +153,7 @@ public class GUI {
     }
 
     public String displayRollDiceButton(String playerName) {
-        return this.gui.getUserButtonPressed(playerName, "Roll dice");
+        return this.gui.getUserButtonPressed(playerName, "Slå med terningerne");
     }
 
     public String displayPlayerSelectionButtons() {
@@ -214,22 +214,26 @@ public class GUI {
         this.gui.displayChanceCard(chancecard.getText());
     }
 
-    public String showDropDownMenu(Player player) {
+    public String showDropDownMenu(Player player, int nrOfEqualRolls) {
         Field[] ownedFields = gameController.getOwnedByPlayer(gameController.getAllStreetFields(GameBoard.getSingleton().getFields()), player);
         String[] ownedStreetsAsStrings = new String[ownedFields.length];
         String dropdown = null;
+        String choice = null;
         if (ownedFields.length > 0) {
             for (int i = 0; i < ownedFields.length; i++) {
                 ownedStreetsAsStrings[i] = ownedFields[i].getName();
             }
-            String choice = this.gui.getUserButtonPressed(player.getName() + ", vil du adminstere dine grunde eller afslutte din tur?", "Adminstrer grunde", "Afslut tur");
-            if (choice.equals("Adminstrer grunde")) {
+            if (nrOfEqualRolls >= 1 && nrOfEqualRolls < 3) {
+                choice = this.gui.getUserButtonPressed(player.getName() + ", vil du adminstere dine grunde eller afslutte din tur?", "Adminstrer grunde", "Du har slået 2 ens, så du må slå igen");
+            } else {
+                choice = this.gui.getUserButtonPressed(player.getName() + ", vil du adminstere dine grunde eller afslutte din tur?", "Adminstrer grunde", "Afslut tur");
+            } if (choice.equals("Adminstrer grunde")) {
                 dropdown = this.gui.getUserSelection(player.getName() + ", administrer grunde...", ownedStreetsAsStrings);
             } else {
                 dropdown = "Afslut tur";
             }
         } else {
-            dropdown = this.gui.getUserButtonPressed("Afslut din tur " + player.getName(), "Afslut tur");
+            dropdown = "Afslut tur";
         }
         return dropdown;
     }
