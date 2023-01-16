@@ -10,15 +10,6 @@ import java.util.Arrays;
 public class GameController {
     private GUI gui;
     private Die die;
-
-    public int getCurrentDieRoll1() {
-        return currentDieRoll1;
-    }
-
-    public int getCurrentDieRoll2() {
-        return currentDieRoll2;
-    }
-
     private int currentDieRoll1 = 0;
     private int currentDieRoll2 = 0;
     private int sumOfDiceRolls = 0;
@@ -77,9 +68,14 @@ public class GameController {
             evaluateFieldAndExecute();
             this.gui.moveCarToField(indexOfCurrentPlayer);
             this.gui.displayPlayerBalance();
-            this.gui.showDropDownMenu(getCurrentPlayer());
+            this.managePropertiesOrEndTurn();
             setNextPlayer();
         }
+    }
+
+    private void managePropertiesOrEndTurn() {
+        String chosenProperty = this.gui.showDropDownMenu(getCurrentPlayer());
+
     }
 
     /**
@@ -255,17 +251,15 @@ public class GameController {
 
     }
 
-    private boolean canSellOneMoreHouse(int indexOfField, Player player)
+    private boolean canSellOneMoreHouse(BuyableField field, Player player)
     {
-        // should check the reverse of canBuildOneMoreHouse()
-        Field[] fields = GameBoard.getSingleton().getFields();
-        Color colorOfField = fields[player.getPosition()].getColor();
+        Color colorOfField = field.getColor();
         BuyableField[] streets = this.getStreetsOfSameColor(colorOfField);
 
-        int housesOnIndex = fields[indexOfField].getState().getNumOfHouses();
+        int housesOnIndex = field.getState().getNumOfHouses();
         for (BuyableField street : streets)
         {
-            if (housesOnIndex < street.getState().getNumOfHouses())
+            if (housesOnIndex <= 0 || housesOnIndex  < street.getState().getNumOfHouses())
             {
                 return false;
             }
@@ -273,21 +267,19 @@ public class GameController {
         return true;
     }
 
-    private boolean canBuildOneMoreHouse(int indexOfField, Player player)
+    private boolean canBuildOneMoreHouse(BuyableField field, Player player)
     {
-        Field[] fields = GameBoard.getSingleton().getFields();
-        Color colorOfField = fields[player.getPosition()].getColor();
-        if (!canBuildHouses(colorOfField, player))
+        Color colorOfField = field.getColor();
+        if (!isAllowedBuildHouses(colorOfField, player))
         {
             return false;
         }
 
-        // if any field of the same color has less houses than selected field, it's not allowed to build more
         BuyableField[] streets = this.getStreetsOfSameColor(colorOfField);
-        int housesOnIndex = fields[indexOfField].getState().getNumOfHouses();
+        int housesOnIndex = field.getState().getNumOfHouses();
         for (BuyableField street : streets)
         {
-            if (housesOnIndex > street.getState().getNumOfHouses())
+            if (housesOnIndex >= 5 || housesOnIndex > street.getState().getNumOfHouses())
             {
                 return false;
             }
@@ -302,7 +294,7 @@ public class GameController {
      * @param player
      * @return
      */
-    private boolean canBuildHouses(Color color, Player player){
+    private boolean isAllowedBuildHouses(Color color, Player player){
         BuyableField[] streets = this.getStreetsOfSameColor(color);
         return areOwnedBySamePlayer(streets, player);
     }

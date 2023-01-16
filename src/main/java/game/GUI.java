@@ -220,21 +220,12 @@ public class GUI {
 
     public String showDropDownMenu(Player player){
         Field[] ownedFields = gameController.getOwnedByPlayer(gameController.getAllStreetFields(GameBoard.getSingleton().getFields()), player);
-        String[] strings = new String[ownedFields.length];
+        String[] ownedStreetsAsStrings = new String[ownedFields.length];
         for(int i = 0; i < ownedFields.length; i++) {
-            strings[i] = ownedFields[i].getName();
+            ownedStreetsAsStrings[i] = ownedFields[i].getName();
         }
-        if(ownedFields.length!=0) {
-            String buySellHouse = gui.getUserSelection(player.getName() + ", vælg hvad du vil gøre", "Ja", "Nej");
-            if (buySellHouse.equals("Ja")) {
-                String choice = gui.getUserSelection(player.getName() + ", vil du købe eller sælge huse på dine grunde?", strings);
-                for(int i = 0; i < ownedFields.length; i++){
-                    if(ownedFields[i].getName().equals(strings)){
-                        return ownedFields[i];
-                    }
-                }
-            }
-        }
+        this.gui.getUserButtonPressed("", "Afslut tur");
+        return this.gui.getUserSelection("Administrer grunde...", ownedStreetsAsStrings);
     }
 
     private void buySellHouses(String fieldName){
