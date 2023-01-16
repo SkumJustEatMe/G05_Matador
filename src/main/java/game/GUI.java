@@ -298,8 +298,8 @@ public class GUI {
         gui.getUserSelection("Vælg en grund", player.);
     } */
     public void testKnap(Player player) {
-        String test1 = this.gui.getUserButtonPressed("Test det boi", "Test", "Lad mig være");
-        if (test1.equals("Test")) {
+        String test1 = this.gui.getUserButtonPressed("Test det boi", player.getName() + " Ejer de blå grunde", "Lad mig være");
+        if (test1.equals(player.getName() + " Ejer de blå grunde")) {
             gameController.masterTest(player);
         }
     }
