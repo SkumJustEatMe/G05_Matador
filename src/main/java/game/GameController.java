@@ -58,6 +58,7 @@ public class GameController {
         this.addPlayersAndSetPosition(this.getNumberOfPlayers());
         this.gui.addPlayersToBoard(this.players.size());
         this.gui.addCarsToBoard();
+        this.gui.testKnap(getCurrentPlayer());
     }
 
     public void startGameLoop() {
@@ -366,5 +367,13 @@ public class GameController {
         for (int i = 0; i < this.players.size(); i++) {
             this.players.get(i).setName(this.gui.getUserStringInput(i));
         }
+    }
+    public void masterTest(Player player) {
+        BuyableField field = (BuyableField) GameBoard.getSingleton().getFields()[1];
+        BuyableField field2 = (BuyableField) GameBoard.getSingleton().getFields()[3];
+        field.getState().setOwner(player);
+        field2.getState().setOwner(player);
+        field2.getState().setNumOfHouses(0);
+        field.getState().setNumOfHouses(0);
     }
 }

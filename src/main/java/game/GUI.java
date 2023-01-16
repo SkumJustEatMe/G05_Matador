@@ -243,7 +243,7 @@ public class GUI {
             if(gameController.canBuildOneMoreHouse(field,player) && player.getBalance() >= field.getHousePrice()){
                 choice2 = this.gui.getUserButtonPressed(player.getName()+ ", køb hus(eller hotel, hvis du har 4 huse) eller annuller:", "Køb hus", "Annuller");
                 if(choice2.equals("Køb hus") && field.getState().getNumOfHouses()<=3){
-                gui_field.setHouses(+1);
+                gui_field.setHouses(field.getState().getNumOfHouses()+1);
                 }
                 else if(choice2.equals("Køb hus") && field.getState().getNumOfHouses()==4){
                     gui_field.setHouses(0);
@@ -294,5 +294,11 @@ public class GUI {
     /* public void manageProperties(Player player){
         gui.getUserSelection("Vælg en grund", player.);
     } */
+    public void testKnap(Player player) {
+        String test1 = this.gui.getUserButtonPressed("Test det boi", "Test", "Lad mig være");
+        if (test1.equals("Test")) {
+            gameController.masterTest(player);
+        }
+    }
 }
 
