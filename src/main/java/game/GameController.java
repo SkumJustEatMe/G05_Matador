@@ -75,7 +75,7 @@ public class GameController {
 
     private void managePropertiesOrEndTurn() {
         String chosenProperty = this.gui.showDropDownMenu(getCurrentPlayer());
-        if(chosenProperty!=null){
+        if(!chosenProperty.equals("Afslut tur")){
         this.gui.buySellHouses(chosenProperty,getCurrentPlayer());
         }
     }
@@ -253,7 +253,7 @@ public class GameController {
 
     }
 
-    public boolean canSellOneMoreHouse(BuyableField field, Player player)
+    public boolean canSellOneMoreHouse(BuyableField field)
     {
         Color colorOfField = field.getColor();
         BuyableField[] streets = this.getStreetsOfSameColor(colorOfField);
@@ -272,7 +272,7 @@ public class GameController {
     public boolean canBuildOneMoreHouse(BuyableField field, Player player)
     {
         Color colorOfField = field.getColor();
-        if (!isAllowedBuildHouses(colorOfField, player))
+        if (!isAllowedBuildHouses(colorOfField, player) || player.getBalance() < field.getHousePrice())
         {
             return false;
         }
