@@ -44,9 +44,11 @@ public class GUI {
         GUI_Street gui_field = new GUI_Street();
         Field field = GameBoard.getSingleton().getFields()[fieldIndex];
         gui_field.setTitle(field.getName());
-        gui_field.setDescription(field.getName());
-        gui_field.setSubText("");
+        gui_field.setDescription(field.getName() + "\n"((BuyableField)field).getRent()[0] + "\n "((BuyableField)field).getRent()[1]);
+        gui_field.setSubText(Integer.toString(field.getPrice()) + " Kr");
         gui_field.setBackGroundColor(field.getColor());
+        //gui_field.setOwnerName();
+        gui_field.setRent(Integer.toString(((BuyableField)field).getRent()[field.getState().getNumOfHouses()]));
         this.fields[fieldIndex] = gui_field;
     }
 
