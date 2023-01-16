@@ -43,12 +43,11 @@ public class GUI {
     public void createStreetField(int fieldIndex) {
         GUI_Street gui_field = new GUI_Street();
         Field field = GameBoard.getSingleton().getFields()[fieldIndex];
+        String rent = "Leje uden hus: " + ((BuyableField)field).getRent()[0] + " Kr\\n" + "Leje med 1 hus: " + ((BuyableField)field).getRent()[1] + " Kr\\n" + "Leje med 2 huse: " + ((BuyableField)field).getRent()[2] + " Kr\\n" + "Leje med 3 huse: " + ((BuyableField)field).getRent()[3] + " Kr\\n" + "Leje med 4 huse: " + ((BuyableField)field).getRent()[4] + " Kr\\n" + "Leje med hotel: " + ((BuyableField)field).getRent()[5] + " Kr\\n";
         gui_field.setTitle(field.getName());
-        gui_field.setDescription(field.getName() + "\n"((BuyableField)field).getRent()[0] + "\n "((BuyableField)field).getRent()[1]);
-        gui_field.setSubText(Integer.toString(field.getPrice()) + " Kr");
+        gui_field.setDescription(field.getName() + "\\n" + rent);
+        gui_field.setSubText("Pris: " + Integer.toString(field.getPrice()) + " Kr");
         gui_field.setBackGroundColor(field.getColor());
-        //gui_field.setOwnerName();
-        gui_field.setRent(Integer.toString(((BuyableField)field).getRent()[field.getState().getNumOfHouses()]));
         this.fields[fieldIndex] = gui_field;
     }
 
