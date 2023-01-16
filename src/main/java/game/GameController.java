@@ -71,14 +71,13 @@ public class GameController {
 
     public void startGameLoop() {
         while (true) {
-            this.gui.manageProperties(getCurrentPlayer());
             checkJailStatus();
             movePlayer();
             this.gui.moveCarToField(indexOfCurrentPlayer);
             evaluateFieldAndExecute();
             this.gui.moveCarToField(indexOfCurrentPlayer);
             this.gui.displayPlayerBalance();
-            //this.gui.updateGui(getCurrentPlayer());
+            this.gui.showDropDownMenu(getCurrentPlayer());
             setNextPlayer();
         }
     }
