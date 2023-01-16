@@ -51,6 +51,7 @@ public class Player {
     public void setJailed(boolean jailed){
         this.jailed = jailed;
     }
+
     public boolean isJailed(){
         return jailed;
     }
