@@ -75,7 +75,9 @@ public class GameController {
 
     private void managePropertiesOrEndTurn() {
         String chosenProperty = this.gui.showDropDownMenu(getCurrentPlayer());
-
+        if(chosenProperty!=null){
+        this.gui.buySellHouses(chosenProperty,getCurrentPlayer());
+        }
     }
 
     /**
@@ -300,7 +302,7 @@ public class GameController {
     }
 
     public BuyableField chosenField(String string, Player player) {
-        Field[] ownedfields = getOwnedByPlayer((BuyableField[]) GameBoard.getSingleton().getFields(), player);
+        Field[] ownedfields = getOwnedByPlayer(getAllStreetFields(GameBoard.getSingleton().getFields()), player);
         BuyableField wantedField = null;
         for (int i = 0; i < ownedfields.length; i++) {
             if (ownedfields[i].getName().equals(string)) {
