@@ -64,6 +64,7 @@ public class GameController {
 
     public void startGameLoop() {
         while (true) {
+            this.gui.updateGUI(GameBoard.getSingleton().getFields());
             checkJailStatus();
             movePlayer();
             resetEqualDieRolls();
@@ -180,28 +181,37 @@ public class GameController {
     private void payRentOrBuyProperty(Player player) {
         Field currentField = GameBoard.getSingleton().getFields()[player.getPosition()];
         Player opponent = currentField.getState().getOwner();
-        int currentFieldRent;
+        if(currentField.getState().hasOwner()) {
+            player.changeBalance(-getCurrentRent(currentField));
+            opponent.changeBalance(getCurrentRent(currentField));
+        }
+        else{
+            String buyPropertyOption = this.gui.displayUnownedPropertyOptions(player, currentField);
+            if (buyPropertyOption.equals("Ja tak, betal " + currentField.getPrice() + " kr.")) {
+                player.changeBalance(-currentField.getPrice());
+                currentField.getState().setOwner(player);
+                this.gui.setOwnerAndRent(getCurrentPlayer());
+            }
+        }
+    }
+
+    public int getCurrentRent(Field currentField) {
+        Player opponent = currentField.getState().getOwner();
+        int currentFieldRent = 0;
         if (currentField.getState().hasOwner()) {
-            if (currentField.getState().getOwner() != getCurrentPlayer()) {
                 if (currentField.getType().equals(FieldType.STREET)) {
-                    currentFieldRent = ((BuyableField) currentField).getRent()[currentField.getState().getNumOfHouses()];
+                    if (isAllowedBuildHouses(currentField.getColor(), opponent) && currentField.getState().getNumOfHouses() == 0) {
+                        currentFieldRent = ((BuyableField) currentField).getRent()[currentField.getState().getNumOfHouses()] * 2;
+                    } else {
+                        currentFieldRent = ((BuyableField) currentField).getRent()[currentField.getState().getNumOfHouses()];
+                    }
                 } else if (currentField.getType().equals(FieldType.FERRY)) {
                     currentFieldRent = ((BuyableField) currentField).getRent()[GameBoard.getSingleton().getNrOfFerriesOwnedByPlayer(opponent)];
                 } else {
                     currentFieldRent = ((BuyableField) currentField).getRent()[GameBoard.getSingleton().getNrOfBreweriesOwnedByPlayer(opponent)];
                 }
-                this.gui.displayLandingOnOpponentProperty(player, currentField);
-                player.changeBalance(-currentFieldRent);
-                opponent.changeBalance(currentFieldRent);
             }
-        }
-        else {
-                String buyPropertyOption = this.gui.displayUnownedPropertyOptions(player, currentField);
-                if (buyPropertyOption.equals("Ja tak, betal " + currentField.getPrice() + " kr.")) {
-                    player.changeBalance(-currentField.getPrice());
-                    currentField.getState().setOwner(player);
-            }
-        }
+        return currentFieldRent;
     }
 
     private int getNumberOfPlayers() {
@@ -363,6 +373,15 @@ public class GameController {
             }
         return Arrays.copyOf(streets.toArray(), streets.size(), BuyableField[].class);
     }
+    public BuyableField[] getAllBuyableFields(Field[] fields){
+        ArrayList<BuyableField> streets = new ArrayList<>();
+        for (int i =0; i < fields.length; i++)
+        {
+            if(fields[i].getType()==FieldType.STREET||fields[i].getType()==FieldType.BREWERY||fields[i].getType()==FieldType.FERRY)
+                streets.add((BuyableField) fields[i]);
+        }
+        return Arrays.copyOf(streets.toArray(), streets.size(), BuyableField[].class);
+    }
 
     public Field[] getOwnedByPlayer(BuyableField[] fields, Player player){
         ArrayList<BuyableField> streets = new ArrayList<>();
@@ -389,9 +408,15 @@ public class GameController {
     public void masterTest(Player player) {
         BuyableField field = (BuyableField) GameBoard.getSingleton().getFields()[1];
         BuyableField field2 = (BuyableField) GameBoard.getSingleton().getFields()[3];
+        BuyableField field3 = (BuyableField) GameBoard.getSingleton().getFields()[5];
+        BuyableField field4 = (BuyableField) GameBoard.getSingleton().getFields()[6];
+        BuyableField field5 = (BuyableField) GameBoard.getSingleton().getFields()[8];
+        BuyableField field6 = (BuyableField) GameBoard.getSingleton().getFields()[9];
         field.getState().setOwner(player);
         field2.getState().setOwner(player);
-        field2.getState().setNumOfHouses(0);
-        field.getState().setNumOfHouses(0);
+        field3.getState().setOwner(player);
+        field4.getState().setOwner(player);
+        field5.getState().setOwner(player);
+        field6.getState().setOwner(player);
     }
 }
