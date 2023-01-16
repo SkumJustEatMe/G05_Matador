@@ -5,8 +5,7 @@ import fields.*;
 
 import java.awt.*;
 import java.util.ArrayList;
-
-import static fields.GameBoard.getSingleton;
+import java.util.Arrays;
 
 public class GameController {
     private GUI gui;
@@ -118,7 +117,7 @@ public class GameController {
 
         if (!getCurrentPlayer().isJailed()) {
             if (hasReachedStartField()) {
-                newPosition = currentPosition + this.sumOfDiceRolls - getSingleton().getFields().length;
+                newPosition = currentPosition + this.sumOfDiceRolls - GameBoard.getSingleton().getFields().length;
                 getCurrentPlayer().setPosition(newPosition);
                 getCurrentPlayer().changeBalance(4000);
             } else {
@@ -129,11 +128,11 @@ public class GameController {
     }
 
     private boolean hasReachedStartField() {
-        return getCurrentPlayer().getPosition() + this.sumOfDiceRolls >= getSingleton().getFields().length;
+        return getCurrentPlayer().getPosition() + this.sumOfDiceRolls >= GameBoard.getSingleton().getFields().length;
     }
 
     private void evaluateFieldAndExecute() {
-        Field field = getSingleton().getFields()[getCurrentPlayer().getPosition()];
+        Field field = GameBoard.getSingleton().getFields()[getCurrentPlayer().getPosition()];
         switch (field.getType()) {
             case CHANCE, JAIL, TAX -> executeEffect(((EffectField) field).getEffect());
             case STREET, BREWERY, FERRY -> payRentOrBuyProperty(getCurrentPlayer());
@@ -142,7 +141,7 @@ public class GameController {
 
     private void executeEffect(Effect effect) {
         if (effect == Effect.JAIL_GOTO) {
-            getCurrentPlayer().setPosition(getSingleton().getIndexOfJail());
+            getCurrentPlayer().setPosition(GameBoard.getSingleton().getIndexOfJail());
             getCurrentPlayer().setJailed(true);
         } else if (effect == Effect.CHANCE) {
             var card = this.deck.getCard();
@@ -170,7 +169,7 @@ public class GameController {
     }
 
     private void payRentOrBuyProperty(Player player) {
-        Field currentField = getSingleton().getFields()[player.getPosition()];
+        Field currentField = GameBoard.getSingleton().getFields()[player.getPosition()];
         Player opponent = currentField.getState().getOwner();
         int currentFieldRent;
         if (currentField.getState().hasOwner()) {
@@ -248,41 +247,96 @@ public class GameController {
         }
     }
 
-    private void sellAndBuyHouses() {
+    private void sellAndBuyHouses()
+    {
+        // should perhaps start off by providing a filtered list containing all the same colored fields
+        // matching the index, and be checked if they're owned by the same player.
+        // Avoid duplicate array creation of the filtered array.
+
     }
 
-    private void checkIfBuyHousesPossible() {
-        Field field = GameBoard.getSingleton().getFields()[getCurrentPlayer().getPosition()];
-        int i = 0;
-        int nrOfSameColorsOwned = 0;
-        Field searchedField = GameBoard.getSingleton().getFields()[i];
-        Color searchedColor = GameBoard.getSingleton().getFields()[i].getColor();
-        for (i = 0; i < GameBoard.getSingleton().getFields().length; i++) {
-            if (field.getColor() == searchedColor)
-                nrOfSameColorsOwned++;
-        }
-        if (nrOfSameColorsOwned == GameBoard.getSingleton().getNrOfSameColor(field.getColor())) {
-            int minNrOfHouses = 5;
-            Field leastHouses;
-            for (i = 0; i < GameBoard.getSingleton().getFields().length; i++) {
-                if (searchedColor == field.getColor()) {
-                    if (searchedField.getState().getNumOfHouses() < minNrOfHouses) {
-                        minNrOfHouses = searchedField.getState().getNumOfHouses();
-                    }
-                }
+    private boolean canSellOneMoreHouse(int indexOfField, Player player)
+    {
+        // should check the reverse of canBuildOneMoreHouse()
+        Field[] fields = GameBoard.getSingleton().getFields();
+        Color colorOfField = fields[player.getPosition()].getColor();
+        BuyableField[] streets = this.getStreetsOfSameColor(colorOfField);
 
-            }
-        }
-    }
-
-
-            /**
-             * gui shows field for name input and value is stored in Player
-             */
-            private void setPlayerNames ()
+        int housesOnIndex = fields[indexOfField].getState().getNumOfHouses();
+        for (BuyableField street : streets)
+        {
+            if (housesOnIndex < street.getState().getNumOfHouses())
             {
-                for (int i = 0; i < this.players.size(); i++) {
-                    this.players.get(i).setName(this.gui.getUserStringInput(i));
-                }
+                return false;
             }
         }
+        return true;
+    }
+
+    private boolean canBuildOneMoreHouse(int indexOfField, Player player)
+    {
+        Field[] fields = GameBoard.getSingleton().getFields();
+        Color colorOfField = fields[player.getPosition()].getColor();
+        if (!canBuildHouses(colorOfField, player))
+        {
+            return false;
+        }
+
+        // if any field of the same color has less houses than selected field, it's not allowed to build more
+        BuyableField[] streets = this.getStreetsOfSameColor(colorOfField);
+        int housesOnIndex = fields[indexOfField].getState().getNumOfHouses();
+        for (BuyableField street : streets)
+        {
+            if (housesOnIndex > street.getState().getNumOfHouses())
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    /**
+     * checks if all streets of a color are owned by the same player
+     * @param color
+     * @param player
+     * @return
+     */
+    private boolean canBuildHouses(Color color, Player player){
+        BuyableField[] streets = this.getStreetsOfSameColor(color);
+        return areOwnedBySamePlayer(streets, player);
+    }
+
+    private BuyableField[] getStreetsOfSameColor(Color color){
+        Field[] fields = GameBoard.getSingleton().getFields();
+        ArrayList<Field> sameColorFields = new ArrayList<>();
+        for (Field field : fields) {
+            if (field.getType() == FieldType.STREET && field.getColor().equals(color)) {
+                sameColorFields.add(field);
+            }
+        }
+        return Arrays.copyOf(sameColorFields.toArray(), sameColorFields.size(), BuyableField[].class);
+    }
+
+    private boolean areOwnedBySamePlayer(BuyableField[] streets, Player player)
+    {
+        for (BuyableField street : streets)
+        {
+            if (!street.getState().hasOwner() || !street.getState().getOwner().equals(player))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * gui shows field for name input and value is stored in Player
+     */
+    private void setPlayerNames ()
+    {
+        for (int i = 0; i < this.players.size(); i++) {
+            this.players.get(i).setName(this.gui.getUserStringInput(i));
+        }
+    }
+}
