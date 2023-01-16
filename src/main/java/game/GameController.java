@@ -71,6 +71,7 @@ public class GameController {
 
     public void startGameLoop() {
         while (true) {
+            this.gui.manageProperties(getCurrentPlayer());
             checkJailStatus();
             movePlayer();
             this.gui.moveCarToField(indexOfCurrentPlayer);
@@ -330,7 +331,17 @@ public class GameController {
         return true;
     }
 
-    private Field[] GetOwnedByPlayer(BuyableField[] fields, Player player){
+    public BuyableField[] getAllStreetFields(Field[] fields){
+        ArrayList<BuyableField> streets = new ArrayList<>();
+        for (int i =0; i < fields.length; i++)
+        {
+            if(fields[i].getType()==FieldType.STREET)
+                streets.add((BuyableField) fields[i]);
+            }
+        return Arrays.copyOf(streets.toArray(), streets.size(), BuyableField[].class);
+    }
+
+    public Field[] getOwnedByPlayer(BuyableField[] fields, Player player){
         ArrayList<BuyableField> streets = new ArrayList<>();
         for (BuyableField field : fields)
         {

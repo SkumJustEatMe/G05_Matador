@@ -5,7 +5,6 @@ import fields.*;
 import gui_fields.*;
 
 import java.awt.*;
-import java.security.PublicKey;
 import java.util.ArrayList;
 
 public class GUI {
@@ -219,8 +218,18 @@ public class GUI {
         this.gui.displayChanceCard(chancecard.getText());
     }
 
-    public void ManagePropertys(Player player){
-        gui.getUserSelection("", (for "", ""))
+    public void manageProperties(Player player){
+        Field[] ownedFields = gameController.getOwnedByPlayer(gameController.getAllStreetFields(GameBoard.getSingleton().getFields()), player);
+        String[] strings = new String[ownedFields.length];
+        for(int i = 0; i < ownedFields.length; i++) {
+            strings[i] = ownedFields[i].getName();
+        }
+        if(ownedFields.length!=0) {
+            String købSælgHus = gui.getUserButtonPressed(player.getName() + ", vil du købe eller sælge huse?", "Ja", "Nej");
+            if (købSælgHus.equals("Ja")) {
+                gui.getUserSelection(player.getName() + ", vil du købe eller sælge huse på dine grunde?", strings);
+            }
+        }
     }
 
     /*private void setOwnerAndRent(Player player){
