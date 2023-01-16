@@ -330,6 +330,19 @@ public class GameController {
         return true;
     }
 
+    private Field[] GetOwnedByPlayer(BuyableField[] fields, Player player){
+        ArrayList<BuyableField> streets = new ArrayList<>();
+        for (BuyableField field : fields)
+        {
+            if (field.getState().hasOwner() && field.getState().getOwner().equals(player))
+            {
+                streets.add(field);
+            }
+        }
+
+        return Arrays.copyOf(streets.toArray(), streets.size(), BuyableField[].class);
+    }
+
     /**
      * gui shows field for name input and value is stored in Player
      */

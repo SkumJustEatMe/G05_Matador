@@ -219,6 +219,10 @@ public class GUI {
         this.gui.displayChanceCard(chancecard.getText());
     }
 
+    public void ManagePropertys(Player player){
+        gui.getUserSelection("", (for "", ""))
+    }
+
     /*private void setOwnerAndRent(Player player){
         GUI_Street gui_field = (GUI_Street) gui.getFields()[player.getPosition()];
         Field field = GameBoard.getSingleton().getFields()[player.getPosition()];
@@ -243,8 +247,8 @@ public class GUI {
         //setHousesAndHotels(fieldIndex);
     }
 
-    public void manageProperties(Player player){
-        gui.getUserSelection("Vælg en grund", player.)
-    }
+    /* public void manageProperties(Player player){
+        gui.getUserSelection("Vælg en grund", player.);
+    } */
 }
 
