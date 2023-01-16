@@ -251,7 +251,7 @@ public class GameController {
 
     }
 
-    private boolean canSellOneMoreHouse(BuyableField field, Player player)
+    public boolean canSellOneMoreHouse(BuyableField field, Player player)
     {
         Color colorOfField = field.getColor();
         BuyableField[] streets = this.getStreetsOfSameColor(colorOfField);
@@ -267,7 +267,7 @@ public class GameController {
         return true;
     }
 
-    private boolean canBuildOneMoreHouse(BuyableField field, Player player)
+    public boolean canBuildOneMoreHouse(BuyableField field, Player player)
     {
         Color colorOfField = field.getColor();
         if (!isAllowedBuildHouses(colorOfField, player))
@@ -294,9 +294,20 @@ public class GameController {
      * @param player
      * @return
      */
-    private boolean isAllowedBuildHouses(Color color, Player player){
+    public boolean isAllowedBuildHouses(Color color, Player player){
         BuyableField[] streets = this.getStreetsOfSameColor(color);
         return areOwnedBySamePlayer(streets, player);
+    }
+
+    public BuyableField chosenField(String string, Player player) {
+        Field[] ownedfields = getOwnedByPlayer((BuyableField[]) GameBoard.getSingleton().getFields(), player);
+        BuyableField wantedField = null;
+        for (int i = 0; i < ownedfields.length; i++) {
+            if (ownedfields[i].getName().equals(string)) {
+                wantedField = (BuyableField) ownedfields[i];
+            }
+        }
+        return wantedField;
     }
 
     private BuyableField[] getStreetsOfSameColor(Color color){

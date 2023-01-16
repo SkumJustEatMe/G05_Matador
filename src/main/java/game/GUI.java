@@ -218,18 +218,33 @@ public class GUI {
         this.gui.displayChanceCard(chancecard.getText());
     }
 
-    public String showDropDownMenu(Player player){
+    public String showDropDownMenu(Player player) {
         Field[] ownedFields = gameController.getOwnedByPlayer(gameController.getAllStreetFields(GameBoard.getSingleton().getFields()), player);
         String[] ownedStreetsAsStrings = new String[ownedFields.length];
-        for(int i = 0; i < ownedFields.length; i++) {
-            ownedStreetsAsStrings[i] = ownedFields[i].getName();
+        if (ownedFields.length > 0) {
+            for (int i = 0; i < ownedFields.length; i++) {
+                ownedStreetsAsStrings[i] = ownedFields[i].getName();
+            }
+            String choice = this.gui.getUserButtonPressed(player.getName() + ", vil du adminstere dine grunde eller afslutte din tur?", "Adminstrer grunde", "Afslut tur");
+            if (choice.equals("Adminstrer grunde")) {
+                return this.gui.getUserSelection(player.getName() + ", administrer grunde...", ownedStreetsAsStrings);
+            } else {
+                return null;
+            }
         }
-        this.gui.getUserButtonPressed("", "Afslut tur");
-        return this.gui.getUserSelection("Administrer grunde...", ownedStreetsAsStrings);
+        this.gui.getUserButtonPressed("Afslut din tur " + player.getName() , "Afslut tur");
+        return null;
     }
 
-    private void buySellHouses(String fieldName){
-
+    private void buySellHouses(String fieldName, Player player){
+        BuyableField field = gameController.chosenField(fieldName,player);
+        GUI_Street gui_field = (GUI_Street) gui.getFields()[field.getPosition()];
+        String choice = this.gui.getUserButtonPressed("Vil du sælge eller købe huse?", "Sælg", "Køb");
+        if(choice.equals("Køb") && gameController.isAllowedBuildHouses(field.getColor(),player)){
+            if(gameController.canBuildOneMoreHouse(field,player)){
+                gui_field.setHouses(+1);
+            }
+        }
     }
 
     /*private void setOwnerAndRent(Player player){
