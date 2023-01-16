@@ -13,6 +13,7 @@ public class ReceivePerPlayerCard extends ChanceCard{
     }
 
     public void execute(ArrayList<Player> players, int playerIndex) {
+        System.out.println("Du har trukket et kort som siger " + getText());
         for (int i = 1; i < players.size(); i++) {
             if (i == playerIndex) {
                 continue;

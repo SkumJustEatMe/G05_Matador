@@ -7,7 +7,6 @@ public class JailRules {
 
     //Function that takes -1000 from the player balance and let them roll again
 public static void PayOutOfJail(Player player){
-
     player.changeBalance(-1000);
     player.setJailed(false);
 

@@ -11,6 +11,7 @@ public class MatadorCard extends ChanceCard {
         this.matador = matador;
     }
     public void execute(Player player) {
+        System.out.println("Du har trukket et kort som siger " + getText());
         if (GameBoard.getSingleton().getTotalWealth(player) <= 15000) {
             player.changeBalance(matador);
         }

@@ -219,6 +219,7 @@ public class GameController {
                 rollDice();
                 this.gui.displayDieRoll(this.currentDieRoll1, this.currentDieRoll2);
                 if (die.EqualRolls(currentDieRoll1, currentDieRoll2)) {
+                    System.out.println(getCurrentPlayer().getName() + "er nu fri fra fængslet");
                     getCurrentPlayer().setJailed(false);
                 } else {
                     getCurrentPlayer().incrementRoundsInJail();
@@ -228,6 +229,7 @@ public class GameController {
                 }
             }
             if (chosenJailOption.equals("Betal")) {
+                System.out.println(getCurrentPlayer().getName() + "er nu fri fra fængslet");
                 JailRules.PayOutOfJail(getCurrentPlayer());
                 this.gui.displayPlayerBalance();
                 if (getCurrentPlayer().getRoundsInJail() != 3) {
@@ -238,6 +240,7 @@ public class GameController {
 
             }
             if (chosenJailOption.equals("Benådningskort")) {
+                System.out.println(getCurrentPlayer().getName() + "er nu fri fra fængslet");
                 getCurrentPlayer().setJailed(false);
                 getCurrentPlayer().setGetOutOfJailFreeCard(-1);
                 getUserInputToBegin();

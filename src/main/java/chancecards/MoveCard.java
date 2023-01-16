@@ -11,6 +11,7 @@ public class MoveCard extends ChanceCard{
     }
 
     public void execute(Player p){
+        System.out.println("Du har trukket et kort som siger " + getText());
         if(p.getPosition() + amount > GameBoard.getSingleton().getFields().length) {
             p.setPosition(p.getPosition() + amount - GameBoard.getSingleton().getFields().length);
             p.changeBalance(4000);
