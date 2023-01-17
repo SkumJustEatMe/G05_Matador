@@ -8,9 +8,9 @@ Hent og installér den nyeste version af IntelliJ IDEA på https://www.jetbrains
 
 Start IntelliJ IDEA op og åben roden af project-mappen som et projekt.
 
-Navigér via toolbar'en i toppen af vinduet til `Build -> Build Project` for at bygge projektet.
+Navigér via toolbar'en i toppen af vinduet til `'Build' -> 'Build Project'` for at bygge projektet.
 
-Det kompilerede projekt er nu at finde i target-mappen i roden af projekt-mappen.
+Det kompilerede projekt er nu at finde i `target`-mappen i roden af projekt-mappen.
 
 ## Kør programmet
 
@@ -18,7 +18,7 @@ Det kompilerede projekt er nu at finde i target-mappen i roden af projekt-mappen
 
 Åbn Main.java i IntelliJ, som ligger i `%PROJECT_ROOT%/src/main/java/game`.
 
-Naviger til toolbar'en i toppen af vinduet til `Run -> Run Main.java`.
+Naviger til toolbar'en i toppen af vinduet til `'Run' -> 'Run Main.java'`.
 
 ## Kør tests
 
