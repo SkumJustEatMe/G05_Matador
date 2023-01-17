@@ -159,9 +159,9 @@ public class GUI {
 
     public String displayRollDiceButton(String playerName, Die die) {
         if(die.getNumberOfEqualRolls()>=1 && die.getNumberOfEqualRolls() < 3){
-            return this.gui.getUserButtonPressed(playerName, "Slå med terningerne igen");
+            return this.gui.getUserButtonPressed(playerName, playerName + " Slå med terningerne igen");
         }else{
-        return this.gui.getUserButtonPressed(playerName, "Slå med terningerne");
+        return this.gui.getUserButtonPressed(playerName, playerName + " Slå med terningerne");
         }
     }
 
