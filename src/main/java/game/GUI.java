@@ -245,9 +245,23 @@ public class GUI {
     public String buySellHouses(String fieldName, Player player){
         BuyableField field = gameController.chosenField(fieldName,player);
         GUI_Street gui_field = (GUI_Street) gui.getFields()[field.getPosition()];
-        String choice = this.gui.getUserButtonPressed("Vil du sælge eller købe huse?", "Sælg", "Køb");
+        String choice = null;
         String choice2 = null;
-        if(choice.equals("Køb") && gameController.isAllowedBuildHouses(field.getColor(),player)){
+        if(field.getState().isPawned()) {
+            choice = this.gui.getUserButtonPressed("Vil du pantsætte ejendommen? Eller sælge eller købe huse?", "Køb ejendom tilbage", "Sælg", "Køb");
+            if(choice.equals("Køb ejendom tilbage")){
+                choice2 = choice;
+            }
+        }
+        else {
+            choice = this.gui.getUserButtonPressed("Vil du pantsætte ejendommen? Eller sælge eller købe huse?", "Pantsæt ejendom", "Sælg", "Køb");
+        }
+        if(choice.equals("Pantsæt ejendom") && gameController.canPawnProperty(field)){
+            choice2 = this.gui.getUserButtonPressed(player.getName()+ ", hvis du pantsætter ejendommen skal du betale et lån af på 10% for at få den igen, fortsæt?", "Pantsæt ejendom", "Annuller");
+        } else if(choice.equals("Pantsæt ejendom") && !gameController.canPawnProperty(field)){
+            choice2 = this.gui.getUserButtonPressed(player.getName()+ ", du kan desværre ikke pantsætte denne ejendom, sælg husene på de andre grunde først!", "Okay, øv");
+        }
+        else if(choice.equals("Køb") && gameController.isAllowedBuildHouses(field.getColor(),player)){
             if(gameController.canBuildOneMoreHouse(field,player) && player.getBalance() >= field.getHousePrice()){
                 choice2 = this.gui.getUserButtonPressed(player.getName()+ ", køb hus(eller hotel, hvis du har 4 huse) for " + field.getHousePrice() + " kr. eller annuller:", "Køb hus", "Annuller");
                 if(choice2.equals("Køb hus") && field.getState().getNumOfHouses()<=3){
@@ -288,6 +302,15 @@ public class GUI {
         }
     }
 
+    public void setPawnedGUI(Field field, int indexOfCurrentPlayer){
+        GUI_Ownable gui_ownable = (GUI_Ownable) gui.getFields()[field.getPosition()];
+        gui_ownable.setBorder(playerColors[indexOfCurrentPlayer], Color.GRAY);
+    }
+    public void setUnpawnedGUI(Field field, int indexOfCurrentPlayer){
+        GUI_Ownable gui_ownable = (GUI_Ownable) gui.getFields()[field.getPosition()];
+        gui_ownable.setBorder(playerColors[indexOfCurrentPlayer]);
+    }
+
     public void updateGUI(Field[] fields, ArrayList<Player> players) {
         for (int j = 0; j < players.size(); j++) {
             for (int i = 0; i < fields.length; i++) {
@@ -298,6 +321,9 @@ public class GUI {
                         gui_ownable.setRent(Integer.toString(gameController.getCurrentRent(fields[i])));
                         if (players.get(j).getName().equals(fields[i].getState().getOwner().getName())) {
                             gui_ownable.setBorder(this.gui_players.get(j).getCar().getPrimaryColor());
+                            if(fields[i].getState().isPawned()){
+                                gui_ownable.setBorder(this.gui_players.get(j).getCar().getPrimaryColor(),Color.GRAY);
+                            }
                         }
                     }
                 }

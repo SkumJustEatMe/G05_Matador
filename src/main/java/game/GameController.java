@@ -82,7 +82,8 @@ public class GameController {
             chosenProperty = this.gui.showDropDownMenu(getCurrentPlayer(), die.getNumberOfEqualRolls());
             if (!chosenProperty.equals("Afslut tur")) {
                 String houseDecision = this.gui.buySellHouses(chosenProperty, getCurrentPlayer());
-                sellAndBuyHouses(houseDecision, chosenProperty, getCurrentPlayer());
+                sellAndBuyHousesAndPawn(houseDecision, chosenProperty, getCurrentPlayer());
+                this.gui.displayPlayerBalance();
             }
         } while (!chosenProperty.equals("Afslut tur")) ;
     }
@@ -265,7 +266,7 @@ public class GameController {
         }
     }
 
-    private void sellAndBuyHouses(String choice, String fieldName, Player player){
+    private void sellAndBuyHousesAndPawn(String choice, String fieldName, Player player){
         BuyableField field = chosenField(fieldName,player);
             if(choice.equals("Køb hus") && isAllowedBuildHouses(field.getColor(),player) && canBuildOneMoreHouse(field,player)){
                 field.getState().setNumOfHouses(field.getState().getNumOfHouses()+1);
@@ -275,7 +276,16 @@ public class GameController {
             field.getState().setNumOfHouses(field.getState().getNumOfHouses()-1);
             player.changeBalance(field.getHousePrice()/2);
             }
-
+            else if(choice.equals("Pantsæt ejendom") && field.getState().getNumOfHouses()==0){
+                field.getState().setPawned(true);
+                player.changeBalance(field.getPrice());
+                this.gui.setPawnedGUI(field, indexOfCurrentPlayer);
+            }else if(choice.equals("Køb ejendom tilbage") && field.getState().isPawned()){
+                field.getState().setPawned(false);
+                int pawnedFieldPrice = (int) (Math.ceil((field.getPrice()*1.1)/100.0))*100;
+                player.changeBalance(-pawnedFieldPrice);
+                this.gui.setUnpawnedGUI(field, indexOfCurrentPlayer);
+            }
         }
         // should perhaps start off by providing a filtered list containing all the same colored fields
         // matching the index, and be checked if they're owned by the same player.
@@ -315,6 +325,21 @@ public class GameController {
             }
         }
         return true;
+    }
+    public boolean canPawnProperty(BuyableField field)
+    {
+        Color colorOfField = field.getColor();
+        BuyableField[] streets = this.getStreetsOfSameColor(colorOfField);
+
+        int housesOnIndex = field.getState().getNumOfHouses();
+        for (BuyableField street : streets)
+        {
+            if (housesOnIndex == 0 && housesOnIndex == street.getState().getNumOfHouses())
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 
