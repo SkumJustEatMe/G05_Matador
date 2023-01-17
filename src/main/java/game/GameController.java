@@ -445,7 +445,7 @@ public class GameController {
     {
         for (BuyableField street : streets)
         {
-            if (!street.getState().hasOwner() || !street.getState().getOwner().equals(player)|| !street.getState().isPawned())
+            if (!street.getState().hasOwner() || !street.getState().getOwner().equals(player))
             {
                 return false;
             }
