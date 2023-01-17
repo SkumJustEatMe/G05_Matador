@@ -700,6 +700,22 @@ public class GameController {
         BuyableField field10 = (BuyableField) GameBoard.getSingleton().getFields()[14];
         BuyableField field11 = (BuyableField) GameBoard.getSingleton().getFields()[15];
         BuyableField field12 = (BuyableField) GameBoard.getSingleton().getFields()[16];
+        BuyableField field13 = (BuyableField) GameBoard.getSingleton().getFields()[18];
+
+        BuyableField field15 = (BuyableField) GameBoard.getSingleton().getFields()[21];
+        BuyableField field16 = (BuyableField) GameBoard.getSingleton().getFields()[23];
+        BuyableField field17 = (BuyableField) GameBoard.getSingleton().getFields()[24];
+        BuyableField field18 = (BuyableField) GameBoard.getSingleton().getFields()[25];
+        BuyableField field19 = (BuyableField) GameBoard.getSingleton().getFields()[26];
+        BuyableField field20 = (BuyableField) GameBoard.getSingleton().getFields()[27];
+        BuyableField field21 = (BuyableField) GameBoard.getSingleton().getFields()[28];
+        BuyableField field22 = (BuyableField) GameBoard.getSingleton().getFields()[29];
+        BuyableField field23 = (BuyableField) GameBoard.getSingleton().getFields()[31];
+        BuyableField field24 = (BuyableField) GameBoard.getSingleton().getFields()[32];
+        BuyableField field25 = (BuyableField) GameBoard.getSingleton().getFields()[34];
+        BuyableField field26 = (BuyableField) GameBoard.getSingleton().getFields()[35];
+        BuyableField field27 = (BuyableField) GameBoard.getSingleton().getFields()[37];
+        BuyableField field28 = (BuyableField) GameBoard.getSingleton().getFields()[39];
             players.get(1).changeBalance(-29999);
             players.get(2).changeBalance(-29999);
         field.getState().setOwner(players.get(0));
@@ -714,5 +730,21 @@ public class GameController {
         field10.getState().setOwner(players.get(0));
         field11.getState().setOwner(players.get(0));
         field12.getState().setOwner(players.get(0));
+        field13.getState().setOwner(players.get(0));
+
+        field15.getState().setOwner(players.get(0));
+        field16.getState().setOwner(players.get(0));
+        field17.getState().setOwner(players.get(0));
+        field18.getState().setOwner(players.get(0));
+        field19.getState().setOwner(players.get(0));
+        field20.getState().setOwner(players.get(0));
+        field21.getState().setOwner(players.get(0));
+        field22.getState().setOwner(players.get(0));
+        field23.getState().setOwner(players.get(0));
+        field24.getState().setOwner(players.get(0));
+        field25.getState().setOwner(players.get(0));
+        field26.getState().setOwner(players.get(0));
+        field27.getState().setOwner(players.get(0));
+        field28.getState().setOwner(players.get(0));
     }
 }

@@ -345,15 +345,15 @@ public class GUI {
             choice = this.gui.getUserButtonPressed(player.getName() + ", vil du pantsætte ejendommen? Eller sælge huse?", "Pantsæt", "Sælg hus");
 
             if(choice.equals("Pantsæt")){
-                choice2 = this.gui.getUserButtonPressed(player.getName() + " er du sikker på du vil pantsætte ejendommen?","Pantsæt ejendom", "Annuller");
+                choice2 = this.gui.getUserButtonPressed(player.getName() + " er du sikker på du vil pantsætte ejendommen?","Pantsæt ejendom");
             } else{
-                choice2 = this.gui.getUserButtonPressed(player.getName() + " er du sikker på du vil sælge et hus?","Sælg hus", "Annuller");
+                choice2 = this.gui.getUserButtonPressed(player.getName() + " er du sikker på du vil sælge et hus?","Sælg hus");
             }
             }
             else if(gameController.canPawnProperty(field))
-            {choice2 =  this.gui.getUserButtonPressed(player.getName() + ", du kan ikke sælge huse på denne grund, vil du pantsætte ejendommen for " + field.getPrice() + "kr. ?","Pantsæt ejendom", "Annuller");}
+            {choice2 =  this.gui.getUserButtonPressed(player.getName() + ", du kan ikke sælge huse på denne grund, vil du pantsætte ejendommen for " + field.getPrice() + "kr. ?","Pantsæt ejendom");}
             else if(gameController.canSellOneMoreHouse(field)){
-                choice2 =  this.gui.getUserButtonPressed(player.getName() + ", du kan ikke pantsætte denne ejendom, vil du sælge et hus for " + field.getHousePrice()/2 + "kr. ?","Sælg hus", "Annuller");}
+                choice2 =  this.gui.getUserButtonPressed(player.getName() + ", du kan ikke pantsætte denne ejendom, vil du sælge et hus for " + field.getHousePrice()/2 + "kr. ?","Sælg hus");}
             }
         else{
         if(field.getState().isPawned()) {
