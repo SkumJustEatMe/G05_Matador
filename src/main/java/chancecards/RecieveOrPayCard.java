@@ -11,6 +11,7 @@ public class RecieveOrPayCard extends ChanceCard{
 
 
     public void execute(Player p){
+        System.out.println("Du har trukket et kort som siger " + getText());
        p.changeBalance(amount);
     }
 }
