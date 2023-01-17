@@ -64,6 +64,7 @@ public class GameController {
     public void startGameLoop() {
         while (!doWeHaveAWinner(this.players)) {
             if(!bankrupty(getCurrentPlayer())) {
+                bankrupty(getCurrentPlayer());
                 this.gui.updateGUI(GameBoard.getSingleton().getFields(), this.players);
                 System.out.println(" ");
                 System.out.println("Det er " + getCurrentPlayer().getName() + "'s tur");
@@ -75,6 +76,7 @@ public class GameController {
                 this.gui.moveCarToField(indexOfCurrentPlayer);
                 this.gui.displayPlayerBalance();
                 this.managePropertiesOrEndTurn();
+                bankrupty(getCurrentPlayer());
             }
             setNextPlayer();
         }
