@@ -71,7 +71,7 @@ public class GameController {
                 System.out.println(" ");
                 System.out.println("Det er " + getCurrentPlayer().getName() + "'s tur");
                 checkJailStatus();
-                movePlayer(getCurrentPlayer().getPosition());
+                moveCurrentPlayer();
                 resetEqualDieRolls();
                 this.gui.moveCarToField(indexOfCurrentPlayer);
                 evaluateFieldAndExecute();
