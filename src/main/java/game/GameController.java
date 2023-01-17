@@ -66,17 +66,19 @@ public class GameController {
 
         while (!doWeHaveAWinner(this.players)) {
             if(!bankrupty(getCurrentPlayer())) {
+                bankrupty(getCurrentPlayer());
                 this.gui.updateGUI(GameBoard.getSingleton().getFields(), this.players);
                 System.out.println(" ");
                 System.out.println("Det er " + getCurrentPlayer().getName() + "'s tur");
                 checkJailStatus();
-                movePlayer();
+                moveCurrentPlayer();
                 resetEqualDieRolls();
                 this.gui.moveCarToField(indexOfCurrentPlayer);
                 evaluateFieldAndExecute();
                 this.gui.moveCarToField(indexOfCurrentPlayer);
-                this.gui.displayPlayerBalance();
+                this.gui.refreshPlayerBalance();
                 this.managePropertiesOrEndTurn();
+                bankrupty(getCurrentPlayer());
             }
 
             setNextPlayer();
