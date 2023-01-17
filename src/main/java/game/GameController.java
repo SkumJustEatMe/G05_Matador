@@ -99,8 +99,10 @@ public class GameController {
                 }
                 else{
                     String houseDecision = this.gui.buySellHouses(chosenPropertyOption, getCurrentPlayer());
+                    if(houseDecision!=null){
                     sellAndBuyHousesAndPawn(houseDecision, chosenPropertyOption, getCurrentPlayer());
                     this.gui.refreshPlayerBalance();
+                    }
                 }
             }
         }
@@ -419,7 +421,7 @@ public class GameController {
         public String[] getAllOpponentNames(Player player){
         ArrayList<String> opponentPlayerNamesList = new ArrayList<>();
         for(int i = 0; i <players.size();i++){
-            if(!player.getName().equals(players.get(i).getName())){
+            if(!player.getName().equals(players.get(i).getName())&&!players.get(i).isEliminated()){
                 opponentPlayerNamesList.add(players.get(i).getName());
             }
         }
@@ -519,7 +521,7 @@ public class GameController {
         int housesOnIndex = field.getState().getNumOfHouses();
         for (BuyableField street : streets)
         {
-            if (housesOnIndex == 0 && housesOnIndex == street.getState().getNumOfHouses())
+            if (housesOnIndex == 0 && housesOnIndex == street.getState().getNumOfHouses()&& !field.getState().isPawned())
             {
                 return true;
             }
@@ -639,6 +641,7 @@ public class GameController {
                         GameBoard.getSingleton().getFields()[i].getState().setNumOfHouses(0);
                     }
                 }
+                player.setEliminated(true);
             }
         }
 
