@@ -190,7 +190,7 @@ public class GameController {
         if(currentField.getState().hasOwner()) {
             if(!currentField.getState().isPawned()){
             this.gui.displayLandingOnOpponentProperty(player, currentField);
-            System.out.println(getCurrentPlayer().getName() + " betaler desværre " + currentFieldRent + "kr til " + opponent.getName());
+            System.out.println(getCurrentPlayer().getName() + " betaler desværre " + getCurrentRent(currentField) + "kr til " + opponent.getName());
             player.changeBalance(-getCurrentRent(currentField));
             opponent.changeBalance(getCurrentRent(currentField));
         }
