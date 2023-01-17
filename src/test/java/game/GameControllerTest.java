@@ -83,5 +83,11 @@ class GameControllerTest {
         field.getState().setNumOfHouses(0);
         assertFalse(gameController.canBuildOneMoreHouse(field2, player));
     }
+    @Test
+    void checkIfBankruptyWorks(){
+        GameController gameController = new GameController();
+        Player player = new Player(2000);
+        player.changeBalance(-2000);
+        assertFalse(gameController.bankrupty(player));    }
 }
 
