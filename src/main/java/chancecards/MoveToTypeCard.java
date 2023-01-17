@@ -34,7 +34,7 @@ public class MoveToTypeCard extends ChanceCard {
                     player.changeBalance(-(rent * timesRent));
                     opponent.changeBalance(rent * timesRent);
                 }
-                i =40;
+                break;
             }
         }
         if (player.getPosition()<spot){

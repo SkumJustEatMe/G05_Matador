@@ -58,24 +58,27 @@ public class GameController {
         this.addPlayersAndSetPosition(this.getNumberOfPlayers());
         this.gui.addPlayersToBoard(this.players.size());
         this.gui.addCarsToBoard();
-        this.gui.testButton(getCurrentPlayer());
+        this.gui.testButton(getPlayers());
     }
 
     public void startGameLoop() {
-        while (true) {
-            this.gui.updateGUI(GameBoard.getSingleton().getFields(), this.players);
-            System.out.println(" ");
-            System.out.println("Det er " + getCurrentPlayer().getName() + "'s tur");
-            checkJailStatus();
-            movePlayer();
-            resetEqualDieRolls();
-            this.gui.moveCarToField(indexOfCurrentPlayer);
-            evaluateFieldAndExecute();
-            this.gui.moveCarToField(indexOfCurrentPlayer);
-            this.gui.displayPlayerBalance();
-            this.managePropertiesOrEndTurn();
+        while (!doWeHaveAWinner(this.players)) {
+            if(!bankrupty(getCurrentPlayer())) {
+                this.gui.updateGUI(GameBoard.getSingleton().getFields(), this.players);
+                System.out.println(" ");
+                System.out.println("Det er " + getCurrentPlayer().getName() + "'s tur");
+                checkJailStatus();
+                movePlayer();
+                resetEqualDieRolls();
+                this.gui.moveCarToField(indexOfCurrentPlayer);
+                evaluateFieldAndExecute();
+                this.gui.moveCarToField(indexOfCurrentPlayer);
+                this.gui.displayPlayerBalance();
+                this.managePropertiesOrEndTurn();
+            }
             setNextPlayer();
         }
+        this.gui.displayWinner(whoWon(this.players));
     }
 
     private void managePropertiesOrEndTurn() {
@@ -188,13 +191,15 @@ public class GameController {
         Field currentField = GameBoard.getSingleton().getFields()[player.getPosition()];
         Player opponent = currentField.getState().getOwner();
         if(currentField.getState().hasOwner()) {
+            if(!currentField.getState().getOwner().equals(player)){
             if(!currentField.getState().isPawned()){
             this.gui.displayLandingOnOpponentProperty(player, currentField);
-            System.out.println(getCurrentPlayer().getName() + " betaler desværre " + getCurrentRent(currentField) + "kr til " + opponent.getName());
+            System.out.println(getCurrentPlayer().getName() + " betaler desværre " + getCurrentRent(currentField) + "kr. til " + opponent.getName());
             player.changeBalance(-getCurrentRent(currentField));
             opponent.changeBalance(getCurrentRent(currentField));
         }
-        }
+            }
+                }
         else{
             String buyPropertyOption = this.gui.displayUnownedPropertyOptions(player, currentField);
             if (buyPropertyOption.equals("Ja tak, betal " + currentField.getPrice() + " kr.")) {
@@ -281,6 +286,7 @@ public class GameController {
 
     private void sellAndBuyHousesAndPawn(String choice, String fieldName, Player player){
         BuyableField field = chosenField(fieldName,player);
+        int pawnedFieldPrice = (int) (Math.ceil((field.getPrice()*1.1)/100.0))*100;
             if(choice.equals("Køb hus") && isAllowedBuildHouses(field.getColor(),player) && canBuildOneMoreHouse(field,player)){
                 field.getState().setNumOfHouses(field.getState().getNumOfHouses()+1);
                 player.changeBalance(-field.getHousePrice());
@@ -293,9 +299,8 @@ public class GameController {
                 field.getState().setPawned(true);
                 player.changeBalance(field.getPrice());
                 this.gui.setPawnedGUI(field, indexOfCurrentPlayer);
-            }else if(choice.equals("Køb ejendom tilbage") && field.getState().isPawned()){
+            }else if(choice.equals("Køb ejendom tilbage") && field.getState().isPawned() && player.getBalance() > pawnedFieldPrice){
                 field.getState().setPawned(false);
-                int pawnedFieldPrice = (int) (Math.ceil((field.getPrice()*1.1)/100.0))*100;
                 player.changeBalance(-pawnedFieldPrice);
                 this.gui.setUnpawnedGUI(field, indexOfCurrentPlayer);
             }
@@ -323,7 +328,7 @@ public class GameController {
     public boolean canBuildOneMoreHouse(BuyableField field, Player player)
     {
         Color colorOfField = field.getColor();
-        if (!isAllowedBuildHouses(colorOfField, player) || player.getBalance() < field.getHousePrice())
+        if (!isAllowedBuildHouses(colorOfField, player) || player.getBalance() < field.getHousePrice()|| field.getState().isPawned())
         {
             return false;
         }
@@ -393,7 +398,7 @@ public class GameController {
     {
         for (BuyableField street : streets)
         {
-            if (!street.getState().hasOwner() || !street.getState().getOwner().equals(player))
+            if (!street.getState().hasOwner() || !street.getState().getOwner().equals(player)|| !street.getState().isPawned())
             {
                 return false;
             }
@@ -442,18 +447,79 @@ public class GameController {
             this.players.get(i).setName(this.gui.getUserStringInput(i));
         }
     }
-    public void masterTest(Player player) {
+
+    public void bankruptcyByPlayerOrBank(Player player, Field field){
+        if(bankrupty(player)){
+            if(field.getState().hasOwner()) {
+                field.getState().getOwner().changeBalance(GameBoard.getSingleton().getActualWealth(player) - ((BuyableField) field).getRent()[getCurrentRent(field)]);
+            }
+                for(int i = 0; i < GameBoard.getSingleton().getFields().length; i++){
+                    if(GameBoard.getSingleton().getFields()[i].getState().hasOwner() && GameBoard.getSingleton().getFields()[i].getState().getOwner().equals(player)){
+                        GameBoard.getSingleton().getFields()[i].getState().setPawned(false);
+                        GameBoard.getSingleton().getFields()[i].getState().setOwner(null);
+                        GameBoard.getSingleton().getFields()[i].getState().setNumOfHouses(0);
+                    }
+                }
+            }
+        }
+
+    public boolean bankrupty(Player player){
+        if(GameBoard.getSingleton().getActualWealth(player) < 0){
+            return true;
+        }
+        else{return false;}
+    }
+    private boolean doWeHaveAWinner(ArrayList<Player> players) {
+        int bankruptPlayers = 0;
+        for (int i = 0; i < players.size(); i++) {
+            if (GameBoard.getSingleton().getActualWealth(players.get(i)) < 0) {
+                bankruptPlayers++;
+            }
+        }
+            if (bankruptPlayers == players.size() - 1) {
+                return true;
+            }
+            else return false;
+    }
+
+    private Player whoWon(ArrayList<Player> players){
+        Player winner = null;
+        for (int i = 0; i < players.size(); i++){
+            if(GameBoard.getSingleton().getActualWealth(players.get(i))>0){
+                winner = players.get(i);
+            }
+        }
+        return winner;
+    }
+
+
+    public void masterTest(ArrayList<Player> players) {
         BuyableField field = (BuyableField) GameBoard.getSingleton().getFields()[1];
         BuyableField field2 = (BuyableField) GameBoard.getSingleton().getFields()[3];
         BuyableField field3 = (BuyableField) GameBoard.getSingleton().getFields()[5];
         BuyableField field4 = (BuyableField) GameBoard.getSingleton().getFields()[6];
         BuyableField field5 = (BuyableField) GameBoard.getSingleton().getFields()[8];
         BuyableField field6 = (BuyableField) GameBoard.getSingleton().getFields()[9];
-        field.getState().setOwner(player);
-        field2.getState().setOwner(player);
-        field3.getState().setOwner(player);
-        field4.getState().setOwner(player);
-        field5.getState().setOwner(player);
-        field6.getState().setOwner(player);
+        BuyableField field7 = (BuyableField) GameBoard.getSingleton().getFields()[11];
+        BuyableField field8 = (BuyableField) GameBoard.getSingleton().getFields()[12];
+        BuyableField field9 = (BuyableField) GameBoard.getSingleton().getFields()[13];
+        BuyableField field10 = (BuyableField) GameBoard.getSingleton().getFields()[14];
+        BuyableField field11 = (BuyableField) GameBoard.getSingleton().getFields()[15];
+        BuyableField field12 = (BuyableField) GameBoard.getSingleton().getFields()[16];
+        for(int i = 0; i <players.size(); i++) {
+            players.get(i).changeBalance(-29999);
+        }
+        field.getState().setOwner(players.get(2));
+        field2.getState().setOwner(players.get(2));
+        field3.getState().setOwner(players.get(0));
+        field4.getState().setOwner(players.get(0));
+        field5.getState().setOwner(players.get(0));
+        field6.getState().setOwner(players.get(0));
+        field7.getState().setOwner(players.get(1));
+        field8.getState().setOwner(players.get(1));
+        field9.getState().setOwner(players.get(1));
+        field10.getState().setOwner(players.get(1));
+        field11.getState().setOwner(players.get(2));
+        field12.getState().setOwner(players.get(2));
     }
 }
