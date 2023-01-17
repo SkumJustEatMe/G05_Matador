@@ -185,7 +185,7 @@ public class GameController {
             return getCurrentPlayer().getPosition() != 0 && this.getCurrentPlayer().getPosition() - this.sumOfDiceRolls <= 0;
         }
         else {
-            return getCurrentPlayer().getPosition() + this.sumOfDiceRolls >= GameBoard.getSingleton().getFields().length;
+            return getCurrentPlayer().getPosition() + this.sumOfDiceRolls >= GameBoard.getSingleton().getFields().length - 1;
         }
     }
 
