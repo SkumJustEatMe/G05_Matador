@@ -1,12 +1,9 @@
 package chancecards;
 
 import fields.BuyableField;
-import fields.Field;
 import fields.FieldType;
 import fields.GameBoard;
 import game.Player;
-
-import java.util.ArrayList;
 
 public class MoveToTypeCard extends ChanceCard {
     FieldType type;
@@ -18,9 +15,9 @@ public class MoveToTypeCard extends ChanceCard {
         this.timesRent = timesRent;
     }
 
-    public void execute(Player player) {
+    public void execute(Player player, boolean isReverseMode) {
         System.out.println("Du har trukket et kort som siger " + getText());
-        int spot = player.getPosition();
+        int oldPosition = player.getPosition();
         for (int i = player.getPosition(); i <= 39 ; i++) {
             if (i == 39) {
                 i = 0;
@@ -37,8 +34,12 @@ public class MoveToTypeCard extends ChanceCard {
                 break;
             }
         }
-        if (player.getPosition()<spot){
-            player.changeBalance(4000);
+
+        if (isReverseMode){
+            if (player.getPosition() > oldPosition) player.changeBalance(4000);
+        }
+        else {
+            if (player.getPosition() < oldPosition) player.changeBalance(4000);
         }
     }
 }

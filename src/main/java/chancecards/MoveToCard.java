@@ -9,13 +9,17 @@ public class MoveToCard extends ChanceCard{
         this.value = value;
     }
 
-    public void execute(Player p){
+    public void execute(Player p, boolean isReverseMode){
         System.out.println("Du har trukket et kort som siger " + getText());
-        int spot;
-        spot = p.getPosition();
+        int oldPosition = p.getPosition();
         p.setPosition(value);
-        if(spot > p.getPosition()){
-            p.changeBalance(4000);
+        int newPosition = p.getPosition();
+
+        if(isReverseMode){
+            if (oldPosition > newPosition) p.changeBalance(4000);
+        }
+        else {
+            if (oldPosition < newPosition) p.changeBalance(4000);
         }
     }
 }

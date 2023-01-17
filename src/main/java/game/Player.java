@@ -1,8 +1,5 @@
 package game;
 
-
-import java.awt.*;
-
 public class Player {
 
     private int getOutOfJailFreeCard = 0;
