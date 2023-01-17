@@ -192,6 +192,9 @@ public int getActualWealth(Player player){
             if(this.fields[i].getType().equals(FieldType.STREET) && this.fields[i].getState().getOwner().equals(player)){
                 actualWealth += this.fields[i].getPrice();
                 actualWealth += (this.fields[i].getState().getNumOfHouses() * ((BuyableField)this.fields[i]).getHousePrice())/2;
+                if(this.fields[i].getState().isPawned()){
+                    actualWealth -= this.fields[i].getPrice();
+                }
             }
         }
     }
