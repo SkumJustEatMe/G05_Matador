@@ -10,6 +10,16 @@ public class Player {
 
     private int balance;
 
+    public boolean isEliminated() {
+        return eliminated;
+    }
+
+    private boolean eliminated;
+
+    public void setEliminated(boolean eliminated) {
+        this.eliminated = eliminated;
+    }
+
     private int roundsInJail = 0;
 
     public int getRoundsInJail(){return this.roundsInJail;}
