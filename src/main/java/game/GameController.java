@@ -80,7 +80,6 @@ public class GameController {
                 this.managePropertiesOrEndTurn();
                 bankrupty(getCurrentPlayer());
             }
-
             setNextPlayer();
         }
         this.gui.displayWinner(whoWon(this.players));
@@ -348,11 +347,7 @@ public class GameController {
                 this.gui.setPawnedGUI(field, indexOfCurrentPlayer);
             }else if(choice.equals("Køb ejendom tilbage") && field.getState().isPawned() && player.getBalance() > pawnedFieldPrice){
                 field.getState().setPawned(false);
-
-
-                
                 System.out.println(getCurrentPlayer().getName() + " har købt " + field.getName() + " tilbage for " + pawnedFieldPrice + "kr");
-
                 player.changeBalance(-pawnedFieldPrice);
                 this.gui.setUnpawnedGUI(field, indexOfCurrentPlayer);
             }
