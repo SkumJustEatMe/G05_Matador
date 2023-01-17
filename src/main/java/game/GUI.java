@@ -43,10 +43,10 @@ public class GUI {
     public void createStreetField(int fieldIndex) {
         GUI_Street gui_field = new GUI_Street();
         Field field = GameBoard.getSingleton().getFields()[fieldIndex];
-        String rent = "Leje uden hus: " + ((BuyableField)field).getRent()[0] + " Kr\\n" + "Leje med 1 hus: " + ((BuyableField)field).getRent()[1] + " Kr\\n" + "Leje med 2 huse: " + ((BuyableField)field).getRent()[2] + " Kr\\n" + "Leje med 3 huse: " + ((BuyableField)field).getRent()[3] + " Kr\\n" + "Leje med 4 huse: " + ((BuyableField)field).getRent()[4] + " Kr\\n" + "Leje med hotel: " + ((BuyableField)field).getRent()[5] + " Kr\\n";
+        String rent = "Leje uden hus: " + ((BuyableField)field).getRent()[0] + " Kr.\\n" + "Leje med 1 hus: " + ((BuyableField)field).getRent()[1] + " Kr.\\n" + "Leje med 2 huse: " + ((BuyableField)field).getRent()[2] + " Kr.\\n" + "Leje med 3 huse: " + ((BuyableField)field).getRent()[3] + " Kr.\\n" + "Leje med 4 huse: " + ((BuyableField)field).getRent()[4] + " Kr.\\n" + "Leje med hotel: " + ((BuyableField)field).getRent()[5] + " Kr.\\n";
         gui_field.setTitle(field.getName());
         gui_field.setDescription(field.getName() + "\\n" + rent);
-        gui_field.setSubText("Pris: " + field.getPrice() + " Kr");
+        gui_field.setSubText("Pris: " + field.getPrice() + " Kr.");
         gui_field.setBackGroundColor(field.getColor());
         this.fields[fieldIndex] = gui_field;
     }
@@ -56,16 +56,17 @@ public class GUI {
         Field field = GameBoard.getSingleton().getFields()[fieldIndex];
         gui_field.setTitle(field.getName());
         gui_field.setDescription(field.getName());
-        gui_field.setSubText("");
+        gui_field.setSubText(field.getName());
         fields[fieldIndex] = gui_field;
     }
 
     public void createBreweryField(int fieldIndex) {
         GUI_Brewery gui_field = new GUI_Brewery();
         Field field = GameBoard.getSingleton().getFields()[fieldIndex];
+        String rent = "Leje med 1 bryggeri: " + ((BuyableField)field).getRent()[0] + " Kr.\\n" + "Leje med 2 bryggerier: " + ((BuyableField)field).getRent()[1]+ " Kr.";
         gui_field.setTitle(field.getName());
-        gui_field.setDescription(field.getName());
-        gui_field.setSubText("");
+        gui_field.setDescription(field.getName() + " \\n" + rent);
+        gui_field.setSubText("Pris: " + field.getPrice() + " Kr.");
         this.fields[fieldIndex] = gui_field;
 
     }
@@ -81,9 +82,10 @@ public class GUI {
     public void createFerryField(int fieldIndex) {
         GUI_Shipping gui_field = new GUI_Shipping();
         Field field = GameBoard.getSingleton().getFields()[fieldIndex];
+        String rent = "Leje med 1 færge: " + ((BuyableField)field).getRent()[0] + " Kr.\\n" + "Leje med 2 færger: " + ((BuyableField)field).getRent()[1] + " Kr.\\n" + "Leje med 3 færger: " + ((BuyableField)field).getRent()[2]+" Kr.\\n" + "Leje med 4 færger: " + ((BuyableField)field).getRent()[3] + " Kr.";
         gui_field.setTitle(field.getName());
-        gui_field.setDescription(field.getName());
-        gui_field.setSubText("");
+        gui_field.setDescription(field.getName() + " \\n" + rent);
+        gui_field.setSubText("Pris: " + field.getPrice() + " Kr.");
         this.fields[fieldIndex] = gui_field;
     }
 
@@ -154,7 +156,7 @@ public class GUI {
 
     public String displayRollDiceButton(String playerName, Die die) {
         if(die.getNumberOfEqualRolls()>=1 && die.getNumberOfEqualRolls() < 3){
-            return this.gui.getUserButtonPressed(playerName, "Du slog 2 ens! Slå med terningerne");
+            return this.gui.getUserButtonPressed(playerName, "Slå med terningerne igen");
         }else{
         return this.gui.getUserButtonPressed(playerName, "Slå med terningerne");
         }
@@ -305,10 +307,12 @@ public class GUI {
     public void setPawnedGUI(Field field, int indexOfCurrentPlayer){
         GUI_Ownable gui_ownable = (GUI_Ownable) gui.getFields()[field.getPosition()];
         gui_ownable.setBorder(playerColors[indexOfCurrentPlayer], Color.GRAY);
+        gui_ownable.setRent("Pantsat: 0 kr.");
     }
     public void setUnpawnedGUI(Field field, int indexOfCurrentPlayer){
         GUI_Ownable gui_ownable = (GUI_Ownable) gui.getFields()[field.getPosition()];
         gui_ownable.setBorder(playerColors[indexOfCurrentPlayer]);
+        gui_ownable.setRent(Integer.toString(gameController.getCurrentRent(field)));
     }
 
     public void updateGUI(Field[] fields, ArrayList<Player> players) {
@@ -322,6 +326,7 @@ public class GUI {
                         if (players.get(j).getName().equals(fields[i].getState().getOwner().getName())) {
                             gui_ownable.setBorder(this.gui_players.get(j).getCar().getPrimaryColor());
                             if(fields[i].getState().isPawned()){
+                                gui_ownable.setRent("Pantsat: 0 kr.");
                                 gui_ownable.setBorder(this.gui_players.get(j).getCar().getPrimaryColor(),Color.GRAY);
                             }
                         }

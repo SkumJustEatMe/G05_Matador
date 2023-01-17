@@ -182,8 +182,10 @@ public class GameController {
         Field currentField = GameBoard.getSingleton().getFields()[player.getPosition()];
         Player opponent = currentField.getState().getOwner();
         if(currentField.getState().hasOwner()) {
+            if(!currentField.getState().isPawned()){
             player.changeBalance(-getCurrentRent(currentField));
             opponent.changeBalance(getCurrentRent(currentField));
+        }
         }
         else{
             String buyPropertyOption = this.gui.displayUnownedPropertyOptions(player, currentField);
