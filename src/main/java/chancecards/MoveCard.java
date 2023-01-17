@@ -10,15 +10,54 @@ public class MoveCard extends ChanceCard{
         this.amount = amount;
     }
 
-    public void execute(Player p){
+    public void execute(Player p, boolean isReverseGameMode){
         System.out.println("Du har trukket et kort som siger " + getText());
-        if(p.getPosition() + amount > GameBoard.getSingleton().getFields().length) {
-            p.setPosition(p.getPosition() + amount - GameBoard.getSingleton().getFields().length);
+
+        if (isReverseGameMode) {
+            moveInReverseMode(p);
+        }
+        else {
+            moveInNormalMode(p);
+        }
+
+    }
+
+    private void moveInReverseMode(Player p) {
+        int totalFields = GameBoard.getSingleton().getFields().length;
+        int currentPosition = p.getPosition();
+
+        if (currentPosition - amount > totalFields)
+        {
+            p.setPosition(currentPosition - amount - totalFields);
+        }
+        else if (currentPosition - amount < 0)
+        {
+            p.setPosition(currentPosition - amount + totalFields);
             p.changeBalance(4000);
-        }else if(p.getPosition() + amount < 0){
-                p.setPosition(p.getPosition()+40+amount);
-        } else {
-            p.setPosition(p.getPosition()+amount);
+        }
+        else
+        {
+            p.setPosition(currentPosition - amount);
+        }
+    }
+
+    private void moveInNormalMode(Player p)
+    {
+        int totalFields = GameBoard.getSingleton().getFields().length;
+        int currentPosition = p.getPosition();
+
+        if (currentPosition + amount > totalFields)
+        {
+            p.setPosition(currentPosition + amount - totalFields);
+            p.changeBalance(4000);
+        }
+        else if (currentPosition + amount < 0)
+        {
+            p.setPosition(currentPosition + totalFields + amount);
+        }
+        else
+        {
+            p.setPosition(currentPosition + amount);
         }
     }
 }

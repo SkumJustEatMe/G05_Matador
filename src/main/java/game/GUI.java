@@ -145,10 +145,13 @@ public class GUI {
     }
 
     public void moveCarToField(int indexOfCurrentPlayer) {
-        this.gui_players.get(indexOfCurrentPlayer).getCar().setPosition(fields[this.gameController.getPlayers().get(indexOfCurrentPlayer).getPosition()]);
+        int playerPosition = this.gameController.getPlayers().get(indexOfCurrentPlayer).getPosition();
+        GUI_Field newPosition = fields[playerPosition];
+        GUI_Player currentPlayer = this.gui_players.get(indexOfCurrentPlayer);
+        currentPlayer.getCar().setPosition(newPosition);
     }
 
-    public void displayPlayerBalance() {
+    public void refreshPlayerBalance() {
         for (int i = 0; i < this.gameController.getPlayers().size(); i++) {
             this.gui_players.get(i).setBalance(this.gameController.getPlayers().get(i).getBalance());
         }
@@ -342,6 +345,11 @@ public class GUI {
         if (test1.equals(player.getName() + " Ejer de blå grunde")) {
             gameController.masterTest(player);
         }
+    }
+
+    public boolean getGameModeFromUser()
+    {
+        return this.gui.getUserButtonPressed("Vælg spil type:", "Normal", "Baglæns").equals("Baglæns");
     }
 }
 
