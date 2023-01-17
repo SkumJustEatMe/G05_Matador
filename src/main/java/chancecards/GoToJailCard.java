@@ -8,6 +8,7 @@ public class GoToJailCard extends ChanceCard {
     }
 
     public void execute(Player p) {
+        System.out.println("Du har trukket et kort som siger " + getText());
         p.setPosition(10);
         p.setJailed(true);
     }

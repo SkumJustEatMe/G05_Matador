@@ -237,6 +237,7 @@ public class GameController {
         else{
             String buyPropertyOption = this.gui.displayUnownedPropertyOptions(player, currentField);
             if (buyPropertyOption.equals("Ja tak, betal " + currentField.getPrice() + " kr.")) {
+                System.out.println(getCurrentPlayer().getName() + " købte " + currentField.getName() + " for " + currentField.getPrice() + "kr");
                 player.changeBalance(-currentField.getPrice());
                 currentField.getState().setOwner(player);
                 this.gui.setOwnerAndRent(getCurrentPlayer(), indexOfCurrentPlayer);
@@ -290,7 +291,7 @@ public class GameController {
                 }
             }
             if (chosenJailOption.equals("Betal")) {
-                System.out.println(getCurrentPlayer().getName() + "er nu fri fra fængslet");
+                System.out.println(getCurrentPlayer().getName() + " er nu fri fra fængslet for 1000 kr");
                 JailRules.PayOutOfJail(getCurrentPlayer());
                 this.gui.refreshPlayerBalance();
                 if (getCurrentPlayer().getRoundsInJail() != 3) {
@@ -321,20 +322,24 @@ public class GameController {
     private void sellAndBuyHousesAndPawn(String choice, String fieldName, Player player){
         BuyableField field = chosenField(fieldName,player);
             if(choice.equals("Køb hus") && isAllowedBuildHouses(field.getColor(),player) && canBuildOneMoreHouse(field,player)){
+                System.out.println(getCurrentPlayer().getName() + " Købte hus på " + field.getName() + " for " + field.getHousePrice() + "kr");
                 field.getState().setNumOfHouses(field.getState().getNumOfHouses()+1);
                 player.changeBalance(-field.getHousePrice());
             }
             else if(choice.equals("Sælg hus") && canSellOneMoreHouse(field)) {
+                System.out.println(getCurrentPlayer().getName() + "har solgt et hus på " + field.getName() + " for " + field.getHousePrice()/2 + "kr");
             field.getState().setNumOfHouses(field.getState().getNumOfHouses()-1);
             player.changeBalance(field.getHousePrice()/2);
             }
             else if(choice.equals("Pantsæt ejendom") && field.getState().getNumOfHouses()==0){
+                System.out.println(getCurrentPlayer().getName() + "har pantsat " + field.getName() + " for " + field.getHousePrice() + "kr");
                 field.getState().setPawned(true);
                 player.changeBalance(field.getPrice());
                 this.gui.setPawnedGUI(field, indexOfCurrentPlayer);
             }else if(choice.equals("Køb ejendom tilbage") && field.getState().isPawned()){
                 field.getState().setPawned(false);
                 int pawnedFieldPrice = (int) (Math.ceil((field.getPrice()*1.1)/100.0))*100;
+                System.out.println(getCurrentPlayer().getName() + " har købt " + field.getName() + " tilbage for " + pawnedFieldPrice + "kr");
                 player.changeBalance(-pawnedFieldPrice);
                 this.gui.setUnpawnedGUI(field, indexOfCurrentPlayer);
             }
