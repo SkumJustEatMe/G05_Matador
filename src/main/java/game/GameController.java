@@ -2,7 +2,6 @@ package game;
 
 import chancecards.*;
 import fields.*;
-import gui_fields.GUI_Street;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -59,12 +58,12 @@ public class GameController {
         this.addPlayersAndSetPosition(this.getNumberOfPlayers());
         this.gui.addPlayersToBoard(this.players.size());
         this.gui.addCarsToBoard();
-        this.gui.testKnap(getCurrentPlayer());
+        this.gui.testButton(getCurrentPlayer());
     }
 
     public void startGameLoop() {
         while (true) {
-            this.gui.updateGUI(GameBoard.getSingleton().getFields());
+            this.gui.updateGUI(GameBoard.getSingleton().getFields(), this.players);
             checkJailStatus();
             movePlayer();
             resetEqualDieRolls();
@@ -190,7 +189,7 @@ public class GameController {
             if (buyPropertyOption.equals("Ja tak, betal " + currentField.getPrice() + " kr.")) {
                 player.changeBalance(-currentField.getPrice());
                 currentField.getState().setOwner(player);
-                this.gui.setOwnerAndRent(getCurrentPlayer());
+                this.gui.setOwnerAndRent(getCurrentPlayer(), indexOfCurrentPlayer);
             }
         }
     }

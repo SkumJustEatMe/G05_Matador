@@ -152,8 +152,12 @@ public class GUI {
         }
     }
 
-    public String displayRollDiceButton(String playerName) {
+    public String displayRollDiceButton(String playerName, Die die) {
+        if(die.getNumberOfEqualRolls()>=1 && die.getNumberOfEqualRolls() < 3){
+            return this.gui.getUserButtonPressed(playerName, "Du slog 2 ens! Slå med terningerne");
+        }else{
         return this.gui.getUserButtonPressed(playerName, "Slå med terningerne");
+        }
     }
 
     public String displayPlayerSelectionButtons() {
@@ -274,28 +278,35 @@ public class GUI {
         return choice2;
     }
 
-    public void setOwnerAndRent(Player player){
-        GUI_Street gui_field = (GUI_Street) gui.getFields()[player.getPosition()];
+    public void setOwnerAndRent(Player player, int playerIndex){
+        GUI_Ownable gui_field = (GUI_Ownable) gui.getFields()[player.getPosition()];
         Field field = GameBoard.getSingleton().getFields()[player.getPosition()];
         if(field.getState().hasOwner()){
             gui_field.setOwnerName(field.getState().getOwner().getName());
             gui_field.setRent(Integer.toString(((BuyableField)field).getRent()[field.getState().getNumOfHouses()]));
+            gui_field.setBorder(this.gui_players.get(playerIndex).getCar().getPrimaryColor());
         }
     }
 
-    public void updateGUI(Field[] fields) {
-        for (int i = 0; i < fields.length; i++) {
-            if (fields[i].getType().equals(FieldType.BREWERY)||fields[i].getType().equals(FieldType.STREET)||fields[i].getType().equals(FieldType.FERRY)){
-                GUI_Ownable gui_ownable = (GUI_Ownable) gui.getFields()[i];
-                if (fields[i].getState().hasOwner()) {
-                    gui_ownable.setOwnerName(fields[i].getState().getOwner().getName());
-                    gui_ownable.setRent(Integer.toString(gameController.getCurrentRent(fields[i])));
+    public void updateGUI(Field[] fields, ArrayList<Player> players) {
+        for (int j = 0; j < players.size(); j++) {
+            for (int i = 0; i < fields.length; i++) {
+                if (fields[i].getType().equals(FieldType.BREWERY) || fields[i].getType().equals(FieldType.STREET) || fields[i].getType().equals(FieldType.FERRY)) {
+                    GUI_Ownable gui_ownable = (GUI_Ownable) gui.getFields()[i];
+                    if (fields[i].getState().hasOwner()) {
+                        gui_ownable.setOwnerName(fields[i].getState().getOwner().getName());
+                        gui_ownable.setRent(Integer.toString(gameController.getCurrentRent(fields[i])));
+                        if (players.get(j).getName().equals(fields[i].getState().getOwner().getName())) {
+                            gui_ownable.setBorder(this.gui_players.get(j).getCar().getPrimaryColor());
+                        }
+                    }
                 }
             }
         }
     }
 
-    public void testKnap(Player player) {
+
+    public void testButton(Player player) {
         String test1 = this.gui.getUserButtonPressed("Test det boi", player.getName() + " Ejer de blå grunde", "Lad mig være");
         if (test1.equals(player.getName() + " Ejer de blå grunde")) {
             gameController.masterTest(player);
