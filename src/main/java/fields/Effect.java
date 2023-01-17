@@ -5,7 +5,7 @@ public enum Effect {
     JAIL_VISIT,
     JAIL_GOTO,
     TAX_4000,
-    TAX_PERCENTAGE,
+    TAX_2000,
     CHANCE,
     REFUGE
 }

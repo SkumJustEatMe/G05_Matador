@@ -429,7 +429,7 @@ public class GUI {
 
     public void updateGUI(Field[] fields, ArrayList<Player> players) {
         for (int j = 0; j < players.size(); j++) {
-            if (this.gameController.bankrupty(this.gameController.getPlayers().get(j))) {
+            if (this.gameController.isBankrupt(this.gameController.getPlayers().get(j))) {
                 this.gui_players.get(j).setName(this.gameController.getPlayers().get(j).getName() + " ELLIMINERET");
                 this.gui_players.get(j).getCar().setPosition(this.fields[0]);
 

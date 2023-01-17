@@ -88,6 +88,6 @@ class GameControllerTest {
         GameController gameController = new GameController();
         Player player = new Player(2000);
         player.changeBalance(-2000);
-        assertFalse(gameController.bankrupty(player));    }
+        assertFalse(gameController.isBankrupt(player));    }
 }
 
