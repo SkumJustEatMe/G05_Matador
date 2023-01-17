@@ -93,7 +93,9 @@ public class GameController {
             if (!chosenPropertyOption.equals("Afslut tur")){
                 if (chosenPropertyOption.equals("Prøv at sælge ejendom") || chosenPropertyOption.equals("Byd på ejendom")){
                 fieldname = gui.buyOrSellProperties(chosenPropertyOption,getCurrentPlayer());
+                if(!fieldname.equals("Okay, øv")){
                     sellAndBuyPropertiesFromOtherPlayers(chosenPropertyOption,fieldname,getCurrentPlayer());
+                }
                 }
                 else{
                     String houseDecision = this.gui.buySellHouses(chosenPropertyOption, getCurrentPlayer());
@@ -365,11 +367,12 @@ public class GameController {
                 player.changeBalance(bid);
                 field.getState().setOwner(opponent);
                 this.gui.updateGUI(GameBoard.getSingleton().getFields(), players);
+                field.getState().setPawned(false);
             }
             this.gui.soldOrKeptByPlayer(field, opponent, bid);
         }
         else if(choice.equals("Prøv at sælge ejendom") && !areThereAnyHousesOnTheFields(field.getColor())){
-            this.gui.soldOrKeptByOpponent(field,player, 0, null);
+            this.gui.soldOrKeptByOpponent(field,player, 0, "øv");
         }
         else if(choice.equals("Byd på ejendom") && areThereAnyHousesOnTheFields(field.getColor())){
             int bid = this.gui.tryToBuyProperty(player);
@@ -380,10 +383,11 @@ public class GameController {
                         field.getState().setOwner(player);
                         this.gui.soldOrKeptByOpponent(field,player,bid, offerAnswer);
                         this.gui.updateGUI(GameBoard.getSingleton().getFields(), this.players);
+                        field.getState().setPawned(false);
                     }
             }
         else if(choice.equals("Byd på ejendom") && !areThereAnyHousesOnTheFields(field.getColor())){
-            this.gui.soldOrKeptByOpponent(field,player, 0, null);
+            this.gui.soldOrKeptByOpponent(field,player, 0, "øv");
         }
         this.gui.refreshPlayerBalance();
         }
@@ -626,7 +630,7 @@ public class GameController {
     public void bankruptcyByPlayerOrBank(Player player, Field field){
         if(bankrupty(player)){
             if(field.getState().hasOwner()) {
-                field.getState().getOwner().changeBalance(GameBoard.getSingleton().getActualWealth(player) - ((BuyableField) field).getRent()[getCurrentRent(field)]);
+                field.getState().getOwner().changeBalance(GameBoard.getSingleton().getActualWealth(player) - getCurrentRent(field));
             }
                 for(int i = 0; i < GameBoard.getSingleton().getFields().length; i++){
                     if(GameBoard.getSingleton().getFields()[i].getState().hasOwner() && GameBoard.getSingleton().getFields()[i].getState().getOwner().equals(player)){
@@ -682,19 +686,19 @@ public class GameController {
         BuyableField field11 = (BuyableField) GameBoard.getSingleton().getFields()[15];
         BuyableField field12 = (BuyableField) GameBoard.getSingleton().getFields()[16];
         for(int i = 0; i <players.size(); i++) {
-            players.get(i).changeBalance(-15000);
+            players.get(i).changeBalance(-20000);
         }
-        field.getState().setOwner(players.get(2));
-        field2.getState().setOwner(players.get(2));
+        field.getState().setOwner(players.get(0));
+        field2.getState().setOwner(players.get(0));
         field3.getState().setOwner(players.get(0));
         field4.getState().setOwner(players.get(0));
         field5.getState().setOwner(players.get(0));
         field6.getState().setOwner(players.get(0));
-        field7.getState().setOwner(players.get(1));
-        field8.getState().setOwner(players.get(1));
-        field9.getState().setOwner(players.get(1));
-        field10.getState().setOwner(players.get(1));
-        field11.getState().setOwner(players.get(2));
-        field12.getState().setOwner(players.get(2));
+        field7.getState().setOwner(players.get(0));
+        field8.getState().setOwner(players.get(0));
+        field9.getState().setOwner(players.get(0));
+        field10.getState().setOwner(players.get(0));
+        field11.getState().setOwner(players.get(0));
+        field12.getState().setOwner(players.get(0));
     }
 }
