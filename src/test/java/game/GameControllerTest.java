@@ -13,7 +13,7 @@ class GameControllerTest {
         GameController gameController = new GameController();
         Player player = new Player(4000);
         GameBoard.getSingleton().getFields()[1].getState().setOwner(player);
-        BuyableField roskilde = gameController.chosenField("Rødovrevej", player);
+        BuyableField roskilde = gameController.chosenStreetField("Rødovrevej", player);
         assertEquals("Rødovrevej",roskilde.getName());
 
     }
