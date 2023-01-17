@@ -24,6 +24,7 @@ public class GameController {
         return this.players.get(indexOfCurrentPlayer);
     }
 
+    private boolean isReverseMode;
     private int indexOfCurrentPlayer;
 
     public GameController() {
@@ -45,7 +46,6 @@ public class GameController {
         setPlayerNames();
     }
 
-
     public void run() {
         this.initialize();
         this.startGameLoop();
@@ -55,6 +55,7 @@ public class GameController {
      * sets up gamestate and gui prior to running game loop
      */
     private void initialize() {
+        this.isReverseMode = this.gui.getGameModeFromUser();
         this.addPlayersAndSetPosition(this.getNumberOfPlayers());
         this.gui.addPlayersToBoard(this.players.size());
         this.gui.addCarsToBoard();
@@ -67,12 +68,12 @@ public class GameController {
             System.out.println(" ");
             System.out.println("Det er " + getCurrentPlayer().getName() + "'s tur");
             checkJailStatus();
-            movePlayer();
+            moveCurrentPlayer();
             resetEqualDieRolls();
             this.gui.moveCarToField(indexOfCurrentPlayer);
             evaluateFieldAndExecute();
             this.gui.moveCarToField(indexOfCurrentPlayer);
-            this.gui.displayPlayerBalance();
+            this.gui.refreshPlayerBalance();
             this.managePropertiesOrEndTurn();
             setNextPlayer();
         }
@@ -85,7 +86,7 @@ public class GameController {
             if (!chosenProperty.equals("Afslut tur")) {
                 String houseDecision = this.gui.buySellHouses(chosenProperty, getCurrentPlayer());
                 sellAndBuyHousesAndPawn(houseDecision, chosenProperty, getCurrentPlayer());
-                this.gui.displayPlayerBalance();
+                this.gui.refreshPlayerBalance();
             }
         } while (!chosenProperty.equals("Afslut tur")) ;
     }
@@ -124,25 +125,62 @@ public class GameController {
     /**
      * moves the current player and checks if it passes start
      */
-    private void movePlayer() {
-        int currentPosition = getCurrentPlayer().getPosition();
-        int newPosition = 0;
+    private void moveCurrentPlayer() {
+        int oldPosition = getCurrentPlayer().getPosition();
 
         if (!getCurrentPlayer().isJailed()) {
-            if (hasReachedStartField()) {
-                newPosition = currentPosition + this.sumOfDiceRolls - GameBoard.getSingleton().getFields().length;
-                getCurrentPlayer().setPosition(newPosition);
-                getCurrentPlayer().changeBalance(4000);
-            } else {
-                newPosition = currentPosition + this.sumOfDiceRolls;
-                getCurrentPlayer().setPosition(newPosition);
+            if (hasReachedStartField())
+            {
+                movePlayerAndPassStart(oldPosition);
             }
+            else
+            {
+                this.movePlayer(oldPosition);
+            }
+        }
+        System.out.println("og rykker nu " + sumOfDiceRolls + " felter frem.");
+    }
 
-        }System.out.println("og rykker nu " + sumOfDiceRolls + " felter frem.");
+    private void movePlayer(int oldPosition)
+    {
+        int newPosition = 0;
+        if (this.isReverseMode)
+        {
+            if (oldPosition == 0) {
+                newPosition = oldPosition - this.sumOfDiceRolls + GameBoard.getSingleton().getFields().length;
+            }
+            else {
+                newPosition = oldPosition - this.sumOfDiceRolls;
+            }
+            getCurrentPlayer().setPosition(newPosition);
+        }
+        else {
+            newPosition = oldPosition + this.sumOfDiceRolls;
+            getCurrentPlayer().setPosition(newPosition);
+        }
+    }
+
+    private void movePlayerAndPassStart(int oldPosition)
+    {
+        int newPosition = 0;
+        if (this.isReverseMode) {
+            newPosition = oldPosition - this.sumOfDiceRolls + GameBoard.getSingleton().getFields().length - 1;
+        }
+        else {
+            newPosition = oldPosition + this.sumOfDiceRolls - GameBoard.getSingleton().getFields().length;
+        }
+        getCurrentPlayer().setPosition(newPosition);
+        getCurrentPlayer().changeBalance(4000);
+        this.gui.refreshPlayerBalance();
     }
 
     private boolean hasReachedStartField() {
-        return getCurrentPlayer().getPosition() + this.sumOfDiceRolls >= GameBoard.getSingleton().getFields().length;
+        if (this.isReverseMode) {
+            return getCurrentPlayer().getPosition() != 0 && this.getCurrentPlayer().getPosition() - this.sumOfDiceRolls <= 0;
+        }
+        else {
+            return getCurrentPlayer().getPosition() + this.sumOfDiceRolls >= GameBoard.getSingleton().getFields().length;
+        }
     }
 
     private void evaluateFieldAndExecute() {
@@ -169,19 +207,20 @@ public class GameController {
             } else if (card instanceof GetOutOfJailCard getOutOfJailCard) {
                 getOutOfJailCard.execute(getCurrentPlayer());
             } else if (card instanceof MoveCard moveCard) {
-                moveCard.execute(getCurrentPlayer());
+                moveCard.execute(getCurrentPlayer(), this.isReverseMode);
             } else if (card instanceof MoveToCard moveToCard) {
-                moveToCard.execute(getCurrentPlayer());
+                moveToCard.execute(getCurrentPlayer(), isReverseMode);
             } else if (card instanceof RecieveOrPayCard recieveOrPayCard) {
                 recieveOrPayCard.execute(getCurrentPlayer());
             } else if (card instanceof MatadorCard matadorCard) {
                 matadorCard.execute(getCurrentPlayer());
             } else if (card instanceof MoveToTypeCard moveToTypeCard) {
-                moveToTypeCard.execute(getCurrentPlayer());
+                moveToTypeCard.execute(getCurrentPlayer(), isReverseMode);
             } else if (card instanceof PayPerHouseCard payPerHouseCard) {
                 payPerHouseCard.execute(getCurrentPlayer());
             }
         }
+        this.gui.refreshPlayerBalance();
     }
 
     private void payRentOrBuyProperty(Player player) {
@@ -190,7 +229,7 @@ public class GameController {
         if(currentField.getState().hasOwner()) {
             if(!currentField.getState().isPawned()){
             this.gui.displayLandingOnOpponentProperty(player, currentField);
-            System.out.println(getCurrentPlayer().getName() + " betaler desværre " + currentFieldRent + "kr til " + opponent.getName());
+            System.out.println(getCurrentPlayer().getName() + " betaler desværre " + getCurrentRent(currentField) + "kr til " + opponent.getName());
             player.changeBalance(-getCurrentRent(currentField));
             opponent.changeBalance(getCurrentRent(currentField));
         }
@@ -253,7 +292,7 @@ public class GameController {
             if (chosenJailOption.equals("Betal")) {
                 System.out.println(getCurrentPlayer().getName() + "er nu fri fra fængslet");
                 JailRules.PayOutOfJail(getCurrentPlayer());
-                this.gui.displayPlayerBalance();
+                this.gui.refreshPlayerBalance();
                 if (getCurrentPlayer().getRoundsInJail() != 3) {
                     getUserInputToBegin();
                     rollDice();
