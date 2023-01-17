@@ -16,7 +16,7 @@ Det kompilerede projekt er nu at finde i target-mappen i roden af projekt-mappen
 
 Åbn projektet i IntelliJ IDEA.
 
-Åbn Main.java i IntelliJ, som ligger i %PROJECT_ROOT%/src/main/java/game
+Åbn Main.java i IntelliJ, som ligger i `%PROJECT_ROOT%/src/main/java/game`.
 
 Naviger til toolbar'en i toppen af vinduet til 'Run' -> 'Run Main.java'.
 
@@ -24,9 +24,9 @@ Naviger til toolbar'en i toppen af vinduet til 'Run' -> 'Run Main.java'.
 
 Åbn projektet i IntelliJ IDEA.
 
-I værktøjsvinduet 'Project', højre-klik da på mappen %PROJECT_ROOT%/src/test/java.
+I værktøjsvinduet 'Project', højre-klik da på mappen `%PROJECT_ROOT%/src/test/java`.
 
-Vælg nu "Run 'All Tests'".
+Vælg nu `Run 'All Tests'`.
 
 Resultatet af testene er nu at læse fra værktøjsvinduet 'Run' i bunden af IntelliJ.
 
