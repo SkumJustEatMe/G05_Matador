@@ -1,6 +1,8 @@
 package game;
 
 
+import java.awt.*;
+
 public class Player {
 
     private int getOutOfJailFreeCard = 0;
@@ -20,7 +22,6 @@ public class Player {
     private String name;
 
     private boolean jailed;
-
     public String getName() { return this.name; }
     public void setName(String name) { this.name = name; }
     public int getBalance() { return this.balance; }

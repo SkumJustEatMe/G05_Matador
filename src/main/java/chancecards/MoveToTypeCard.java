@@ -33,8 +33,8 @@ public class MoveToTypeCard extends ChanceCard {
                     int rent = ((BuyableField) GameBoard.getSingleton().getFields()[i]).getRent()[nrOfFerries];
                     player.changeBalance(-(rent * timesRent));
                     opponent.changeBalance(rent * timesRent);
-                    i =40;
                 }
+                i =40;
             }
         }
         if (player.getPosition()<spot){
