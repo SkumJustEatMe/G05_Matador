@@ -226,14 +226,17 @@ public class GameController {
                 getOutOfJailCard.execute(getCurrentPlayer());
             } else if (card instanceof MoveCard moveCard) {
                 moveCard.execute(getCurrentPlayer(), this.isReverseMode);
+                evaluateFieldAndExecute();
             } else if (card instanceof MoveToCard moveToCard) {
                 moveToCard.execute(getCurrentPlayer(), isReverseMode);
+                evaluateFieldAndExecute();
             } else if (card instanceof RecieveOrPayCard recieveOrPayCard) {
                 recieveOrPayCard.execute(getCurrentPlayer());
             } else if (card instanceof MatadorCard matadorCard) {
                 matadorCard.execute(getCurrentPlayer());
             } else if (card instanceof MoveToTypeCard moveToTypeCard) {
                 moveToTypeCard.execute(getCurrentPlayer(), isReverseMode);
+                evaluateFieldAndExecute();
             } else if (card instanceof PayPerHouseCard payPerHouseCard) {
                 payPerHouseCard.execute(getCurrentPlayer());
             }
