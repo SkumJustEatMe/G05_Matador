@@ -65,8 +65,7 @@ public class GameController {
     public void startGameLoop() {
 
         while (!doWeHaveAWinner(this.players)) {
-            if(!bankrupty(getCurrentPlayer())) {
-                bankrupty(getCurrentPlayer());
+            if(!isBankrupt(getCurrentPlayer())) {
                 this.gui.updateGUI(GameBoard.getSingleton().getFields(), this.players);
                 System.out.println(" ");
                 System.out.println("Det er " + getCurrentPlayer().getName() + "'s tur");
@@ -78,7 +77,6 @@ public class GameController {
                 this.gui.moveCarToField(indexOfCurrentPlayer);
                 this.gui.refreshPlayerBalance();
                 this.managePropertiesOrEndTurn();
-                bankrupty(getCurrentPlayer());
             }
             setNextPlayer();
         }
@@ -225,6 +223,13 @@ public class GameController {
             } else if (card instanceof PayPerHouseCard payPerHouseCard) {
                 payPerHouseCard.execute(getCurrentPlayer());
             }
+
+        } else if (effect == Effect.TAX_2000) {
+            getCurrentPlayer().changeBalance(-2000);
+            System.out.println(getCurrentPlayer().getName() + ", betaler 2000 kr. i skat.");
+        } else if (effect == Effect.TAX_4000) {
+            getCurrentPlayer().changeBalance(-4000);
+            System.out.println(getCurrentPlayer().getName() + ", betaler 4000 kr. i skat.");
         }
         this.gui.refreshPlayerBalance();
     }
@@ -496,7 +501,7 @@ public class GameController {
     }
 
     public void bankruptcyByPlayerOrBank(Player player, Field field){
-        if(bankrupty(player)){
+        if(isBankrupt(player)){
             if(field.getState().hasOwner()) {
                 field.getState().getOwner().changeBalance(GameBoard.getSingleton().getActualWealth(player) - ((BuyableField) field).getRent()[getCurrentRent(field)]);
             }
@@ -510,11 +515,8 @@ public class GameController {
             }
         }
 
-    public boolean bankrupty(Player player){
-        if(GameBoard.getSingleton().getActualWealth(player) < 0){
-            return true;
-        }
-        else{return false;}
+    public boolean isBankrupt(Player player){
+        return GameBoard.getSingleton().getActualWealth(player) < 0;
     }
     private boolean doWeHaveAWinner(ArrayList<Player> players) {
         int bankruptPlayers = 0;

@@ -32,7 +32,7 @@ public final class CsvReader
             case "i fængsel/på besøg" -> Effect.JAIL_VISIT;
             case "fængsel" -> Effect.JAIL_GOTO;
             case "indkomstskat" -> Effect.TAX_4000;
-            case "ekstraordinær statsskat" -> Effect.TAX_PERCENTAGE;
+            case "ekstraordinær statsskat" -> Effect.TAX_2000;
             case "parkering" -> Effect.REFUGE;
             default -> null;
         };
