@@ -174,7 +174,7 @@ public class GameBoard {
 
 
     public int getTotalWealth(Player player){
-        int totalWealth = player.getBalance() + getNrOfFerriesOwnedByPlayer(player)*4000 + getNrOfBreweriesOwnedByPlayer(player)*2000;
+        int totalWealth = player.getBalance() + (getNrOfFerriesOwnedByPlayer(player)+1)*4000 + (getNrOfBreweriesOwnedByPlayer(player)+1)*2000;
         for (int i = 0; i < this.fields.length; i++){
             if(this.fields[i].getState().hasOwner()){
                 if(this.fields[i].getType().equals(FieldType.STREET) && this.fields[i].getState().getOwner().equals(player)){
@@ -185,4 +185,17 @@ public class GameBoard {
         }
     return totalWealth;
 }
+public int getActualWealth(Player player){
+        int actualWealth = player.getBalance() + (getNrOfFerriesOwnedByPlayer(player)+1)*4000 + (getNrOfBreweriesOwnedByPlayer(player)+1)*2000;
+    for (int i = 0; i < this.fields.length; i++){
+        if(this.fields[i].getState().hasOwner()){
+            if(this.fields[i].getType().equals(FieldType.STREET) && this.fields[i].getState().getOwner().equals(player)){
+                actualWealth += this.fields[i].getPrice();
+                actualWealth += (this.fields[i].getState().getNumOfHouses() * ((BuyableField)this.fields[i]).getHousePrice())/2;
+            }
+        }
+    }
+    return actualWealth;
+}
+
 }

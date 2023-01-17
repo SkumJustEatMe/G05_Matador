@@ -151,8 +151,8 @@ public class GUI {
     public void displayPlayerBalance() {
         for (int i = 0; i < this.gameController.getPlayers().size(); i++) {
             this.gui_players.get(i).setBalance(this.gameController.getPlayers().get(i).getBalance());
+            }
         }
-    }
 
     public String displayRollDiceButton(String playerName, Die die) {
         if(die.getNumberOfEqualRolls()>=1 && die.getNumberOfEqualRolls() < 3){
@@ -213,8 +213,12 @@ public class GUI {
             rent = ((BuyableField)field).getRent()[GameBoard.getSingleton().getNrOfBreweriesOwnedByPlayer(field.getState().getOwner())];
         }
         String opponent = field.getState().getOwner().getName();
-        return gui.getUserButtonPressed(player.getName() + ", du er landet på " + field.getName() + " som " + opponent + " ejer. Betal " + rent + "kr. til " + opponent + ".", "Øv. Betal " + rent + "kr.");
-    }
+        if(gameController.isAllowedBuildHouses(field.getColor(),field.getState().getOwner()) && field.getState().getNumOfHouses()==0 && field.getType().equals(FieldType.STREET)){
+            return gui.getUserButtonPressed(player.getName() + ", du er landet på " + field.getName() + " som " + opponent + " ejer. Betal " + rent*2 + "kr. til " + opponent + ".", "Øv. Betal " + rent*2 + "kr.");
+        }else {
+            return gui.getUserButtonPressed(player.getName() + ", du er landet på " + field.getName() + " som " + opponent + " ejer. Betal " + rent + "kr. til " + opponent + ".", "Øv. Betal " + rent + "kr.");
+        }
+        }
 
     public void displayChanceCard (ChanceCard chancecard){
         this.gui.displayChanceCard(chancecard.getText());
@@ -229,17 +233,22 @@ public class GUI {
             for (int i = 0; i < ownedFields.length; i++) {
                 ownedStreetsAsStrings[i] = ownedFields[i].getName();
             }
-            if (nrOfEqualRolls >= 1 && nrOfEqualRolls < 3) {
-                choice = this.gui.getUserButtonPressed(player.getName() + ", vil du adminstere dine grunde eller afslutte din tur?", "Adminstrer grunde", "Du har slået 2 ens, så du må slå igen");
-            } else {
-                choice = this.gui.getUserButtonPressed(player.getName() + ", vil du adminstere dine grunde eller afslutte din tur?", "Adminstrer grunde", "Afslut tur");
-            } if (choice.equals("Adminstrer grunde")) {
-                dropdown = this.gui.getUserSelection(player.getName() + ", administrer grunde...", ownedStreetsAsStrings);
-            } else {
-                dropdown = "Afslut tur";
+            if(player.getBalance()<0){
+                dropdown = this.gui.getUserSelection(player.getName() + ", du har ikke flere penge i din pengebeholdning, pantsæt ejendomme eller sælg huse på dine grunde:", ownedStreetsAsStrings );
+            }
+            else{
+                if (nrOfEqualRolls >= 1 && nrOfEqualRolls < 3) {
+                    choice = this.gui.getUserButtonPressed(player.getName() + ", vil du adminstere dine grunde eller afslutte din tur?", "Adminstrer grunde", "Du har slået 2 ens, så du må slå igen");
+                } else {
+                    choice = this.gui.getUserButtonPressed(player.getName() + ", vil du adminstere dine grunde eller afslutte din tur?", "Adminstrer grunde", "Afslut tur");
+                } if (choice.equals("Adminstrer grunde")) {
+                    dropdown = this.gui.getUserSelection(player.getName() + ", administrer grunde...", ownedStreetsAsStrings);
+                } else {
+                    dropdown = "Afslut tur";
+                }
             }
         } else {
-            dropdown = "Afslut tur";
+        dropdown = "Afslut tur";
         }
         return dropdown;
     }
@@ -247,23 +256,41 @@ public class GUI {
     public String buySellHouses(String fieldName, Player player){
         BuyableField field = gameController.chosenField(fieldName,player);
         GUI_Street gui_field = (GUI_Street) gui.getFields()[field.getPosition()];
-        String choice = null;
+        String choice;
         String choice2 = null;
+        int pawnedFieldPrice = (int) (Math.ceil((field.getPrice()*1.1)/100.0))*100;
+        if(player.getBalance()<0){
+            if(gameController.canSellOneMoreHouse(field) && gameController.canPawnProperty(field)){
+            choice = this.gui.getUserButtonPressed(player.getName() + ", vil du pantsætte ejendommen? Eller sælge huse?", "Pantsæt", "Sælg hus");
+            if(choice.equals("Pantsæt")){
+                choice2 = this.gui.getUserButtonPressed(player.getName() + " er du sikker på du vil pantsætte ejendommen?","Pantsæt ejendom", "Annuller");
+            } else{
+                choice2 = this.gui.getUserButtonPressed(player.getName() + " er du sikker på du vil sælge et hus?","Sælg hus", "Annuller");
+            }
+            }
+            else if(gameController.canPawnProperty(field))
+            {choice2 =  this.gui.getUserButtonPressed(player.getName() + ", du kan ikke sælge huse på denne grund, vil du pantsætte ejendommen for " + field.getPrice() + "kr. ?","Pantsæt ejendom", "Annuller");}
+            else if(gameController.canSellOneMoreHouse(field)){
+                choice2 =  this.gui.getUserButtonPressed(player.getName() + ", du kan ikke pantsætte denne ejendom, vil du sælge et hus for " + field.getHousePrice()/2 + "kr. ?","Sælg hus", "Annuller");}
+            }
+        else{
         if(field.getState().isPawned()) {
-            choice = this.gui.getUserButtonPressed("Vil du pantsætte ejendommen? Eller sælge eller købe huse?", "Køb ejendom tilbage", "Sælg", "Køb");
-            if(choice.equals("Køb ejendom tilbage")){
+            choice = this.gui.getUserButtonPressed("Vil du købe ejendommen tilbage for " + pawnedFieldPrice + "kr. ? Eller sælge eller købe huse?", "Køb ejendom tilbage", "Annuller");
+            if(choice.equals("Køb ejendom tilbage") && pawnedFieldPrice < player.getBalance()){
                 choice2 = choice;
+            } else{
+                choice2 = this.gui.getUserButtonPressed("Du har desværre ikke råd til at købe denne ejendom tilbage." , "Okay, øv");
             }
         }
         else {
-            choice = this.gui.getUserButtonPressed("Vil du pantsætte ejendommen? Eller sælge eller købe huse?", "Pantsæt ejendom", "Sælg", "Køb");
+            choice = this.gui.getUserButtonPressed("Vil du pantsætte ejendommen? Eller sælge eller købe huse?", "Pantsæt ejendom", "Sælg hus", "Køb hus");
         }
         if(choice.equals("Pantsæt ejendom") && gameController.canPawnProperty(field)){
             choice2 = this.gui.getUserButtonPressed(player.getName()+ ", hvis du pantsætter ejendommen skal du betale et lån af på 10% for at få den igen, fortsæt?", "Pantsæt ejendom", "Annuller");
         } else if(choice.equals("Pantsæt ejendom") && !gameController.canPawnProperty(field)){
             choice2 = this.gui.getUserButtonPressed(player.getName()+ ", du kan desværre ikke pantsætte denne ejendom, sælg husene på de andre grunde først!", "Okay, øv");
         }
-        else if(choice.equals("Køb") && gameController.isAllowedBuildHouses(field.getColor(),player)){
+        else if(choice.equals("Køb hus") && gameController.isAllowedBuildHouses(field.getColor(),player)){
             if(gameController.canBuildOneMoreHouse(field,player) && player.getBalance() >= field.getHousePrice()){
                 choice2 = this.gui.getUserButtonPressed(player.getName()+ ", køb hus(eller hotel, hvis du har 4 huse) for " + field.getHousePrice() + " kr. eller annuller:", "Køb hus", "Annuller");
                 if(choice2.equals("Køb hus") && field.getState().getNumOfHouses()<=3){
@@ -275,12 +302,12 @@ public class GUI {
                 }else if(choice2.equals("Køb hus") && field.getState().getNumOfHouses()==5){
                     choice2 = this.gui.getUserButtonPressed(player.getName() + ", du har allerede et hotel, du kan ikke købe flere huse på denne grund", "Okay, øv");
                 }
-            } else if(!gameController.canBuildOneMoreHouse(field,player)){
+            } else if(!gameController.canBuildOneMoreHouse(field,player) && !field.getState().isPawned()){
                 choice2 = this.gui.getUserButtonPressed(player.getName()+ ", du har enten ikke råd til et hus på denne grund ellers bygger du ujævnt på dine grunde, byg et eller 2 huse på en af de andre af samme før du må bygge her.", "Okay, øv");
             }
-        } else if(choice.equals("Køb") && !gameController.isAllowedBuildHouses(field.getColor(), player)){
-            choice2 = this.gui.getUserButtonPressed(player.getName()+ ", du kan ikke købe huse på denne grund da du mangler de resterende grunde af samme farve", "Okay, øv");
-        } else if (choice.equals("Sælg") && gameController.canSellOneMoreHouse(field)) {
+        } else if(choice.equals("Køb hus") && !gameController.isAllowedBuildHouses(field.getColor(), player)){
+            choice2 = this.gui.getUserButtonPressed(player.getName()+ ", du kan ikke købe huse på denne grund da du enten mangler de resterende grunde af samme farve, en af dem er pantsat ellers har du ikke råd", "Okay, øv");
+        } else if (choice.equals("Sælg hus") && gameController.canSellOneMoreHouse(field)) {
             choice2 = this.gui.getUserButtonPressed(player.getName() + ", sælg et hus på denne grund til havldelen af den originale værdi: " + field.getHousePrice() / 2 + " kr. eller annuller?", "Sælg hus", "Annuller");
             if (choice2.equals("Sælg hus") && field.getState().getNumOfHouses() <= 4) {
                 gui_field.setHouses(field.getState().getNumOfHouses()-1);
@@ -288,8 +315,9 @@ public class GUI {
                 gui_field.setHotel(false);
                 gui_field.setHouses(4);
             }
-        } else if (choice.equals("Sælg") && !gameController.canSellOneMoreHouse(field)) {
+        } else if (choice.equals("Sælg hus") && !gameController.canSellOneMoreHouse(field)) {
             choice2 = this.gui.getUserButtonPressed(player.getName() + ", du har enten ingen huse at sælge, ellers prøver du at sælge ujævnt", "Okay, øv");
+        }
         }
         return choice2;
     }
@@ -317,31 +345,42 @@ public class GUI {
 
     public void updateGUI(Field[] fields, ArrayList<Player> players) {
         for (int j = 0; j < players.size(); j++) {
-            for (int i = 0; i < fields.length; i++) {
-                if (fields[i].getType().equals(FieldType.BREWERY) || fields[i].getType().equals(FieldType.STREET) || fields[i].getType().equals(FieldType.FERRY)) {
-                    GUI_Ownable gui_ownable = (GUI_Ownable) gui.getFields()[i];
-                    if (fields[i].getState().hasOwner()) {
-                        gui_ownable.setOwnerName(fields[i].getState().getOwner().getName());
-                        gui_ownable.setRent(Integer.toString(gameController.getCurrentRent(fields[i])));
-                        if (players.get(j).getName().equals(fields[i].getState().getOwner().getName())) {
-                            gui_ownable.setBorder(this.gui_players.get(j).getCar().getPrimaryColor());
-                            if(fields[i].getState().isPawned()){
-                                gui_ownable.setRent("Pantsat: 0 kr.");
-                                gui_ownable.setBorder(this.gui_players.get(j).getCar().getPrimaryColor(),Color.GRAY);
+            if (this.gameController.bankrupty(this.gameController.getPlayers().get(j))) {
+                this.gui_players.get(j).setName(this.gameController.getPlayers().get(j).getName() + " ELLIMINERET");
+                this.gui_players.get(j).getCar().setPosition(this.fields[0]);
+                }
+                for (int i = 0; i < fields.length; i++) {
+                    if (fields[i].getType().equals(FieldType.BREWERY) || fields[i].getType().equals(FieldType.STREET) || fields[i].getType().equals(FieldType.FERRY)) {
+                        GUI_Ownable gui_ownable = (GUI_Ownable) gui.getFields()[i];
+                        if (fields[i].getState().hasOwner()) {
+                            gui_ownable.setOwnerName(fields[i].getState().getOwner().getName());
+                            gui_ownable.setRent(Integer.toString(gameController.getCurrentRent(fields[i])));
+                            if (players.get(j).getName().equals(fields[i].getState().getOwner().getName())) {
+                                gui_ownable.setBorder(this.gui_players.get(j).getCar().getPrimaryColor());
+                                if (fields[i].getState().isPawned()) {
+                                    gui_ownable.setRent("Pantsat: 0 kr.");
+                                    gui_ownable.setBorder(this.gui_players.get(j).getCar().getPrimaryColor(), Color.GRAY);
+                                }
                             }
                         }
                     }
                 }
             }
         }
-    }
 
 
-    public void testButton(Player player) {
-        String test1 = this.gui.getUserButtonPressed("Test det boi", player.getName() + " Ejer de blå grunde", "Lad mig være");
-        if (test1.equals(player.getName() + " Ejer de blå grunde")) {
-            gameController.masterTest(player);
+
+    public void testButton(ArrayList<Player> players) {
+        String test1 = this.gui.getUserButtonPressed("Test det boi", players.get(0).getName() + " Ejer de blå grunde", "Lad mig være");
+        if (test1.equals(players.get(0).getName() + " Ejer de blå grunde")) {
+            gameController.masterTest(players);
         }
     }
+
+    public void displayWinner(Player player){
+        this.gui.getUserButtonPressed("Tillykke " + player.getName() + " du har vundet Matador! Sikke en tålmodig champ du er!", "Mange tak, Afslut spillet");
+        this.gui.close();
+    }
+
 }
 
