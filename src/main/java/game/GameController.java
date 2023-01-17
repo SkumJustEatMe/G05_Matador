@@ -71,12 +71,12 @@ public class GameController {
                 System.out.println(" ");
                 System.out.println("Det er " + getCurrentPlayer().getName() + "'s tur");
                 checkJailStatus();
-                movePlayer();
+                movePlayer(getCurrentPlayer().getPosition());
                 resetEqualDieRolls();
                 this.gui.moveCarToField(indexOfCurrentPlayer);
                 evaluateFieldAndExecute();
                 this.gui.moveCarToField(indexOfCurrentPlayer);
-                this.gui.displayPlayerBalance();
+                this.gui.refreshPlayerBalance();
                 this.managePropertiesOrEndTurn();
                 bankrupty(getCurrentPlayer());
             }
