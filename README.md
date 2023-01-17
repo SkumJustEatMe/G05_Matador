@@ -24,7 +24,7 @@ Naviger til toolbar'en i toppen af vinduet til `Run -> Run Main.java`.
 
 Åbn projektet i IntelliJ IDEA.
 
-I værktøjsvinduet 'Project', højre-klik da på mappen `%PROJECT_ROOT%/src/test/java`.
+I værktøjsvinduet `Project`, højre-klik da på mappen `%PROJECT_ROOT%/src/test/java`.
 
 Vælg nu `Run 'All Tests'`.
 
