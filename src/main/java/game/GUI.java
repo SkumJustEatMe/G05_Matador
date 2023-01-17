@@ -261,7 +261,11 @@ public class GUI {
         int pawnedFieldPrice = (int) (Math.ceil((field.getPrice()*1.1)/100.0))*100;
         if(player.getBalance()<0){
             if(gameController.canSellOneMoreHouse(field) && gameController.canPawnProperty(field)){
+<<<<<<< HEAD
             choice = this.gui.getUserButtonPressed(player.getName() + ", vil du pantsætte ejendommen? Eller sælge huse?", "Pantsæt", "Sælg hus");
+=======
+            choice = this.gui.getUserButtonPressed(player.getName() + ", vil du pantsætte ejendommen? Eller sælge huse?", "Pantsæt", "Sælg");
+>>>>>>> 0c44dfa7ccdc7726558648c420f769555688906a
             if(choice.equals("Pantsæt")){
                 choice2 = this.gui.getUserButtonPressed(player.getName() + " er du sikker på du vil pantsætte ejendommen?","Pantsæt ejendom", "Annuller");
             } else{
@@ -305,9 +309,15 @@ public class GUI {
             } else if(!gameController.canBuildOneMoreHouse(field,player) && !field.getState().isPawned()){
                 choice2 = this.gui.getUserButtonPressed(player.getName()+ ", du har enten ikke råd til et hus på denne grund ellers bygger du ujævnt på dine grunde, byg et eller 2 huse på en af de andre af samme før du må bygge her.", "Okay, øv");
             }
+<<<<<<< HEAD
         } else if(choice.equals("Køb hus") && !gameController.isAllowedBuildHouses(field.getColor(), player)){
             choice2 = this.gui.getUserButtonPressed(player.getName()+ ", du kan ikke købe huse på denne grund da du enten mangler de resterende grunde af samme farve, en af dem er pantsat ellers har du ikke råd", "Okay, øv");
         } else if (choice.equals("Sælg hus") && gameController.canSellOneMoreHouse(field)) {
+=======
+        } else if(choice.equals("Køb") && !gameController.isAllowedBuildHouses(field.getColor(), player)){
+            choice2 = this.gui.getUserButtonPressed(player.getName()+ ", du kan ikke købe huse på denne grund da du mangler de resterende grunde af samme farve ellers er en af dem pantsat", "Okay, øv");
+        } else if (choice.equals("Sælg") && gameController.canSellOneMoreHouse(field)) {
+>>>>>>> 0c44dfa7ccdc7726558648c420f769555688906a
             choice2 = this.gui.getUserButtonPressed(player.getName() + ", sælg et hus på denne grund til havldelen af den originale værdi: " + field.getHousePrice() / 2 + " kr. eller annuller?", "Sælg hus", "Annuller");
             if (choice2.equals("Sælg hus") && field.getState().getNumOfHouses() <= 4) {
                 gui_field.setHouses(field.getState().getNumOfHouses()-1);
