@@ -1,0 +1,22 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+
+actor Observer
+participant System
+
+Observer -> System : playGame
+System -->  Observer : inputNrOfPlayer, inputPlayerNames, inputPlayMode
+Observer -> System : initializeGame
+loop no winner
+Observer -> System : rollDice
+System --> Observer : currentPlayer, diceTotal, fieldEffect, playerBalance
+alt currentPlayer.ownsProperty
+loop !Afslut tur || Byd || Sælg
+Observer -> System : chooseOption
+System --> Observer :managaeProperties, sellPropertyFromOtherplayer, buyPropertyFromOtherPlayer
+end
+end
+end
+System --> Observer : returnsWinner
+@enduml
