@@ -1,0 +1,250 @@
+@startuml
+'https://plantuml.com/class-diagram
+skinparam classAttributeIconSize 0
+
+abstract class ChanceCard{
++ChanceCard()
++getText()
++execute()
+}
+
+class DeckController{
++getCard()
++DeckController()
++getOutOfJailCards()
+}
+
+class GetOutOfJailCard{
++execute()
+}
+
+class GoToJailCard{
++execute()
+}
+
+class MatadorCard{
++execute()
+}
+
+class MoveCard{
++execute()
+-moveInReverseMode()
+-moveInNormalMode()
+}
+
+class MoveToCard{
++execute()
+}
+
+class MoveToTypeCard{
++execute()
+}
+
+class PayPerHouseCard{
++execute()
+}
+
+class ReceivePerPlayerCard{
++execute()
+}
+
+class RecieveOrPayCard{
++execute()
+}
+
+abstract class Field{
++Field()
+}
+
+class BuyableField{
+
+}
+
+enum Effect{
+
+}
+
+class EffectField{
+
+}
+
+class FieldState{
+
+}
+
+enum FieldType{
+
+}
+
+class GameBoard{
+-populateFieldsArray()
++getIndexOfJail()
++getNrOfFerriesOwnedByPlayer()
++getNrOfBreweriesOwnedByPlayer()
++getTotalHousesOwnedByPlayer()
++getTotalHotelsOwnedByPlayer()
++getTotalWealth()
++getActualWealth()
+}
+
+class Die{
++roll()
++getFaceValue()
++toString()
++EqualRolls()
+}
+
+class GameController{
++getPlayers()
+-getCurrentPlayer()
+-addPlayersAndSetPosition()
++run()
+-initialize()
++startGameLoop()
+-managePropertiesOrEndTurn()
+-rollDice()
+-resetEqualDieRolls()
+-setNextPlayer()
+-moveCurrentPlayer()
+-movePlayer()
+-movePlayerAndPassStart()
+-hasReachedStartField()
+-evaluateFieldAndExecute()
+-executeEffect()
+-payRentOrBuyProperty()
++getCurrentRent()
+-getNumberOfPlayers()
+-getUserInputToBegin()
+-checkJailStatus()
+-locateOpponentFromName()
+-sellAndBuyPropertiesFromOtherPlayers()
+-areThereAnyHousesOnTheFields()
++getFieldFromName()
++getAllOpponentNames()
++getAllOpponentsFields()
+-sellAndBuyHousesAndPawn()
++canSellOneMoreHouse()
++canBuildOneMoreHouse()
++canPawnProperty()
++isAllowedBuildHouses()
++chosenStreetField()
++chosenBuyableField()
+-getStreetsOfSameColor()
+-areOwnedBySamePlayer()
++getAllStreetFields()
++getAllBuyableFields()
++getOwnedByPlayer()
++getOwnedNotPawnedByPlayer()
+-setPlayerNames()
++bankruptcyByPlayerOrBank()
++isBankrupt()
+-doWeHaveAWinner()
+-whoWon()
++masterTest()
+}
+
+class GUI{
++createStartField()
++createStreetField()
++createJailField()
++createBreweryField()
++createChanceField()
++createFerryField()
++createTaxField()
++createRefugeField()
++populateFields()
++addCarsToBoard()
++addPlayersToBoard()
++displayDieRoll()
++moveCarToField()
++refreshPlayerBalance()
++displayRollDiceButton()
++displayPlayerSelectionButtons()
++getUserStringInput()
++displayJailOptions()
++displayUnownedPropertyOptions()
++displayLandingOnOpponentProperty()
++displayChanceCard()
++showDropDownMenu()
++chooseWhoYouWantToBuy()
++tryToSellProperty()
++soldOrKeptByPlayer()
++acceptOrDeclineOfferSelling()
++soldOrKeptByOpponent()
++tryToBuyProperty()
++acceptOrDeclineOfferBuying()
++buyOrSellProperties()
++buySellHouses()
++setOwnerAndRent()
++setPawnedGUI()
++setUnpawnedGUI()
++updateGUI()
++testButton()
++displayWinner()
++getGameModeFromUser()
+}
+
+class JailRules{
++PayOutOfJail()
++ForceOutOfJail()
++ForceJail()
+}
+
+class Main{
+
+}
+
+class Player{
++setGetOutOfJailFreeCard()
++getGetOutOfJailFreeCard()
++isEliminated()
++setEliminated()
++getRoundsInJail()
++incrementRoundsInJail()
++resetRoundsInJail()
++getName()
++setName()
++getBalance()
++changeBalance()
++getPosition()
++setPosition()
++setJailed()
++isJailed()
+}
+
+
+class CsvReader{
++convertTo2DArray()
++NameToEffect()
+}
+
+class TxtReader{
++convertLinesToArray()
+}
+
+ChanceCard <|-- MoveToTypeCard
+ChanceCard <|-- GetOutOfJailCard
+ChanceCard <|-- PayPerHouseCard
+ChanceCard <|-- GoToJailCard
+ChanceCard <|-- MoveToCard
+ChanceCard <|-- RecieveOrPayCard
+ChanceCard <|-- MoveCard
+ChanceCard <|-- ReceivePerPlayerCard
+ChanceCard <|-- MatadorCard
+
+Field <|-- BuyableField
+Field <|-- EffectField
+
+DeckController -- GameController
+Main -- GameController
+GameController -- GUI
+GameController -- GameBoard
+GameBoard -- GUI
+GameBoard -- MatadorCard
+GameBoard -- MoveCard
+GameBoard -- MoveToTypeCard
+GameBoard -- PayPerHouseCard
+DeckController -- FieldType
+MoveToTypeCard -- FieldType
+
+@enduml
