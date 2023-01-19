@@ -3,14 +3,19 @@
 skinparam classAttributeIconSize 0
 
 abstract class ChanceCard{
-+ChanceCard()
+-text : String
+
 +getText()
 +execute()
 }
 
 class DeckController{
+-{static} chanceCardFile : String
+-cardInfo : String[]
+-FERRY : FieldType
+-cards : ArrayList<ChanceCard>
+
 +getCard()
-+DeckController()
 +getOutOfJailCards()
 }
 
@@ -53,30 +58,54 @@ class RecieveOrPayCard{
 }
 
 abstract class Field{
-+Field()
+-{static} name : String
+-{static} position : int
+-{static} type : FieldType
+-{static} price : int
+-{static} color : Color
+-state : FieldState
 }
 
 class BuyableField{
-
+-{static} housePrice : int
+-{static} rent : int[]
 }
 
 enum Effect{
-
+START
+JAIL_GOTO
+TAX_4000
+TAX_2000
+CHANCE
+REFUGE
 }
 
 class EffectField{
-
+-{static} effect : Effect
 }
 
 class FieldState{
-
+-numOfHouses : int
+-owner : Player
++pawned : boolean
 }
 
 enum FieldType{
-
+START
+STREET
+CHANCE
+TAX
+FERRY
+BREWERY
+JAIL
+REFUGE
 }
 
 class GameBoard{
+-{static} gameBoard : GameBoard
+-{static} fieldsInfo : String[]
+-{static} fields : Field
+
 -populateFieldsArray()
 +getIndexOfJail()
 +getNrOfFerriesOwnedByPlayer()
@@ -88,6 +117,9 @@ class GameBoard{
 }
 
 class Die{
+- faceValue : int
+-numberOfEqualRolls : int
+
 +roll()
 +getFaceValue()
 +toString()
@@ -95,16 +127,25 @@ class Die{
 }
 
 class GameController{
-+getPlayers()
--getCurrentPlayer()
--addPlayersAndSetPosition()
+-gui : GUI
+-die : Die
+-Players : Player[]
+-currentDieRoll1 : int
+-currentDieRoll2 : int
+-sumOfDiceRolls : int
+-deck : DeckController
+-isReverseMode : boolean
+-indexOfCurrentPlayer : int
+
 +run()
 -initialize()
 +startGameLoop()
++getPlayers()
+-getCurrentPlayer()
+-addPlayersAndSetPosition()
 -managePropertiesOrEndTurn()
 -rollDice()
 -resetEqualDieRolls()
--setNextPlayer()
 -moveCurrentPlayer()
 -movePlayer()
 -movePlayerAndPassStart()
@@ -112,16 +153,10 @@ class GameController{
 -evaluateFieldAndExecute()
 -executeEffect()
 -payRentOrBuyProperty()
-+getCurrentRent()
--getNumberOfPlayers()
--getUserInputToBegin()
 -checkJailStatus()
 -locateOpponentFromName()
 -sellAndBuyPropertiesFromOtherPlayers()
 -areThereAnyHousesOnTheFields()
-+getFieldFromName()
-+getAllOpponentNames()
-+getAllOpponentsFields()
 -sellAndBuyHousesAndPawn()
 +canSellOneMoreHouse()
 +canBuildOneMoreHouse()
@@ -129,13 +164,7 @@ class GameController{
 +isAllowedBuildHouses()
 +chosenStreetField()
 +chosenBuyableField()
--getStreetsOfSameColor()
 -areOwnedBySamePlayer()
-+getAllStreetFields()
-+getAllBuyableFields()
-+getOwnedByPlayer()
-+getOwnedNotPawnedByPlayer()
--setPlayerNames()
 +bankruptcyByPlayerOrBank()
 +isBankrupt()
 -doWeHaveAWinner()
@@ -144,14 +173,11 @@ class GameController{
 }
 
 class GUI{
-+createStartField()
-+createStreetField()
-+createJailField()
-+createBreweryField()
-+createChanceField()
-+createFerryField()
-+createTaxField()
-+createRefugeField()
+- gui : gui_main.GUI
+- gameController : GameController
+- fields : GUI_Field[]
+- gui_players : ArrayList<GUI_Player>
+
 +populateFields()
 +addCarsToBoard()
 +addPlayersToBoard()
@@ -160,7 +186,6 @@ class GUI{
 +refreshPlayerBalance()
 +displayRollDiceButton()
 +displayPlayerSelectionButtons()
-+getUserStringInput()
 +displayJailOptions()
 +displayUnownedPropertyOptions()
 +displayLandingOnOpponentProperty()
@@ -175,13 +200,9 @@ class GUI{
 +acceptOrDeclineOfferBuying()
 +buyOrSellProperties()
 +buySellHouses()
-+setOwnerAndRent()
-+setPawnedGUI()
-+setUnpawnedGUI()
 +updateGUI()
 +testButton()
 +displayWinner()
-+getGameModeFromUser()
 }
 
 class JailRules{
@@ -195,6 +216,10 @@ class Main{
 }
 
 class Player{
+- name : String
+- jailed : boolean
+- position : int
+
 +setGetOutOfJailFreeCard()
 +getGetOutOfJailFreeCard()
 +isEliminated()
@@ -232,19 +257,30 @@ ChanceCard <|-- MoveCard
 ChanceCard <|-- ReceivePerPlayerCard
 ChanceCard <|-- MatadorCard
 
-Field <|-- BuyableField
-Field <|-- EffectField
+Field " 1..* " <|-- " 1 " BuyableField
+Field " 1..* " <|-- " 1 " EffectField
 
-DeckController -- GameController
-Main -- GameController
-GameController -- GUI
-GameController -- GameBoard
-GameBoard -- GUI
-GameBoard -- MatadorCard
-GameBoard -- MoveCard
-GameBoard -- MoveToTypeCard
-GameBoard -- PayPerHouseCard
-DeckController -- FieldType
-MoveToTypeCard -- FieldType
+GameController " 1 " - " 1 " GUI
+GameController " 1 " - " 1 " DeckController
+GameController " 1 " - " 1..2 "Die
+GameController " 1 " - " 3..6 "Player
+GameController " 1 " - JailRules
+DeckController " 1 " - " 1..* " GetOutOfJailCard
+DeckController " 1 " - " 1..* " GoToJailCard
+DeckController " 1 " - " 1..* " MatadorCard
+DeckController " 1 " - " 1..* " MoveCard
+DeckController " 1 " - " 1..* " MoveToCard
+DeckController " 1 " - " 1..* " MoveToTypeCard
+DeckController " 1 " - " 1..* " PayPerHouseCard
+DeckController " 1 " - " 1..* " ReceivePerPlayerCard
+DeckController " 1 " - " 1..* " RecieveOrPayCard
+DeckController - TxtReader
 
+GameBoard "1 " - " 1..* " Field
+Field - FieldState
+Field " 1..* " - " 1 " FieldType
+Field " 1..* " - " 1 "  Effect
+Main - GameController
+
+GameBoard - CsvReader
 @enduml
