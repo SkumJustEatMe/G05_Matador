@@ -266,13 +266,11 @@ GameController " 1 " - " 1..2 "Die
 GameController " 1 " - " 3..6 "Player
 GameController " 1 " - JailRules
 DeckController " 1 " - " 1..46 " ChanceCard
-DeckController - TxtReader
 
 GameBoard " 1 " - " 40 " Field
 Field " 1 " - " 1 " FieldState
 Field " 1 " - " 1 " FieldType
 Field " 1 " - " 1 "  Effect
 Main - GameController
-GameBoard - CsvReader
 
 @enduml
