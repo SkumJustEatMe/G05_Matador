@@ -247,40 +247,32 @@ class TxtReader{
 +convertLinesToArray()
 }
 
-ChanceCard <|-- MoveToTypeCard
-ChanceCard <|-- GetOutOfJailCard
-ChanceCard <|-- PayPerHouseCard
-ChanceCard <|-- GoToJailCard
-ChanceCard <|-- MoveToCard
-ChanceCard <|-- RecieveOrPayCard
-ChanceCard <|-- MoveCard
-ChanceCard <|-- ReceivePerPlayerCard
-ChanceCard <|-- MatadorCard
+ChanceCard <|--  "3" MoveToTypeCard
+ChanceCard <|-- "2" GetOutOfJailCard
+ChanceCard <|-- "2" PayPerHouseCard
+ChanceCard <|-- "2" GoToJailCard
+ChanceCard <|-- "8" MoveToCard
+ChanceCard <|-- "22" RecieveOrPayCard
+ChanceCard <|-- "3" MoveCard
+ChanceCard <|-- "3" ReceivePerPlayerCard
+ChanceCard <|-- "1" MatadorCard
 
-Field " 1..* " <|-- " 1 " BuyableField
-Field " 1..* " <|-- " 1 " EffectField
+Field " 1 " <|-- " 1 " BuyableField
+Field " 1 " <|-- " 1 " EffectField
 
 GameController " 1 " - " 1 " GUI
 GameController " 1 " - " 1 " DeckController
 GameController " 1 " - " 1..2 "Die
 GameController " 1 " - " 3..6 "Player
 GameController " 1 " - JailRules
-DeckController " 1 " - " 1..* " GetOutOfJailCard
-DeckController " 1 " - " 1..* " GoToJailCard
-DeckController " 1 " - " 1..* " MatadorCard
-DeckController " 1 " - " 1..* " MoveCard
-DeckController " 1 " - " 1..* " MoveToCard
-DeckController " 1 " - " 1..* " MoveToTypeCard
-DeckController " 1 " - " 1..* " PayPerHouseCard
-DeckController " 1 " - " 1..* " ReceivePerPlayerCard
-DeckController " 1 " - " 1..* " RecieveOrPayCard
+DeckController " 1 " - " 1..46 " ChanceCard
 DeckController - TxtReader
 
-GameBoard "1 " - " 1..* " Field
-Field - FieldState
-Field " 1..* " - " 1 " FieldType
-Field " 1..* " - " 1 "  Effect
+GameBoard " 1 " - " 40 " Field
+Field " 1 " - " 1 " FieldState
+Field " 1 " - " 1 " FieldType
+Field " 1 " - " 1 "  Effect
 Main - GameController
-
 GameBoard - CsvReader
+
 @enduml
