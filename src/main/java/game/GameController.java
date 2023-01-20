@@ -697,7 +697,7 @@ public class GameController {
     public void masterTest(ArrayList<Player> players) {
         BuyableField field = (BuyableField) GameBoard.getSingleton().getFields()[1];
         BuyableField field2 = (BuyableField) GameBoard.getSingleton().getFields()[3];
-        BuyableField field3 = (BuyableField) GameBoard.getSingleton().getFields()[5];
+        /*BuyableField field3 = (BuyableField) GameBoard.getSingleton().getFields()[5];
         BuyableField field4 = (BuyableField) GameBoard.getSingleton().getFields()[6];
         BuyableField field5 = (BuyableField) GameBoard.getSingleton().getFields()[8];
         BuyableField field6 = (BuyableField) GameBoard.getSingleton().getFields()[9];
@@ -724,10 +724,10 @@ public class GameController {
         BuyableField field27 = (BuyableField) GameBoard.getSingleton().getFields()[37];
         BuyableField field28 = (BuyableField) GameBoard.getSingleton().getFields()[39];
             players.get(1).changeBalance(-29999);
-            players.get(2).changeBalance(-29999);
+            players.get(2).changeBalance(-29999); */
         field.getState().setOwner(players.get(0));
         field2.getState().setOwner(players.get(0));
-        field3.getState().setOwner(players.get(0));
+        /* field3.getState().setOwner(players.get(0));
         field4.getState().setOwner(players.get(0));
         field5.getState().setOwner(players.get(0));
         field6.getState().setOwner(players.get(0));
@@ -752,6 +752,6 @@ public class GameController {
         field25.getState().setOwner(players.get(0));
         field26.getState().setOwner(players.get(0));
         field27.getState().setOwner(players.get(0));
-        field28.getState().setOwner(players.get(0));
+        field28.getState().setOwner(players.get(0)); */
     }
 }
