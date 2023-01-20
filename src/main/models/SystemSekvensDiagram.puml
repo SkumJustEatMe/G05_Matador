@@ -14,7 +14,7 @@ System --> Observer : currentPlayer, diceTotal, fieldEffect, playerBalance
 alt currentPlayer.ownsProperty
 loop !Afslut tur || Byd || Sælg
 Observer -> System : chooseOption
-System --> Observer :managaeProperties, sellPropertyFromOtherplayer, buyPropertyFromOtherPlayer
+System --> Observer :manageProperties, sellPropertyFromOtherplayer, buyPropertyFromOtherPlayer
 end
 end
 end
